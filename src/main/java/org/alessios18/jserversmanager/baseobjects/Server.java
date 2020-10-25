@@ -6,106 +6,108 @@ import java.util.Arrays;
 
 public class Server {
 
-  private String serverName;
-  private ServerType serverType;
-  private String standalonePath;
-  private String serverPath;
-  private String adminPort;
-  private String debugPort;
-  private String portOffset;
-  private String[] filePathToDeploy;
-  public Server() {}
+    private String serverName;
+    private ServerType serverType;
+    private String standalonePath;
+    private String serverPath;
+    private String adminPort;
+    private String debugPort;
+    private String portOffset;
+    private String[] filePathToDeploy;
 
-  public String getServerName() {
-    return serverName;
-  }
+    public Server() {
+    }
 
-  public void setServerName(String serverName) {
-    this.serverName = serverName;
-  }
+    public String getServerName() {
+        return serverName;
+    }
 
-  public ServerType getServerType() {
-    return serverType;
-  }
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
+    }
 
-  public void setServerType(ServerType serverType) {
-    this.serverType = serverType;
-  }
+    public ServerType getServerType() {
+        return serverType;
+    }
 
-  public String getStandalonePath() {
-    return standalonePath;
-  }
+    public void setServerType(ServerType serverType) {
+        this.serverType = serverType;
+    }
 
-  public void setStandalonePath(String standalonePath) {
-    this.standalonePath = standalonePath;
-  }
+    public String getStandalonePath() {
+        return standalonePath;
+    }
 
-  public String getServerPath() {
-    return serverPath;
-  }
+    public void setStandalonePath(String standalonePath) {
+        this.standalonePath = standalonePath;
+    }
 
-  public void setServerPath(String serverPath) {
-    this.serverPath = serverPath;
-  }
+    public String getServerPath() {
+        return serverPath;
+    }
 
-  public String getAdminPort() {
-    return adminPort;
-  }
+    public void setServerPath(String serverPath) {
+        this.serverPath = serverPath;
+    }
 
-  public void setAdminPort(String adminPort) {
-    this.adminPort = adminPort;
-  }
+    public String getAdminPort() {
+        return adminPort;
+    }
 
-  public String getDebugPort() {
-    return debugPort;
-  }
+    public void setAdminPort(String adminPort) {
+        this.adminPort = adminPort;
+    }
 
-  public void setDebugPort(String debugPort) {
-    this.debugPort = debugPort;
-  }
+    public String getDebugPort() {
+        return debugPort;
+    }
 
-  public String getPortOffset() {
-    return portOffset;
-  }
+    public void setDebugPort(String debugPort) {
+        this.debugPort = debugPort;
+    }
 
-  public void setPortOffset(String portOffset) {
-    this.portOffset = portOffset;
-  }
+    public String getPortOffset() {
+        return portOffset;
+    }
 
-  public String[] getFilePathToDeploy() {
-    return filePathToDeploy;
-  }
+    public void setPortOffset(String portOffset) {
+        this.portOffset = portOffset;
+    }
 
-  public void setFilePathToDeploy(String[] filePathToDeploy) {
-    this.filePathToDeploy = filePathToDeploy;
-  }
+    public String[] getFilePathToDeploy() {
+        return filePathToDeploy;
+    }
 
-  @Override
-  public String toString() {
-    return "Server{"
-        + "serverName='"
-        + serverName
-        + '\''
-        + ", serverType="
-        + serverType
-        + ", standalonePath='"
-        + standalonePath
-        + '\''
-        + ", serverPath='"
-        + serverPath
-        + '\''
-        + ", adminPort='"
-        + adminPort
-        + '\''
-        + ", debugPort='"
-        + debugPort
-        + '\''
-        + ", portOffset='"
-        + portOffset
-        + '\''
-        + ", filePathToDeploy="
-        + Arrays.toString(filePathToDeploy)
-        + '}';
-  }
+    public void setFilePathToDeploy(String[] filePathToDeploy) {
+        this.filePathToDeploy = filePathToDeploy;
+    }
+
+    @Override
+    public String toString() {
+        return "Server{"
+                + "serverName='"
+                + serverName
+                + '\''
+                + ", serverType="
+                + serverType
+                + ", standalonePath='"
+                + standalonePath
+                + '\''
+                + ", serverPath='"
+                + serverPath
+                + '\''
+                + ", adminPort='"
+                + adminPort
+                + '\''
+                + ", debugPort='"
+                + debugPort
+                + '\''
+                + ", portOffset='"
+                + portOffset
+                + '\''
+                + ", filePathToDeploy="
+                + Arrays.toString(filePathToDeploy)
+                + '}';
+    }
 
 }

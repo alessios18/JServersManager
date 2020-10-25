@@ -17,59 +17,63 @@ import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 import java.io.IOException;
 
 public class GuiManager extends Application {
-  public static final String FXML_FILE_PATH = "/fxmlfiles/";
-  private final ObservableList<Server> servers = FXCollections.observableArrayList();
-  private Stage primaryStage;
-  private VBox rootLayout;
+    public static final String FXML_FILE_PATH = "/fxmlfiles/";
+    private final ObservableList<Server> servers = FXCollections.observableArrayList();
+    private Stage primaryStage;
+    private VBox rootLayout;
+    private MainWindowController controller;
 
-  public void startGUI() {
-    launch("");
-  }
-
-  @Override
-  public void start(Stage primaryStage) {
-    this.primaryStage = primaryStage;
-    this.primaryStage.setTitle("JServersManager");
-    // this.primaryStage.getIcons().add(new
-    // Image(getClass().getResourceAsStream("/images/icon_app.png")));
-
-    initRootLayout();
-  }
-
-  public void initRootLayout() {
-    try {
-      // Load root layout from fxml file.
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(GuiManager.class.getResource(MainWindowController.getFXMLFileFullPath()));
-      rootLayout = loader.load();
-
-      // Show the scene containing the root layout.
-      Scene scene = new Scene(rootLayout);
-      primaryStage.setScene(scene);
-
-      // Give the controller access to the main app.
-      MainWindowController controller = loader.getController();
-      controller.setGuiManager(this);
-
-      primaryStage.show();
-
-      DataStorage.getInstance().loadServersDataFromFile(getServers());
-      // loadTaskDataFromFile(DataStorage.getinstance().getTaskFile());
-      primaryStage.setOnCloseRequest(
-          (WindowEvent event1) -> {
-            // do something before exit
-            System.out.println("Mi sto chiudendo!");
-          });
-    } catch (IOException | UnsupportedOperatingSystemException e) {
-      ExceptionDialog.showException(e);
+    public void startGUI() {
+        launch("");
     }
-  }
 
-  public Stage getPrimaryStage() {
-    return primaryStage;
-  }
+    @Override
+    public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("JServersManager");
+        // this.primaryStage.getIcons().add(new
+        // Image(getClass().getResourceAsStream("/images/icon_app.png")));
 
-  public ObservableList<Server> getServers() {
-    return servers;
-  }
+        initRootLayout();
+    }
+
+    public void initRootLayout() {
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(GuiManager.class.getResource(MainWindowController.getFXMLFileFullPath()));
+            rootLayout = loader.load();
+
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+
+            // Give the controller access to the main app.
+            controller = loader.getController();
+            controller.setGuiManager(this);
+            controller.setServerListItems(servers);
+
+            primaryStage.show();
+
+            DataStorage.getInstance().loadServersDataFromFile(getServers());
+            // loadTaskDataFromFile(DataStorage.getinstance().getTaskFile());
+            primaryStage.setOnCloseRequest(
+                    (WindowEvent event1) -> {
+                        // do something before exit
+                        System.out.println("Mi sto chiudendo!");
+                    });
+        } catch (IOException | UnsupportedOperatingSystemException e) {
+            ExceptionDialog.showException(e);
+        }
+    }
+    public void appendOnTextArea(String text){
+        controller.appendOnTextArea(text);
+    }
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public ObservableList<Server> getServers() {
+        return servers;
+    }
 }
