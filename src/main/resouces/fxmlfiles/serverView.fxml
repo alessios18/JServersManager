@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="78.0" prefWidth="204.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="204.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController">
     <children>
         <Label fx:id="serverName" layoutX="14.0" layoutY="9.0" text="Server Name" textAlignment="CENTER">
             <font>
@@ -19,22 +18,29 @@
                 <Font size="10.0" />
             </font>
         </Label>
-        <ButtonBar layoutX="72.0" layoutY="30.0" prefHeight="40.0" prefWidth="129.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="33.0">
-            <buttons>
-                <ImageView fx:id="playPause" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#startStopServer" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../JTasksLogger/src/main/resources/images/play_icon.png" />
-               </image></ImageView>
-                <ImageView fx:id="stop" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
-               </image></ImageView>
-                <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../JTasksLogger/src/main/resources/images/icon_app.png" />
-               </image></ImageView>
-            </buttons>
-        </ButtonBar>
-        <ImageView fx:id="output" fitHeight="26.0" fitWidth="26.0" layoutX="299.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="4.0" />
+        <ImageView fx:id="output" fitHeight="26.0" fitWidth="26.0" layoutX="176.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <image>
+            <Image url="@../images/blink-off.png" />
+         </image></ImageView>
+          <ImageView fx:id="playStop" fitHeight="26.0" fitWidth="26.0" layoutX="50.0" layoutY="46.0" onMouseClicked="#startStopServer" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="83.0">
+         <image>
+            <Image url="@../../../../../JTasksLogger/src/main/resources/images/play_icon.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="settings" fitHeight="26.0" fitWidth="26.0" layoutX="177.0" layoutY="48.0" onMouseClicked="#handleServerMod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+         <image>
+            <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
+         </image>
+      </ImageView>
+          <ImageView fx:id="folder" fitHeight="26.0" fitWidth="26.0" layoutX="154.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="31.0">
+         <image>
+            <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
+         </image>
+      </ImageView>
+          <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" layoutX="96.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
+         <image>
+            <Image url="@../../../../../JTasksLogger/src/main/resources/images/icon_app.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

@@ -1,113 +1,136 @@
 package org.alessios18.jserversmanager.baseobjects;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
 
-import java.util.Arrays;
+import java.util.UUID;
+
 
 public class Server {
 
-    private String serverName;
-    private ServerType serverType;
-    private String standalonePath;
-    private String serverPath;
-    private String adminPort;
-    private String debugPort;
-    private String portOffset;
-    private String[] filePathToDeploy;
+	 private final StringProperty serverID;
+	 private final StringProperty serverName;
+	 private final ObjectProperty<ServerType> serverType;
+	 private final StringProperty standalonePath;
+	 private final StringProperty serverPath;
+	 private final StringProperty adminPort;
+	 private final StringProperty debugPort;
+	 private final StringProperty portOffset;
+	 private final ObjectProperty<String[]> filePathToDeploy;
 
-    public Server() {
-    }
+	 public Server() {
+		  serverID = new SimpleStringProperty(UUID.randomUUID().toString());
+		  serverName = new SimpleStringProperty("");
+		  serverType = new SimpleObjectProperty<ServerType>(null);
+		  standalonePath = new SimpleStringProperty("");
+		  serverPath = new SimpleStringProperty("");
+		  adminPort = new SimpleStringProperty("");
+		  debugPort = new SimpleStringProperty("");
+		  portOffset = new SimpleStringProperty("");
+		  filePathToDeploy = new SimpleObjectProperty<String[]>(null);
+	 }
 
-    public String getServerName() {
-        return serverName;
-    }
+	 public String getServerID() {
+		  return serverID.getValue();
+	 }
 
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
-    }
+	 public void setServerID(String serverID) {
+		  this.serverID.setValue(serverID);
+	 }
 
-    public ServerType getServerType() {
-        return serverType;
-    }
+	 public String getServerName() {
+		  return serverName.getValue();
+	 }
 
-    public void setServerType(ServerType serverType) {
-        this.serverType = serverType;
-    }
+	 public void setServerName(String serverName) {
+		  this.serverName.setValue(serverName);
+	 }
 
-    public String getStandalonePath() {
-        return standalonePath;
-    }
+	 public ServerType getServerType() {
+		  return serverType.getValue();
+	 }
 
-    public void setStandalonePath(String standalonePath) {
-        this.standalonePath = standalonePath;
-    }
+	 public void setServerType(ServerType serverType) {
+		  this.serverType.setValue(serverType);
+	 }
 
-    public String getServerPath() {
-        return serverPath;
-    }
+	 public String getStandalonePath() {
+		  return standalonePath.getValue();
+	 }
 
-    public void setServerPath(String serverPath) {
-        this.serverPath = serverPath;
-    }
+	 public void setStandalonePath(String standalonePath) {
+		  this.standalonePath.setValue(standalonePath);
+	 }
 
-    public String getAdminPort() {
-        return adminPort;
-    }
+	 public String getServerPath() {
+		  return serverPath.getValue();
+	 }
 
-    public void setAdminPort(String adminPort) {
-        this.adminPort = adminPort;
-    }
+	 public void setServerPath(String serverPath) {
+		  this.serverPath.setValue(serverPath);
+	 }
 
-    public String getDebugPort() {
-        return debugPort;
-    }
+	 public String getAdminPort() {
+		  return adminPort.getValue();
+	 }
 
-    public void setDebugPort(String debugPort) {
-        this.debugPort = debugPort;
-    }
+	 public void setAdminPort(String adminPort) {
+		  this.adminPort.setValue(adminPort);
+	 }
 
-    public String getPortOffset() {
-        return portOffset;
-    }
+	 public String getDebugPort() {
+		  return debugPort.getValue();
+	 }
 
-    public void setPortOffset(String portOffset) {
-        this.portOffset = portOffset;
-    }
+	 public void setDebugPort(String debugPort) {
+		  this.debugPort.setValue(debugPort);
+	 }
 
-    public String[] getFilePathToDeploy() {
-        return filePathToDeploy;
-    }
+	 public String getPortOffset() {
+		  return portOffset.getValue();
+	 }
 
-    public void setFilePathToDeploy(String[] filePathToDeploy) {
-        this.filePathToDeploy = filePathToDeploy;
-    }
+	 public void setPortOffset(String portOffset) {
+		  this.portOffset.setValue(portOffset);
+	 }
 
-    @Override
-    public String toString() {
-        return "Server{"
-                + "serverName='"
-                + serverName
-                + '\''
-                + ", serverType="
-                + serverType
-                + ", standalonePath='"
-                + standalonePath
-                + '\''
-                + ", serverPath='"
-                + serverPath
-                + '\''
-                + ", adminPort='"
-                + adminPort
-                + '\''
-                + ", debugPort='"
-                + debugPort
-                + '\''
-                + ", portOffset='"
-                + portOffset
-                + '\''
-                + ", filePathToDeploy="
-                + Arrays.toString(filePathToDeploy)
-                + '}';
-    }
+	 public String[] getFilePathToDeploy() {
+		  return filePathToDeploy.getValue();
+	 }
+
+	 public void setFilePathToDeploy(String[] filePathToDeploy) {
+		  this.filePathToDeploy.setValue(filePathToDeploy);
+	 }
+
+	 @Override
+	 public String toString() {
+		  return "Server{"
+					 + "serverName='"
+					 + serverName
+					 + '\''
+					 + ", serverType="
+					 + serverType
+					 + ", standalonePath='"
+					 + standalonePath
+					 + '\''
+					 + ", serverPath='"
+					 + serverPath
+					 + '\''
+					 + ", adminPort='"
+					 + adminPort
+					 + '\''
+					 + ", debugPort='"
+					 + debugPort
+					 + '\''
+					 + ", portOffset='"
+					 + portOffset
+					 + '\''
+					 + ", filePathToDeploy="
+					 + filePathToDeploy.getValue()
+					 + '}';
+	 }
 
 }

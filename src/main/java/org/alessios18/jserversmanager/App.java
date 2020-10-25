@@ -11,18 +11,18 @@ import java.io.IOException;
  * Hello world!
  */
 public class App {
-    public App() {
-        try {
-            DataStorage.getInstance().checkFiles();
-        } catch (UnsupportedOperatingSystemException e) {
-            ExceptionDialog.showException(e);
-        } catch (IOException e) {
-            ExceptionDialog.showException(e);
-        }
-    }
+	 public App() {
+		  try {
+				DataStorage.getInstance().checkFiles();
+		  } catch (UnsupportedOperatingSystemException e) {
+				ExceptionDialog.showException(e);
+		  } catch (IOException e) {
+				ExceptionDialog.showException(e);
+		  }
+	 }
 
-    public static void main(String[] args) {
-        GuiManager guiManager = new GuiManager();
-        guiManager.startGUI();
-    }
+	 public static void main(String[] args) {
+		  GuiManager guiManager = new GuiManager();
+		  guiManager.startGUI();
+	 }
 }

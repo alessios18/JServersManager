@@ -1,5 +1,6 @@
 package org.alessios18.jserversmanager.baseobjects;
 
+import javafx.application.Platform;
 import org.alessios18.jserversmanager.gui.GuiManager;
 
 import java.io.BufferedWriter;
@@ -7,22 +8,25 @@ import java.io.IOException;
 import java.io.Writer;
 
 public class ServerManagerOutputWriter extends BufferedWriter {
-    GuiManager guiManager;
+	 GuiManager guiManager;
+	 Server server;
 
-    public ServerManagerOutputWriter(Writer out) {
-        super(out);
-    }
+	 public ServerManagerOutputWriter(Writer out, Server server) {
+		  super(out);
+		  this.server = server;
+	 }
 
-    public ServerManagerOutputWriter(Writer out, GuiManager guiManager) {
-        super(out);
-        this.guiManager = guiManager;
-    }
+	 public ServerManagerOutputWriter(Writer out, Server server, GuiManager guiManager) {
+		  super(out);
+		  this.server = server;
+		  this.guiManager = guiManager;
+	 }
 
-    @Override
-    public void write(String str) throws IOException {
-        super.write(str);
-        if (guiManager != null) {
-            guiManager.appendOnTextArea(str);
-        }
-    }
+	 @Override
+	 public void write(String str) throws IOException {
+		  super.write(str);
+		  if (guiManager != null) {
+				Platform.runLater(() -> guiManager.appendOnTextArea(server, str));
+		  }
+	 }
 }
