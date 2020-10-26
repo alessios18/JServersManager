@@ -1,6 +1,7 @@
 package org.alessios18.jserversmanager.gui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.alessios18.jserversmanager.ServerManagersContainer;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.ServerManagersContainer;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.controllers.impl.MainWindowController;
 import org.alessios18.jserversmanager.gui.controllers.impl.NewServerDialogController;
@@ -56,6 +57,8 @@ public class GuiManager extends Application {
 
 				// Show the scene containing the root layout.
 				Scene scene = new Scene(rootLayout);
+				scene.getStylesheets().add
+						  (GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
 				primaryStage.setScene(scene);
 
 				// Give the controller access to the main app.
@@ -68,8 +71,7 @@ public class GuiManager extends Application {
 				// loadTaskDataFromFile(DataStorage.getinstance().getTaskFile());
 				primaryStage.setOnCloseRequest(
 						  (WindowEvent event1) -> {
-								// do something before exit
-								System.out.println("Mi sto chiudendo!");
+								doThingsOnExit();
 						  });
 		  } catch (IOException | UnsupportedOperatingSystemException e) {
 				ExceptionDialog.showException(e);
@@ -102,6 +104,8 @@ public class GuiManager extends Application {
 				dialogStage.initModality(Modality.WINDOW_MODAL);
 				dialogStage.initOwner(this.getPrimaryStage());
 				Scene scene = new Scene(page);
+				scene.getStylesheets().add
+						  (GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
 				dialogStage.setScene(scene);
 
 				// Set the person into the controller.
@@ -146,5 +150,12 @@ public class GuiManager extends Application {
 
 	 public void updateServerList() {
 		  controller.updateServerList();
+	 }
+
+	 public void doThingsOnExit() {
+		  //serverManagersContainer.stopAllServers();
+		  serverManagersContainer.forceQuit();
+		  Platform.exit();
+		  System.exit(0);
 	 }
 }

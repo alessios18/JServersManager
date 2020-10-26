@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import org.alessios18.jserversmanager.datamodel.wrapper.ServersDataWrapper;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
+import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 import org.alessios18.jserversmanager.util.OsCheck;
 
 import javax.xml.bind.JAXBContext;
@@ -128,12 +129,7 @@ public class DataStorage {
 				}
 
 		  } catch (Exception e) { // catches ANY exception
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("Could not load data");
-				alert.setContentText("Could not load data from file:\n" + getServersFile().getPath());
-
-				alert.showAndWait();
+				ExceptionDialog.showException("Could not load data", e);
 		  }
 	 }
 

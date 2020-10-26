@@ -4,7 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="newServerDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="280.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="newServerDialog" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="280.0"
             minWidth="515.0" prefHeight="278.0" prefWidth="515.0"
             xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.NewServerDialogController">

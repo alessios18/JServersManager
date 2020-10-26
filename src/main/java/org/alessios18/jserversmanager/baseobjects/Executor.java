@@ -9,22 +9,23 @@ public class Executor {
 	 private BufferedReader stdInput;
 	 private BufferedReader stdError;
 
+	 private Process currentProc;
+
 	 public Executor(String[] commands) {
 		  rt = Runtime.getRuntime();
 		  this.commands = commands;
 	 }
 
-	 public void execute(String dir, BufferedWriter writer) throws IOException {
+	 public void execute(String dir, BufferedWriter writer) throws IOException, InterruptedException {
 
-		  Process p = null;
 		  ProcessBuilder pb = new ProcessBuilder(commands);
 		  pb.directory(new File(dir));
-		  Process proc = pb.start();
-		  stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream(), StandardCharsets.UTF_8));
+		  currentProc = pb.start();
+		  stdInput = new BufferedReader(new InputStreamReader(currentProc.getInputStream(), StandardCharsets.UTF_8));
 
-		  stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+		  stdError = new BufferedReader(new InputStreamReader(currentProc.getErrorStream()));
 
-		  if(writer != null) {
+		  if (writer != null) {
 				// Read the standard output from the command
 				String s = null;
 				while ((s = stdInput.readLine()) != null) {
@@ -45,6 +46,13 @@ public class Executor {
 					 }
 					 System.out.println(s);
 				}
+		  }
+		  currentProc.waitFor();
+	 }
+
+	 public void forceQuit() {
+		  if (currentProc.isAlive()) {
+				currentProc.destroy();
 		  }
 	 }
 }

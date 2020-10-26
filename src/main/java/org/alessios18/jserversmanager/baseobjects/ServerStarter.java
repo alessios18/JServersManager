@@ -7,6 +7,7 @@ import java.io.IOException;
 public class ServerStarter extends Thread {
 	 String[] commands;
 	 ServerManagerBase serverManager;
+	 Executor executor;
 
 	 public ServerStarter(ServerManagerBase serverManager, String[] commands) {
 		  super(serverManager.getServer().getServerName());
@@ -17,11 +18,17 @@ public class ServerStarter extends Thread {
 	 @Override
 	 public void run() {
 		  super.run();
-		  Executor executor = new Executor(commands);
+		  executor = new Executor(commands);
 		  try {
 				executor.execute(serverManager.getServerBinPath(), serverManager.getWriter());
-		  } catch (IOException e) {
+		  } catch (IOException | InterruptedException e) {
 				ExceptionDialog.showException(e);
+		  }
+	 }
+
+	 public void forceProcessExit() {
+		  if (executor != null) {
+				executor.forceQuit();
 		  }
 	 }
 }

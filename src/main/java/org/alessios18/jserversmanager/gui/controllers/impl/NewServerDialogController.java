@@ -138,7 +138,9 @@ public class NewServerDialogController extends ControllerBase {
 		  debugPort.setText(server.getDebugPort());
 		  portOffset.setText(server.getPortOffset());
 		  // TODO make this dynamic
-		  deploFile1.setText(server.getFilePathToDeploy()[0]);
-		  deploFile2.setText(server.getFilePathToDeploy()[1]);
+		  if (server.getFilePathToDeploy() != null) {
+				deploFile1.setText(server.getFilePathToDeploy()[0]);
+				deploFile2.setText(server.getFilePathToDeploy()[1]);
+		  }
 	 }
 }

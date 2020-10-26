@@ -3,19 +3,19 @@ package org.alessios18.jserversmanager.gui.controllers.impl;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.baseobjects.Server;
-import org.alessios18.jserversmanager.baseobjects.ServerManagerBase;
 import org.alessios18.jserversmanager.baseobjects.ServerManagerOutputWriter;
-import org.alessios18.jserversmanager.baseobjects.factory.ServerManagerFactory;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
+import org.alessios18.jserversmanager.util.OsCheck;
 
 import java.io.IOException;
 
@@ -84,23 +84,7 @@ public class ServerViewController extends ControllerBase {
 		  this.setGuiManager(guiManager);
 		  this.server = server;
 		  updateShowedData();
-		  guiManager.getServers().addListener(new ListChangeListener<Server>() {
-				@Override
-				public void onChanged(Change<? extends Server> change) {
-					 updateShowedData();
-				}
-		  });
-
-		/*
-		  serverName.setText(server.getServerName());
-		  if (server.getServerType() != null) {
-				serverType.setText(server.getServerType().toString());
-		  } else {
-				serverType.setText("");
-		  }
-
-		   */
-
+		  guiManager.getServers().addListener((ListChangeListener<Server>) change -> updateShowedData());
 	 }
 
 	 public Node getView() {
@@ -108,13 +92,13 @@ public class ServerViewController extends ControllerBase {
 	 }
 
 	 @FXML
-	 private void startStopServer() {
+	 private void startStopServer() throws IOException, InterruptedException {
 		  if (!guiManager.getServerManagersContainer().getServerManager(server).isServerRunning()) {
 				try {
 					 guiManager.startNewOutput(server.getServerID());
 					 playStop.setImage(stopIcon);
 					 guiManager.getServerManagersContainer().getServerManager(server);
-					 if(guiManager.getServerManagersContainer().getServerManager(server).getWriter() == null) {
+					 if (guiManager.getServerManagersContainer().getServerManager(server).getWriter() == null) {
 						  ServerManagerOutputWriter writer = new ServerManagerOutputWriter(DataStorage.getInstance().getServerLogBufferedWriter(server), server, guiManager);
 						  guiManager.getServerManagersContainer().getServerManager(server).setWriter(writer);
 					 }
@@ -123,8 +107,29 @@ public class ServerViewController extends ControllerBase {
 					 ExceptionDialog.showException(e);
 				}
 		  } else {
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("JServersManager");
+				alert.setHeaderText("Stopping server");
+				alert.setContentText("Stopping server");
+				alert.show();
 				guiManager.getServerManagersContainer().getServerManager(server).stopServer();
 				playStop.setImage(playIcon);
+		  }
+	 }
+
+	 @FXML
+	 private void handleOpenServerFolder() throws IOException {
+		  switch (OsCheck.getOperatingSystemType()) {
+				case Windows: {
+					 ProcessBuilder pb = new ProcessBuilder("explorer.exe", "/select," + server.getServerPath());
+					 pb.redirectError();
+					 Process proc = pb.start();
+				}
+				case Linux: {
+					 ProcessBuilder pb = new ProcessBuilder("xdg-open", server.getServerPath());
+					 pb.redirectError();
+					 Process proc = pb.start();
+				}
 		  }
 	 }
 
@@ -143,7 +148,6 @@ public class ServerViewController extends ControllerBase {
 	 }
 
 	 public void updateShowedData() {
-		  this.server = server;
 		  serverName.setText(server.getServerName());
 		  if (server.getServerType() != null) {
 				serverType.setText(server.getServerType().toString());
@@ -154,16 +158,13 @@ public class ServerViewController extends ControllerBase {
 
 	 public void outputBlink() {
 		  output.setImage(outputOn);
-		  new Thread(new Runnable() {
-				@Override
-				public void run() {
-					 try {
-						  Thread.sleep(500);
-					 } catch (InterruptedException e) {
-						  e.printStackTrace();
-					 }
-					 output.setImage(outputOff);
+		  new Thread(() -> {
+				try {
+					 Thread.sleep(500);
+				} catch (InterruptedException e) {
+					 e.printStackTrace();
 				}
+				output.setImage(outputOff);
 		  }).start();
 	 }
 }
