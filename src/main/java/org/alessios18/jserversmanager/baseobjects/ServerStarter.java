@@ -22,7 +22,8 @@ public class ServerStarter extends Thread {
 		  try {
 				executor.execute(serverManager.getServerBinPath(), serverManager.getWriter());
 		  } catch (IOException | InterruptedException e) {
-				ExceptionDialog.showException(e);
+				e.printStackTrace();
+
 		  }
 	 }
 
