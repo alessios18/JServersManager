@@ -27,23 +27,47 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 
 	 @Override
 	 public String[] getServerStartCommand() {
-		  String[] commands = {
+		 String[] commands = new String[0];
+		 if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Linux)) {
+			 commands = new String[]{
 					 SERVER_EXEC_COMMAND,
 					 SERVER_START_IP_MASK,
 					 SERVER_START_BINDING_PORT_OFFSET + getServer().getPortOffset(),
 					 SERVER_START_DEBUG_PORT, getServer().getDebugPort()
-		  };
+			 };
+		 }else if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)){
+			 commands = new String[]{
+					 "CMD",
+					 "/C",
+					 SERVER_EXEC_COMMAND,
+					 SERVER_START_IP_MASK,
+					 SERVER_START_BINDING_PORT_OFFSET + getServer().getPortOffset(),
+					 SERVER_START_DEBUG_PORT, getServer().getDebugPort()
+			 };
+		 }
 		  return commands;
 	 }
 
 	 @Override
 	 public String[] getServerStopCommand() {
-		  String[] commands = {
-					 SERVER_JBOSS_CLI_COMMAND,
-					 SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getServer().getAdminPort(),
-					 SERVER_STOP_CONNECT_CLI_COMMAND,
-					 SERVER_STOP_SHUTDOWN_COMMAND
-		  };
+		 String[] commands = new String[0];
+	 	if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Linux)) {
+			commands = new String[]{
+					SERVER_JBOSS_CLI_COMMAND,
+					SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getServer().getAdminPort(),
+					SERVER_STOP_CONNECT_CLI_COMMAND,
+					SERVER_STOP_SHUTDOWN_COMMAND
+			};
+		}else if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)){
+			commands = new String[]{
+					"CMD",
+					"/C",
+					SERVER_JBOSS_CLI_COMMAND,
+					SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getServer().getAdminPort(),
+					SERVER_STOP_CONNECT_CLI_COMMAND,
+					SERVER_STOP_SHUTDOWN_COMMAND
+			};
+		}
 		  return commands;
 	 }
 
