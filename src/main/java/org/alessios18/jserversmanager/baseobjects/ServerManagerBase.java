@@ -8,10 +8,10 @@ import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
 
 public abstract class ServerManagerBase {
+	 private final ProcessManager processManager;
 	 private Server server;
 	 private BufferedWriter writer;
 	 private boolean isServerRunning = false;
-	 private final ProcessManager processManager;
 
 	 public ServerManagerBase(Server server) {
 		  this.server = server;
@@ -44,7 +44,7 @@ public abstract class ServerManagerBase {
 	 }
 
 	 public void startServer() throws Exception {
-		  copyConfig();
+		  copyStandaloneFile();
 		  doUnDeploy();
 		  doDeploy();
 		  processManager.executeParallelProcess(getServerStartCommand(), this.getServerBinPath(), writer, false);
@@ -77,15 +77,23 @@ public abstract class ServerManagerBase {
 		  processManager.executeParallelProcess(getServerStopCommand(), this.getServerBinPath(), null, true);
 	 }
 
-	 abstract void copyConfig() throws IOException;
+	 abstract void copyStandaloneFile() throws IOException;
 
 	 public int getPortWithOffset(String port) {
 		  return Integer.parseInt(port) + Integer.parseInt(server.getPortOffset());
 	 }
 
-	 public void forceShutdown() {
+	 public void forceShutdown() throws InterruptedException {
 		  if (processManager != null) {
 				processManager.forceQuit();
 		  }
+	 }
+
+	 public String getServerParameters() {
+		  StringBuilder sb = new StringBuilder();
+		  for (String c : getServerStartCommand()) {
+				sb.append(c + " ");
+		  }
+		  return sb.toString().trim();
 	 }
 }

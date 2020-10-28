@@ -1,12 +1,11 @@
 package org.alessios18.jserversmanager.gui.controllers.impl;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
+import org.alessios18.jserversmanager.baseobjects.factory.ServerManagerFactory;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
 
@@ -29,6 +28,10 @@ public class NewServerDialogController extends ControllerBase {
 	 private TextField deploFile1;
 	 @FXML
 	 private TextField deploFile2;
+	 @FXML
+	 private TextArea arguments;
+	 @FXML
+	 private CheckBox enableCustomargs;
 
 	 private Server server;
 
@@ -142,5 +145,14 @@ public class NewServerDialogController extends ControllerBase {
 				deploFile1.setText(server.getFilePathToDeploy()[0]);
 				deploFile2.setText(server.getFilePathToDeploy()[1]);
 		  }
+		  if (server.getServerType() != null) {
+				arguments.setText(ServerManagerFactory.getServerManager(server).getServerParameters());
+		  }
+	 }
+
+	 @FXML
+	 private void changedType() {
+		  server.setServerType(serverType.getValue());
+		  arguments.setText(ServerManagerFactory.getServerManager(server).getServerParameters());
 	 }
 }

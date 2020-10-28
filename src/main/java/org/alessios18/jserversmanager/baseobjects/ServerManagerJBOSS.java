@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class ServerManagerJBOSS extends ServerManagerBase {
+
+	 public static final String CMD = "CMD";
+	 public static final String CMD_C = "/C";
 	 protected static final String SERVER_START_IP_MASK = "-b=0.0.0.0";
 	 protected static final String SERVER_START_BINDING_PORT_OFFSET = "-Djboss.socket.binding.port-offset=";
 	 protected static final String SERVER_START_DEBUG_PORT = "--debug";
@@ -21,7 +24,6 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 	 protected static final String SERVER_STOP_SHUTDOWN_COMMAND = "command=:shutdown";
 	 protected static final String SERVER_DEPLOY_DIR = "standalone" + OsCheck.getSeparator() + "deployments";
 	 protected static final String SERVER_CONFIG_DIR = "standalone" + OsCheck.getSeparator() + "configuration";
-
 
 	 public ServerManagerJBOSS(Server server) {
 		  super(server);
@@ -40,7 +42,7 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  } else if (OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)) {
 				commands = new String[]{
 						  "CMD",
-						  "/C",
+						  CMD_C,
 						  SERVER_EXEC_COMMAND,
 						  SERVER_START_IP_MASK,
 						  SERVER_START_BINDING_PORT_OFFSET + getServer().getPortOffset(),
@@ -62,8 +64,8 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 				};
 		  } else if (OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)) {
 				commands = new String[]{
-						  "CMD",
-						  "/C",
+						  CMD,
+						  CMD_C,
 						  SERVER_JBOSS_CLI_COMMAND,
 						  SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getPortWithOffset(getServer().getAdminPort()),
 						  SERVER_STOP_CONNECT_CLI_COMMAND,
@@ -104,7 +106,7 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 	 }
 
 	 @Override
-	 void copyConfig() throws IOException {
+	 void copyStandaloneFile() throws IOException {
 		  File config = new File(getServer().getStandalonePath());
 		  File srvConfig = new File(getServerConfigDir());
 		  if (config.exists() && srvConfig.exists()) {
@@ -114,6 +116,17 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 					 FileUtils.copyFileToDirectory(config, srvConfig, true);
 				}
 		  }
+	 }
+
+	 @Override
+	 public String getServerParameters() {
+		  StringBuilder sb = new StringBuilder();
+		  for (String c : getServerStartCommand()) {
+				if (!c.equals(SERVER_EXEC_COMMAND) && !c.equals(CMD) && !c.equals(CMD_C)) {
+					 sb.append(c + " ");
+				}
+		  }
+		  return sb.toString().trim();
 	 }
 
 }

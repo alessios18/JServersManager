@@ -5,24 +5,25 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public class ParallelizedProcess implements Callable<Void> {
 	 private final ProcessBuilder processBuilder;
+	 private final BufferedWriter writer;
+	 private final ProcessManager processManager;
+	 private final String processId;
 	 private Process process;
 	 private boolean isRunning = false;
 	 private BufferedReader stdInput;
 	 private BufferedReader stdError;
-	 private final BufferedWriter writer;
-	 private final ProcessManager processManager;
-	 private final String processId;
+	 private final boolean waitEnd;
 
-	 ParallelizedProcess(ProcessBuilder processBuilder, ProcessManager processManager, BufferedWriter writer) {
-		  this.processId = UUID.randomUUID().toString();
+	 ParallelizedProcess(String processId, ProcessBuilder processBuilder, ProcessManager processManager, BufferedWriter writer, boolean waitEnd) {
+		  this.processId = processId;
 		  this.processBuilder = processBuilder;
 		  this.writer = writer;
 		  this.processManager = processManager;
+		  this.waitEnd = waitEnd;
 	 }
 
 	 protected void getProcessOutput(BufferedWriter writer) throws IOException {
@@ -48,6 +49,11 @@ public class ParallelizedProcess implements Callable<Void> {
 		  process = processBuilder.start();
 		  System.out.println("[" + processId + "] is started");
 		  processManager.addProcess(this.processId, process);
+		  if (waitEnd) {
+				synchronized (processBuilder) {
+					 processBuilder.notify();
+				}
+		  }
 		  stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
 		  stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		  getProcessOutput(writer);
@@ -55,5 +61,9 @@ public class ParallelizedProcess implements Callable<Void> {
 		  processManager.removeProcess(processId);
 		  System.out.println("[" + processId + "] is ended");
 		  return null;
+	 }
+
+	 public boolean isRunning() {
+		  return isRunning;
 	 }
 }

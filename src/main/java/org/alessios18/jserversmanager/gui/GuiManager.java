@@ -23,6 +23,7 @@ import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class GuiManager extends Application {
 	 public static final String FXML_FILE_PATH = "/fxmlfiles/";
@@ -70,7 +71,11 @@ public class GuiManager extends Application {
 				// loadTaskDataFromFile(DataStorage.getinstance().getTaskFile());
 				primaryStage.setOnCloseRequest(
 						  (WindowEvent event1) -> {
-								doThingsOnExit();
+								try {
+									 doThingsOnExit();
+								} catch (InterruptedException | IOException | ExecutionException e) {
+									 ExceptionDialog.showException(e);
+								}
 						  });
 		  } catch (IOException | UnsupportedOperatingSystemException e) {
 				ExceptionDialog.showException(e);
@@ -151,7 +156,7 @@ public class GuiManager extends Application {
 		  controller.updateServerList();
 	 }
 
-	 public void doThingsOnExit() {
+	 public void doThingsOnExit() throws InterruptedException, IOException, ExecutionException {
 		  //serverManagersContainer.stopAllServers();
 		  serverManagersContainer.forceQuit();
 		  Platform.exit();
