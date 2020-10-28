@@ -5,16 +5,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 
 public abstract class ServerManagerBase {
 	 private Server server;
 	 private BufferedWriter writer;
-	 private ServerStarter ss;
 	 private boolean isServerRunning = false;
-	 private Executor stopExecutor;
+	 private final ProcessManager processManager;
 
 	 public ServerManagerBase(Server server) {
 		  this.server = server;
+		  processManager = new ProcessManager();
 	 }
 
 	 public Server getServer() {
@@ -37,16 +38,16 @@ public abstract class ServerManagerBase {
 		  return isServerRunning;
 	 }
 
-	 public void startServer(BufferedWriter writer) throws IOException {
+	 public void startServer(BufferedWriter writer) throws Exception {
 		  setWriter(writer);
 		  startServer();
 	 }
 
-	 public void startServer() throws IOException {
+	 public void startServer() throws Exception {
+		  copyConfig();
 		  doUnDeploy();
 		  doDeploy();
-		  ss = new ServerStarter(this, getServerStartCommand());
-		  ss.start();
+		  processManager.executeParallelProcess(getServerStartCommand(), this.getServerBinPath(), writer, false);
 		  isServerRunning = true;
 	 }
 
@@ -55,6 +56,8 @@ public abstract class ServerManagerBase {
 	 abstract public String[] getServerStopCommand();
 
 	 abstract public String getServerDeployDir();
+
+	 abstract public String getServerConfigDir();
 
 	 abstract public void doDeploy() throws IOException;
 
@@ -69,17 +72,20 @@ public abstract class ServerManagerBase {
 
 	 abstract public String getServerBinPath();
 
-	 public void stopServer() throws IOException, InterruptedException {
+	 public void stopServer() throws IOException, InterruptedException, ExecutionException {
 		  isServerRunning = false;
-		  stopExecutor = new Executor(getServerStopCommand());
-		  stopExecutor.execute(this.getServerBinPath(), null);
-		  ss.join();
+		  processManager.executeParallelProcess(getServerStopCommand(), this.getServerBinPath(), null, true);
+	 }
+
+	 abstract void copyConfig() throws IOException;
+
+	 public int getPortWithOffset(String port) {
+		  return Integer.parseInt(port) + Integer.parseInt(server.getPortOffset());
 	 }
 
 	 public void forceShutdown() {
-		  ss.forceProcessExit();
-		  if (stopExecutor != null) {
-				stopExecutor.forceQuit();
+		  if (processManager != null) {
+				processManager.forceQuit();
 		  }
 	 }
 }

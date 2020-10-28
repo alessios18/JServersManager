@@ -57,8 +57,7 @@ public class GuiManager extends Application {
 
 				// Show the scene containing the root layout.
 				Scene scene = new Scene(rootLayout);
-				scene.getStylesheets().add
-						  (GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
+				scene.getStylesheets().add(GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
 				primaryStage.setScene(scene);
 
 				// Give the controller access to the main app.

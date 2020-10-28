@@ -92,7 +92,7 @@ public class ServerViewController extends ControllerBase {
 	 }
 
 	 @FXML
-	 private void startStopServer() throws IOException, InterruptedException {
+	 private void startStopServer() throws Exception {
 		  if (!guiManager.getServerManagersContainer().getServerManager(server).isServerRunning()) {
 				try {
 					 guiManager.startNewOutput(server.getServerID());
@@ -103,7 +103,7 @@ public class ServerViewController extends ControllerBase {
 						  guiManager.getServerManagersContainer().getServerManager(server).setWriter(writer);
 					 }
 					 guiManager.getServerManagersContainer().getServerManager(server).startServer();
-				} catch (UnsupportedOperatingSystemException | IOException e) {
+				} catch (Exception e) {
 					 ExceptionDialog.showException(e);
 				}
 		  } else {

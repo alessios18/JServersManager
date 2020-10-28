@@ -19,6 +19,8 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 	 protected static final String SERVER_STOP_ADDRESS_TO_CLI_COMMAND = "--controller=localhost:";
 	 protected static final String SERVER_STOP_CONNECT_CLI_COMMAND = "--connect";
 	 protected static final String SERVER_STOP_SHUTDOWN_COMMAND = "command=:shutdown";
+	 protected static final String SERVER_DEPLOY_DIR = "standalone" + OsCheck.getSeparator() + "deployments";
+	 protected static final String SERVER_CONFIG_DIR = "standalone" + OsCheck.getSeparator() + "configuration";
 
 
 	 public ServerManagerJBOSS(Server server) {
@@ -27,53 +29,58 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 
 	 @Override
 	 public String[] getServerStartCommand() {
-		 String[] commands = new String[0];
-		 if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Linux)) {
-			 commands = new String[]{
-					 SERVER_EXEC_COMMAND,
-					 SERVER_START_IP_MASK,
-					 SERVER_START_BINDING_PORT_OFFSET + getServer().getPortOffset(),
-					 SERVER_START_DEBUG_PORT, getServer().getDebugPort()
-			 };
-		 }else if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)){
-			 commands = new String[]{
-					 "CMD",
-					 "/C",
-					 SERVER_EXEC_COMMAND,
-					 SERVER_START_IP_MASK,
-					 SERVER_START_BINDING_PORT_OFFSET + getServer().getPortOffset(),
-					 SERVER_START_DEBUG_PORT, getServer().getDebugPort()
-			 };
-		 }
+		  String[] commands = new String[0];
+		  if (OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Linux)) {
+				commands = new String[]{
+						  SERVER_EXEC_COMMAND,
+						  SERVER_START_IP_MASK,
+						  SERVER_START_BINDING_PORT_OFFSET + getServer().getPortOffset(),
+						  SERVER_START_DEBUG_PORT, getServer().getDebugPort()
+				};
+		  } else if (OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)) {
+				commands = new String[]{
+						  "CMD",
+						  "/C",
+						  SERVER_EXEC_COMMAND,
+						  SERVER_START_IP_MASK,
+						  SERVER_START_BINDING_PORT_OFFSET + getServer().getPortOffset(),
+						  SERVER_START_DEBUG_PORT, getServer().getDebugPort()
+				};
+		  }
 		  return commands;
 	 }
 
 	 @Override
 	 public String[] getServerStopCommand() {
-		 String[] commands = new String[0];
-	 	if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Linux)) {
-			commands = new String[]{
-					SERVER_JBOSS_CLI_COMMAND,
-					SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getServer().getAdminPort(),
-					SERVER_STOP_CONNECT_CLI_COMMAND,
-					SERVER_STOP_SHUTDOWN_COMMAND
-			};
-		}else if(OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)){
-			commands = new String[]{
-					"CMD",
-					"/C",
-					SERVER_JBOSS_CLI_COMMAND,
-					SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getServer().getAdminPort(),
-					SERVER_STOP_CONNECT_CLI_COMMAND,
-					SERVER_STOP_SHUTDOWN_COMMAND
-			};
-		}
+		  String[] commands = new String[0];
+		  if (OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Linux)) {
+				commands = new String[]{
+						  SERVER_JBOSS_CLI_COMMAND,
+						  SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getPortWithOffset(getServer().getAdminPort()),
+						  SERVER_STOP_CONNECT_CLI_COMMAND,
+						  SERVER_STOP_SHUTDOWN_COMMAND
+				};
+		  } else if (OsCheck.getOperatingSystemType().equals(OsCheck.OSType.Windows)) {
+				commands = new String[]{
+						  "CMD",
+						  "/C",
+						  SERVER_JBOSS_CLI_COMMAND,
+						  SERVER_STOP_ADDRESS_TO_CLI_COMMAND + getPortWithOffset(getServer().getAdminPort()),
+						  SERVER_STOP_CONNECT_CLI_COMMAND,
+						  SERVER_STOP_SHUTDOWN_COMMAND
+				};
+		  }
 		  return commands;
 	 }
 
 	 @Override
 	 public String getServerDeployDir() {
-		  return getServer().getServerPath().endsWith(OsCheck.getSeparator()) ? getServer().getServerPath() + "standalone" + OsCheck.getSeparator() + "deployments" : getServer().getServerPath() + OsCheck.getSeparator() + "standalone" + OsCheck.getSeparator() + "deployments";
+		  return getServer().getServerPath().endsWith(OsCheck.getSeparator()) ? getServer().getServerPath() + SERVER_DEPLOY_DIR : getServer().getServerPath() + OsCheck.getSeparator() + SERVER_DEPLOY_DIR;
+	 }
+
+	 @Override
+	 public String getServerConfigDir() {
+		  return getServer().getServerPath().endsWith(OsCheck.getSeparator()) ? getServer().getServerPath() + SERVER_CONFIG_DIR : getServer().getServerPath() + OsCheck.getSeparator() + SERVER_CONFIG_DIR;
 	 }
 
 	 @Override
@@ -94,6 +101,19 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 	 @Override
 	 public String getServerBinPath() {
 		  return getServer().getServerPath().endsWith(OsCheck.getSeparator()) ? getServer().getServerPath() + "bin" : getServer().getServerPath() + OsCheck.getSeparator() + "bin";
+	 }
+
+	 @Override
+	 void copyConfig() throws IOException {
+		  File config = new File(getServer().getStandalonePath());
+		  File srvConfig = new File(getServerConfigDir());
+		  if (config.exists() && srvConfig.exists()) {
+				if (config.isDirectory()) {
+					 FileUtils.copyDirectory(config, srvConfig, true);
+				} else {
+					 FileUtils.copyFileToDirectory(config, srvConfig, true);
+				}
+		  }
 	 }
 
 }

@@ -2,7 +2,6 @@ package org.alessios18.jserversmanager.baseobjects;
 
 import org.alessios18.jserversmanager.baseobjects.factory.ServerManagerFactory;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public class ServerManagersContainer {
@@ -23,7 +22,7 @@ public class ServerManagersContainer {
 		  return managersContainer.get(server.getServerID());
 	 }
 
-	 public void stopAllServers() throws IOException, InterruptedException {
+	 public void stopAllServers() throws Exception {
 		  for (ServerManagerBase manager :
 					 managersContainer.values()) {
 				if (manager.isServerRunning()) {

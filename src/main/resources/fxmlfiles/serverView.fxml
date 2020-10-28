@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="204.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController">
+    <children>
+        <Label fx:id="serverName" layoutX="14.0" layoutY="9.0" text="Server Name" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+        </Label>
+        <Label fx:id="serverType" layoutX="14.0" layoutY="30.0" text="type">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+        <ImageView fx:id="output" fitHeight="26.0" fitWidth="26.0" layoutX="176.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <image>
+                <Image url="@../images/blink-off.png" />
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="36.0" layoutX="71.0" layoutY="35.0" opacity="0.49" stroke="BLACK" strokeType="INSIDE" width="119.0" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="1.0" />
+        <ImageView fx:id="playStop" fitHeight="26.0" fitWidth="26.0" layoutX="50.0" layoutY="46.0" onMouseClicked="#startStopServer" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="83.0">
+            <image>
+                <Image url="@../../../../../JTasksLogger/src/main/resources/images/play_icon.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="settings" fitHeight="26.0" fitWidth="26.0" layoutX="177.0" layoutY="48.0" onMouseClicked="#handleServerMod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+            <image>
+                <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="folder" fitHeight="26.0" fitWidth="26.0" layoutX="154.0" layoutY="47.0" onMouseClicked="#handleOpenServerFolder" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="31.0">
+            <image>
+                <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" layoutX="96.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
+            <image>
+                <Image url="@../../../../../JTasksLogger/src/main/resources/images/icon_app.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>
