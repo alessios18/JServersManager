@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.alessios18.jserversmanager.App;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.baseobjects.ServerManagersContainer;
@@ -21,12 +20,10 @@ import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemExcep
 import org.alessios18.jserversmanager.gui.controllers.impl.MainWindowController;
 import org.alessios18.jserversmanager.gui.controllers.impl.NewServerDialogController;
 import org.alessios18.jserversmanager.gui.controllers.impl.OutputAreaController;
-import org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 public class GuiManager extends Application {

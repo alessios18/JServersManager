@@ -1,25 +1,17 @@
 package org.alessios18.jserversmanager;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.GuiManager;
-import org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 import org.alessios18.jserversmanager.updater.JServersManagerUpdater;
 import org.alessios18.jserversmanager.updater.baseobjects.Release;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
-import javax.swing.*;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -40,7 +32,7 @@ public class App {
 
 	 public static void main(String[] args) throws Exception {
 		  JServersManagerUpdater updater = new JServersManagerUpdater();
-		  if(!updater.doUpgrade(args)) {
+		  if (!updater.doUpgrade(args)) {
 				Release r = updater.checkForUpdates();
 				if (r != null) {
 					 if (updater.updateVersionConfirmDialog()) {

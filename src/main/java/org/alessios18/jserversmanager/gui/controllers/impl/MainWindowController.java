@@ -85,7 +85,7 @@ public class MainWindowController extends ControllerBase {
 		  iconSiteLink.setOnAction(new OpenWebPageListener(guiManager, iconSiteLink));
 
 		  TextFlow textFlow = new TextFlow(
-					 new Text("JServersManager version:"+ App.getCurrentVersion()+"\nAuthor: Alessio Segantin\nProject repository: "),
+					 new Text("JServersManager version:" + App.getCurrentVersion() + "\nAuthor: Alessio Segantin\nProject repository: "),
 					 repo,
 					 new Text("\nWebsite: "),
 					 gitHubLink,
@@ -98,8 +98,6 @@ public class MainWindowController extends ControllerBase {
 		  alert.setWidth(250);
 		  alert.setHeight(150);
 		  alert.showAndWait();
-		  //Desktop.getDesktop().browse(repo.getText());
-		  guiManager.openWebPage(repo);
 	 }
 
 

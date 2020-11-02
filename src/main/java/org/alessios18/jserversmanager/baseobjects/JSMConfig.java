@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class JSMConfig {
 	 private boolean onlyStable = true;
 
-	 public JSMConfig(){
+	 public JSMConfig() {
 
 	 }
 

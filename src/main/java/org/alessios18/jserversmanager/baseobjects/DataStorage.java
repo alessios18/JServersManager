@@ -21,11 +21,10 @@ import java.io.IOException;
 
 /** @author alessio */
 public class DataStorage {
-	 private static final String SERVERS = "servers.xml";
-	 private static final String CONFIGURATION = "jsm-config.xml";
 	 public static final String JSERVERSMANAGER_FOLDER = ".JServersManager";
 	 public static final String LIB_FOLDER = "lib";
-
+	 private static final String SERVERS = "servers.xml";
+	 private static final String CONFIGURATION = "jsm-config.xml";
 	 private static File servers;
 
 	 private static DataStorage dataStorage = null;
@@ -50,11 +49,11 @@ public class DataStorage {
 					 root.mkdirs();
 				}
 				File lib = new File(getLibPath());
-				if(!lib.exists()){
+				if (!lib.exists()) {
 					 lib.mkdirs();
 				}
 				File config = getConfigFile();
-				if(!config.exists()){
+				if (!config.exists()) {
 					 saveConfig();
 				}
 		  } else {
@@ -92,28 +91,29 @@ public class DataStorage {
 		  return path;
 	 }
 
-	 public String getLibPath(){
-	 	 return getRootPath()+LIB_FOLDER;
+	 public String getLibPath() {
+		  return getRootPath() + LIB_FOLDER;
 	 }
 
 	 public File getServersFile() {
 		  return new File(getRootPath() + SERVERS);
 	 }
+
 	 public File getConfigFile() {
 		  return new File(getRootPath() + CONFIGURATION);
 	 }
 
-	 public void saveConfig(){
-	 	 JSMConfig c= new JSMConfig();
+	 public void saveConfig() {
+		  JSMConfig c = new JSMConfig();
 		  JAXBContext context = null;
 		  try {
 				context = JAXBContext.newInstance(JSMConfig.class);
 
-		  Marshaller m = context.createMarshaller();
-		  m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				Marshaller m = context.createMarshaller();
+				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-		  // Marshalling and saving XML to the file.
-		  m.marshal(c, getConfigFile());
+				// Marshalling and saving XML to the file.
+				m.marshal(c, getConfigFile());
 		  } catch (JAXBException e) {
 				e.printStackTrace();
 		  }
