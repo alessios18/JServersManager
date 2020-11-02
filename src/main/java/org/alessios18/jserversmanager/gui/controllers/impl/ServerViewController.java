@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
@@ -14,31 +13,14 @@ import org.alessios18.jserversmanager.baseobjects.ServerManagerOutputWriter;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
+import org.alessios18.jserversmanager.gui.util.ImagesLoader;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
-import org.alessios18.jserversmanager.util.OsCheck;
+import org.alessios18.jserversmanager.util.OsUtils;
 
 import java.io.IOException;
 
 public class ServerViewController extends ControllerBase {
 	 protected static final String FXML_FILE_NAME = "serverView.fxml";
-	 protected static final String IMAGES_FOLDER = "/images/";
-
-	 protected static final String IMAGE_PLAY = IMAGES_FOLDER + "013-play.png";
-	 protected static final String IMAGE_RESTART = IMAGES_FOLDER + "015-refresh.png";
-	 protected static final String IMAGE_STOP = IMAGES_FOLDER + "003-stop.png";
-	 protected static final String IMAGE_FOLDER = IMAGES_FOLDER + "028-folder.png";
-	 protected static final String IMAGE_SETTINGS = IMAGES_FOLDER + "020-menu.png";
-
-	 protected static final String IMAGE_BLINK_ON = IMAGES_FOLDER + "blink-on.png";
-	 protected static final String IMAGE_BLINK_OFF = IMAGES_FOLDER + "blink-off.png";
-
-	 private static final Image playIcon = new Image(ServerViewController.class.getResourceAsStream(IMAGE_PLAY));
-	 private static final Image folderIcon = new Image(ServerViewController.class.getResourceAsStream(IMAGE_FOLDER));
-	 private static final Image restartIcon = new Image(ServerViewController.class.getResourceAsStream(IMAGE_RESTART));
-	 private static final Image stopIcon = new Image(ServerViewController.class.getResourceAsStream(IMAGE_STOP));
-	 private static final Image settingsIcon = new Image(ServerViewController.class.getResourceAsStream(IMAGE_SETTINGS));
-	 private static final Image outputOn = new Image(ServerViewController.class.getResourceAsStream(IMAGE_BLINK_ON));
-	 private static final Image outputOff = new Image(ServerViewController.class.getResourceAsStream(IMAGE_BLINK_OFF));
 
 	 @FXML
 	 private Label serverName;
@@ -71,11 +53,11 @@ public class ServerViewController extends ControllerBase {
 	 @FXML
 	 private void initialize() {
 		  restart.setDisable(true);
-		  playStop.setImage(playIcon);
-		  folder.setImage(folderIcon);
-		  restart.setImage(restartIcon);
-		  settings.setImage(settingsIcon);
-		  output.setImage(outputOff);
+		  playStop.setImage(ImagesLoader.getPlayIcon());
+		  folder.setImage(ImagesLoader.getFolderIcon());
+		  restart.setImage(ImagesLoader.getRestartIcon());
+		  settings.setImage(ImagesLoader.getSettingsIcon());
+		  output.setImage(ImagesLoader.getOutputOff());
 	 }
 
 
@@ -96,7 +78,7 @@ public class ServerViewController extends ControllerBase {
 		  if (!guiManager.getServerManagersContainer().getServerManager(server).isServerRunning()) {
 				try {
 					 guiManager.startNewOutput(server.getServerID());
-					 playStop.setImage(stopIcon);
+					 playStop.setImage(ImagesLoader.getStopIcon());
 					 guiManager.getServerManagersContainer().getServerManager(server);
 					 if (guiManager.getServerManagersContainer().getServerManager(server).getWriter() == null) {
 						  ServerManagerOutputWriter writer = new ServerManagerOutputWriter(DataStorage.getInstance().getServerLogBufferedWriter(server), server, guiManager);
@@ -113,13 +95,13 @@ public class ServerViewController extends ControllerBase {
 				alert.setContentText("Stopping server");
 				alert.show();
 				guiManager.getServerManagersContainer().getServerManager(server).stopServer();
-				playStop.setImage(playIcon);
+				playStop.setImage(ImagesLoader.getPlayIcon());
 		  }
 	 }
 
 	 @FXML
 	 private void handleOpenServerFolder() throws IOException {
-		  switch (OsCheck.getOperatingSystemType()) {
+		  switch (OsUtils.getOperatingSystemType()) {
 				case Windows: {
 					 ProcessBuilder pb = new ProcessBuilder("explorer.exe", "/select," + server.getServerPath());
 					 pb.redirectError();
@@ -157,14 +139,14 @@ public class ServerViewController extends ControllerBase {
 	 }
 
 	 public void outputBlink() {
-		  output.setImage(outputOn);
+		  output.setImage(ImagesLoader.getOutputOn());
 		  new Thread(() -> {
 				try {
 					 Thread.sleep(500);
 				} catch (InterruptedException e) {
 					 e.printStackTrace();
 				}
-				output.setImage(outputOff);
+				output.setImage(ImagesLoader.getOutputOff());
 		  }).start();
 	 }
 }

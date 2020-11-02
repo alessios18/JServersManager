@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import org.alessios18.jserversmanager.datamodel.wrapper.ServersDataWrapper;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
-import org.alessios18.jserversmanager.util.OsCheck;
+import org.alessios18.jserversmanager.util.OsUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -22,7 +22,9 @@ import java.io.IOException;
 /** @author alessio */
 public class DataStorage {
 	 private static final String SERVERS = "servers.xml";
-	 private static final String JSERVERSMANAGER_FOLDER = ".JServersManager";
+	 private static final String CONFIGURATION = "jsm-config.xml";
+	 public static final String JSERVERSMANAGER_FOLDER = ".JServersManager";
+	 public static final String LIB_FOLDER = "lib";
 
 	 private static File servers;
 
@@ -47,6 +49,14 @@ public class DataStorage {
 				if (!root.exists()) {
 					 root.mkdirs();
 				}
+				File lib = new File(getLibPath());
+				if(!lib.exists()){
+					 lib.mkdirs();
+				}
+				File config = getConfigFile();
+				if(!config.exists()){
+					 saveConfig();
+				}
 		  } else {
 				throw new UnsupportedOperatingSystemException();
 		  }
@@ -59,31 +69,66 @@ public class DataStorage {
 
 	 protected String getRootPath() {
 		  String path = null;
-		  if (OsCheck.OSType.Linux.equals(OsCheck.getOperatingSystemType())) {
+		  if (OsUtils.OSType.Linux.equals(OsUtils.getOperatingSystemType())) {
 				path =
-						  OsCheck.getUserHome()
-									 + OsCheck.getSeparator()
+						  OsUtils.getUserHome()
+									 + OsUtils.getSeparator()
 									 + JSERVERSMANAGER_FOLDER
-									 + OsCheck.getSeparator();
-		  } else if (OsCheck.OSType.Windows.equals(OsCheck.getOperatingSystemType())) {
+									 + OsUtils.getSeparator();
+		  } else if (OsUtils.OSType.Windows.equals(OsUtils.getOperatingSystemType())) {
 				path =
-						  OsCheck.getUserHome()
-									 + OsCheck.getSeparator()
+						  OsUtils.getUserHome()
+									 + OsUtils.getSeparator()
 									 + JSERVERSMANAGER_FOLDER
-									 + OsCheck.getSeparator();
-		  } else if (OsCheck.OSType.MacOS.equals(OsCheck.getOperatingSystemType())
-					 || OsCheck.OSType.Other.equals(OsCheck.getOperatingSystemType())) {
+									 + OsUtils.getSeparator();
+		  } else if (OsUtils.OSType.MacOS.equals(OsUtils.getOperatingSystemType())
+					 || OsUtils.OSType.Other.equals(OsUtils.getOperatingSystemType())) {
 				path =
-						  OsCheck.getUserHome()
-									 + OsCheck.getSeparator()
+						  OsUtils.getUserHome()
+									 + OsUtils.getSeparator()
 									 + JSERVERSMANAGER_FOLDER
-									 + OsCheck.getSeparator();
+									 + OsUtils.getSeparator();
 		  }
 		  return path;
 	 }
 
+	 public String getLibPath(){
+	 	 return getRootPath()+LIB_FOLDER;
+	 }
+
 	 public File getServersFile() {
 		  return new File(getRootPath() + SERVERS);
+	 }
+	 public File getConfigFile() {
+		  return new File(getRootPath() + CONFIGURATION);
+	 }
+
+	 public void saveConfig(){
+	 	 JSMConfig c= new JSMConfig();
+		  JAXBContext context = null;
+		  try {
+				context = JAXBContext.newInstance(JSMConfig.class);
+
+		  Marshaller m = context.createMarshaller();
+		  m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+		  // Marshalling and saving XML to the file.
+		  m.marshal(c, getConfigFile());
+		  } catch (JAXBException e) {
+				e.printStackTrace();
+		  }
+	 }
+
+	 public JSMConfig getConfig() throws JAXBException {
+		  JAXBContext context = JAXBContext.newInstance(JSMConfig.class);
+		  Unmarshaller um = context.createUnmarshaller();
+
+		  if (getConfigFile().exists()) {
+				// Reading XML from the file and unmarshalling.
+				JSMConfig config = (JSMConfig) um.unmarshal(getConfigFile());
+				return config;
+		  }
+		  return null;
 	 }
 
 	 /**

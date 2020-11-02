@@ -2,12 +2,17 @@ package org.alessios18.jserversmanager.gui.controllers.impl;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
 import org.alessios18.jserversmanager.baseobjects.factory.ServerManagerFactory;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
+import org.alessios18.jserversmanager.gui.util.ImagesLoader;
+import org.alessios18.jserversmanager.gui.view.JSMFileChooser;
+
 
 public class NewServerDialogController extends ControllerBase {
 	 @FXML
@@ -31,9 +36,18 @@ public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private TextArea arguments;
 	 @FXML
-	 private CheckBox enableCustomargs;
+	 private CheckBox enableCustomArgs;
+	 @FXML
+	 private TextField httpPort;
+	 @FXML
+	 private Button bSrvDir;
+	 @FXML
+	 private Button bStandalone;
+	 @FXML
+	 private Button bPathDeploy;
 
 	 private Server server;
+	 private Server clone;
 
 	 private Stage dialogStage;
 	 private boolean okClicked = false;
@@ -53,6 +67,30 @@ public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private void initialize() {
 		  serverType.getItems().setAll(ServerType.values());
+		  bSrvDir.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
+		  bStandalone.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
+		  bPathDeploy.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
+
+		  setPageListener();
+	 }
+
+	 private void setPageListener() {
+		  debugPort.textProperty().addListener((observable, oldValue, newValue) -> {
+				clone.setDebugPort(newValue);
+				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+		  });
+		  httpPort.textProperty().addListener((observable, oldValue, newValue) -> {
+				clone.setHttpPort(newValue);
+				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+		  });
+		  portOffset.textProperty().addListener((observable, oldValue, newValue) -> {
+				clone.setPortOffset(newValue);
+				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+		  });
+		  adminPort.textProperty().addListener((observable, oldValue, newValue) -> {
+				clone.setAdminPort(newValue);
+				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+		  });
 	 }
 
 	 /**
@@ -79,20 +117,22 @@ public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private void save() {
 		  if (isInputValid()) {
-				server.setServerName(serverName.getText());
-				server.setServerType(serverType.getValue());
-				server.setServerPath(srvDir.getText());
-				server.setStandalonePath(standalonePath.getText());
-				server.setAdminPort(adminPort.getText());
-				server.setDebugPort(debugPort.getText());
-				server.setPortOffset(portOffset.getText());
+				clone.setServerName(serverName.getText());
+				clone.setServerType(serverType.getValue());
+				clone.setServerPath(srvDir.getText());
+				clone.setStandalonePath(standalonePath.getText());
+				clone.setAdminPort(adminPort.getText());
+				clone.setDebugPort(debugPort.getText());
+				clone.setPortOffset(portOffset.getText());
+				clone.setHttpPort(httpPort.getText());
 				// TODO make this dynamic
 				String[] files = new String[2];
 				files[0] = deploFile1.getText();
 				files[1] = deploFile2.getText();
-				server.setFilePathToDeploy(files);
+				clone.setFilePathToDeploy(files);
 				okClicked = true;
 				dialogStage.close();
+				server.setFromClone(clone);
 		  }
 	 }
 
@@ -133,26 +173,53 @@ public class NewServerDialogController extends ControllerBase {
 
 	 public void setServer(Server server) {
 		  this.server = server;
-		  serverName.setText(server.getServerName());
-		  serverType.setValue(server.getServerType());
-		  srvDir.setText(server.getServerPath());
-		  standalonePath.setText(server.getStandalonePath());
-		  adminPort.setText(server.getAdminPort());
-		  debugPort.setText(server.getDebugPort());
-		  portOffset.setText(server.getPortOffset());
+		  this.clone = server.getCloneObject();
+		  serverName.setText(clone.getServerName());
+		  serverType.setValue(clone.getServerType());
+		  srvDir.setText(clone.getServerPath());
+		  standalonePath.setText(clone.getStandalonePath());
+		  adminPort.setText(clone.getAdminPort());
+		  debugPort.setText(clone.getDebugPort());
+		  portOffset.setText(clone.getPortOffset());
+		  httpPort.setText(clone.getHttpPort());
 		  // TODO make this dynamic
-		  if (server.getFilePathToDeploy() != null) {
-				deploFile1.setText(server.getFilePathToDeploy()[0]);
-				deploFile2.setText(server.getFilePathToDeploy()[1]);
+		  if (clone.getFilePathToDeploy() != null) {
+				deploFile1.setText(clone.getFilePathToDeploy()[0]);
+				deploFile2.setText(clone.getFilePathToDeploy()[1]);
 		  }
-		  if (server.getServerType() != null) {
-				arguments.setText(ServerManagerFactory.getServerManager(server).getServerParameters());
+		  if (clone.getServerType() != null) {
+				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
 		  }
 	 }
 
 	 @FXML
 	 private void changedType() {
-		  server.setServerType(serverType.getValue());
-		  arguments.setText(ServerManagerFactory.getServerManager(server).getServerParameters());
+		  clone.setServerType(serverType.getValue());
+		  arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+	 }
+
+	 @FXML
+	 private void handleSetSrvDir() {
+		  JSMFileChooser dc = new JSMFileChooser(srvDir);
+		  dc.show("Choose the server Directory", this.dialogStage, JSMFileChooser.SelectionType.DIRECTORY);
+	 }
+
+	 @FXML
+	 private void handleSetStandalone() {
+		  JSMFileChooser dc = new JSMFileChooser(standalonePath);
+		  dc.show("Choose the standalone.xml file", this.dialogStage, JSMFileChooser.SelectionType.FILE);
+	 }
+
+	 @FXML
+	 private void handleSetDeployPath() {
+		  JSMFileChooser dc = new JSMFileChooser(standalonePath);
+		  dc.show("Choose the file or directory to be deployed", this.dialogStage, JSMFileChooser.SelectionType.FILE_AND_DIRECTORY);
+	 }
+
+	 public ImageView getImageView(Image image) {
+		  ImageView view = new ImageView(image);
+		  view.setFitHeight(26);
+		  view.setFitWidth(26);
+		  return view;
 	 }
 }

@@ -1,16 +1,33 @@
 package org.alessios18.jserversmanager;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.GuiManager;
+import org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
+import org.alessios18.jserversmanager.updater.JServersManagerUpdater;
+import org.alessios18.jserversmanager.updater.baseobjects.Release;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
+import javax.swing.*;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * Hello world!
  */
 public class App {
+	 private static final Logger logger = LogManager.getLogger(App.class);
+
 	 public App() {
 		  try {
 				DataStorage.getInstance().checkFiles();
@@ -21,8 +38,34 @@ public class App {
 		  }
 	 }
 
-	 public static void main(String[] args) {
+	 public static void main(String[] args) throws Exception {
+		  JServersManagerUpdater updater = new JServersManagerUpdater();
+		  if(!updater.doUpgrade(args)) {
+				Release r = updater.checkForUpdates();
+				if (r != null) {
+					 if (updater.updateVersionConfirmDialog()) {
+						  updater.updateVersion();
+					 } else {
+						  startApplication();
+					 }
+
+				}
+		  }
+		  startApplication();
+	 }
+
+	 protected static void startApplication() {
 		  GuiManager guiManager = new GuiManager();
 		  guiManager.startGUI();
+	 }
+
+	 public static String getCurrentVersion() throws IOException, XmlPullParserException {
+		  Properties prop = new Properties();
+		  prop.load(new InputStreamReader(App.class.getResourceAsStream("/config/config.properties")));
+		  return prop.getProperty("project.version");
+	 }
+
+	 public static Logger getLogger() {
+		  return logger;
 	 }
 }

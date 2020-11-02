@@ -79,8 +79,8 @@ public abstract class ServerManagerBase {
 
 	 abstract void copyStandaloneFile() throws IOException;
 
-	 public int getPortWithOffset(String port) {
-		  return Integer.parseInt(port) + Integer.parseInt(server.getPortOffset());
+	 public String getPortWithOffset(String port) {
+		  return "" + (Integer.parseInt(port) + Integer.parseInt(server.getPortOffset()));
 	 }
 
 	 public void forceShutdown() throws InterruptedException {

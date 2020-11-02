@@ -6,12 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.alessios18.jserversmanager.App;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.baseobjects.ServerManagersContainer;
@@ -19,10 +21,12 @@ import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemExcep
 import org.alessios18.jserversmanager.gui.controllers.impl.MainWindowController;
 import org.alessios18.jserversmanager.gui.controllers.impl.NewServerDialogController;
 import org.alessios18.jserversmanager.gui.controllers.impl.OutputAreaController;
+import org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 public class GuiManager extends Application {
@@ -42,9 +46,6 @@ public class GuiManager extends Application {
 	 public void start(Stage primaryStage) {
 		  this.primaryStage = primaryStage;
 		  this.primaryStage.setTitle("JServersManager");
-		  // this.primaryStage.getIcons().add(new
-		  // Image(getClass().getResourceAsStream("/images/icon_app.png")));
-
 		  initRootLayout();
 	 }
 
@@ -142,6 +143,7 @@ public class GuiManager extends Application {
 		  OutputAreaController controller = loader.getController();
 		  outputAreas.put(serverID, controller);
 		  this.controller.changeOutputPanel(ta);
+
 	 }
 
 	 public ServerManagersContainer getServerManagersContainer() {
@@ -161,5 +163,9 @@ public class GuiManager extends Application {
 		  serverManagersContainer.forceQuit();
 		  Platform.exit();
 		  System.exit(0);
+	 }
+
+	 public void openWebPage(Hyperlink link) {
+		  getHostServices().showDocument(link.getText());
 	 }
 }

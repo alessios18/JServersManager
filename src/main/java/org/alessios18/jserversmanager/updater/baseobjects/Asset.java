@@ -1,4 +1,4 @@
-package org.alessios18.jserversmanager.launcher.baseobjects;
+package org.alessios18.jserversmanager.updater.baseobjects;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

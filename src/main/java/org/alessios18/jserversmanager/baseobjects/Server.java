@@ -19,6 +19,7 @@ public class Server {
 	 private final StringProperty adminPort;
 	 private final StringProperty debugPort;
 	 private final StringProperty portOffset;
+	 private final StringProperty httpPort;
 	 private final ObjectProperty<String[]> filePathToDeploy;
 
 	 public Server() {
@@ -30,6 +31,7 @@ public class Server {
 		  adminPort = new SimpleStringProperty("");
 		  debugPort = new SimpleStringProperty("");
 		  portOffset = new SimpleStringProperty("");
+		  httpPort = new SimpleStringProperty("");
 		  filePathToDeploy = new SimpleObjectProperty<String[]>(null);
 	 }
 
@@ -97,6 +99,14 @@ public class Server {
 		  this.portOffset.setValue(portOffset);
 	 }
 
+	 public String getHttpPort() {
+		  return httpPort.getValue();
+	 }
+
+	 public void setHttpPort(String httpPort) {
+		  this.httpPort.setValue(httpPort);
+	 }
+
 	 public String[] getFilePathToDeploy() {
 		  return filePathToDeploy.getValue();
 	 }
@@ -105,32 +115,30 @@ public class Server {
 		  this.filePathToDeploy.setValue(filePathToDeploy);
 	 }
 
-	 @Override
-	 public String toString() {
-		  return "Server{"
-					 + "serverName='"
-					 + serverName
-					 + '\''
-					 + ", serverType="
-					 + serverType
-					 + ", standalonePath='"
-					 + standalonePath
-					 + '\''
-					 + ", serverPath='"
-					 + serverPath
-					 + '\''
-					 + ", adminPort='"
-					 + adminPort
-					 + '\''
-					 + ", debugPort='"
-					 + debugPort
-					 + '\''
-					 + ", portOffset='"
-					 + portOffset
-					 + '\''
-					 + ", filePathToDeploy="
-					 + filePathToDeploy.getValue()
-					 + '}';
+	 public Server getCloneObject() {
+		  Server clone = new Server();
+		  clone.serverID.setValue("CLONE-" + this.serverID.getValue());
+		  clone.serverName.setValue(this.serverName.getValue());
+		  clone.serverType.setValue(this.serverType.getValue());
+		  clone.standalonePath.setValue(this.standalonePath.getValue());
+		  clone.serverPath.setValue(this.serverPath.getValue());
+		  clone.adminPort.setValue(this.adminPort.getValue());
+		  clone.debugPort.setValue(this.debugPort.getValue());
+		  clone.portOffset.setValue(this.portOffset.getValue());
+		  clone.httpPort.setValue(this.httpPort.getValue());
+		  clone.filePathToDeploy.setValue(this.filePathToDeploy.getValue());
+		  return clone;
 	 }
 
+	 public void setFromClone(Server clone) {
+		  this.serverName.setValue(clone.serverName.getValue());
+		  this.serverType.setValue(clone.serverType.getValue());
+		  this.standalonePath.setValue(clone.standalonePath.getValue());
+		  this.serverPath.setValue(clone.serverPath.getValue());
+		  this.adminPort.setValue(clone.adminPort.getValue());
+		  this.debugPort.setValue(clone.debugPort.getValue());
+		  this.portOffset.setValue(clone.portOffset.getValue());
+		  this.httpPort.setValue(clone.httpPort.getValue());
+		  this.filePathToDeploy.setValue(clone.filePathToDeploy.getValue());
+	 }
 }

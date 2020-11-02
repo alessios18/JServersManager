@@ -1,5 +1,8 @@
 package org.alessios18.jserversmanager.baseobjects;
 
+import org.alessios18.jserversmanager.App;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,10 +18,12 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class ProcessManager {
+	 private static final Logger logger = App.getLogger();
+
 	 private final Runtime rt;
 	 private final HashMap<String, Process> processesContainer = new HashMap<>();
 	 private final ArrayList<Future<Void>> futureList = new ArrayList<>();
-	 ExecutorService executor = Executors.newCachedThreadPool();
+	 private final ExecutorService executor = Executors.newCachedThreadPool();
 	 private BufferedReader stdInput;
 	 private BufferedReader stdError;
 
@@ -58,6 +63,7 @@ public class ProcessManager {
 		  Process currentProc;
 		  ProcessBuilder pb = new ProcessBuilder(commands);
 		  pb.directory(new File(dir));
+		  logger.debug("[" + processId + "] " + getSingleRowCommand(commands));
 		  ParallelizedProcess parallelizer = new ParallelizedProcess(processId, pb, this, writer, waitEnd);
 		  Future<Void> future = executor.submit(parallelizer);
 		  futureList.add(future);
@@ -84,5 +90,13 @@ public class ProcessManager {
 
 	 public synchronized void removeProcess(String processId) {
 		  processesContainer.remove(processId);
+	 }
+
+	 private String getSingleRowCommand(String[] commands) {
+		  StringBuilder sb = new StringBuilder();
+		  for (String s : commands) {
+				sb.append(s + " ");
+		  }
+		  return sb.toString();
 	 }
 }

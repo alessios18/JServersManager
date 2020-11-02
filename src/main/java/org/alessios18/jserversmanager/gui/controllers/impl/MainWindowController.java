@@ -5,16 +5,22 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import org.alessios18.jserversmanager.App;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
+import org.alessios18.jserversmanager.gui.controllers.listener.OpenWebPageListener;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 import org.alessios18.jserversmanager.gui.view.ServerCell;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 
@@ -60,14 +66,42 @@ public class MainWindowController extends ControllerBase {
 	  * Opens an about dialog.
 	  */
 	 @FXML
-	 private void handleAbout() {
+	 private void handleAbout() throws IOException, XmlPullParserException {
 		  Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		  alert.setTitle("JTaskLogger");
 		  alert.setHeaderText("About");
-		  alert.setContentText(
-					 "<html>Icons made by <a href=\"https://www.flaticon.com/authors/freepik\" title=\"Freepik\">Freepik</a> from <a href=\"https://www.flaticon.com/\" title=\"Flaticon\"> www.flaticon.com</a>\nAuthor: Alessio Segantin\nRepo: https://github.com/alessios18/JServersManager\nWebsite: https://github.com/alessios18</html>");
+
+		  Hyperlink gitHubLink = new Hyperlink();
+		  gitHubLink.setText("https://github.com/alessios18");
+		  gitHubLink.setOnAction(new OpenWebPageListener(guiManager, gitHubLink));
+		  Hyperlink iconsLink = new Hyperlink();
+		  iconsLink.setText("https://www.flaticon.com/authors/freepik");
+		  iconsLink.setOnAction(new OpenWebPageListener(guiManager, iconsLink));
+		  Hyperlink repo = new Hyperlink();
+		  repo.setText("https://github.com/alessios18/JServersManager");
+		  repo.setOnAction(new OpenWebPageListener(guiManager, repo));
+		  Hyperlink iconSiteLink = new Hyperlink();
+		  iconSiteLink.setText("https://www.flaticon.com/");
+		  iconSiteLink.setOnAction(new OpenWebPageListener(guiManager, iconSiteLink));
+
+		  TextFlow textFlow = new TextFlow(
+					 new Text("JServersManager version:"+ App.getCurrentVersion()+"\nAuthor: Alessio Segantin\nProject repository: "),
+					 repo,
+					 new Text("\nWebsite: "),
+					 gitHubLink,
+					 new Text("\nIcons made by "),
+					 iconsLink,
+					 new Text(" from "),
+					 iconSiteLink
+		  );
+		  alert.getDialogPane().setContent(textFlow);
+		  alert.setWidth(250);
+		  alert.setHeight(150);
 		  alert.showAndWait();
+		  //Desktop.getDesktop().browse(repo.getText());
+		  guiManager.openWebPage(repo);
 	 }
+
 
 	 @FXML
 	 private void handleNewServer() {

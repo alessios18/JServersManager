@@ -12,19 +12,21 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="newServerDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="280.0" minWidth="515.0" prefHeight="532.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.NewServerDialogController">
+<AnchorPane fx:id="newServerDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="280.0" minWidth="515.0" prefHeight="532.0" prefWidth="523.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.NewServerDialogController">
     <children>
         <GridPane layoutX="1.0" prefHeight="190.0" prefWidth="254.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <columnConstraints>
                 <ColumnConstraints halignment="LEFT" maxWidth="328.0" minWidth="126.0" prefWidth="148.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="62.0" prefWidth="191.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="94.0" prefWidth="157.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="94.0" prefWidth="172.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="24.0" prefWidth="32.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -36,32 +38,37 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Debug server port:" GridPane.rowIndex="5" />
-                <Label text="Server port offset:" GridPane.rowIndex="6" />
+                <Label text="Debug server port:" GridPane.rowIndex="6" />
+                <Label text="Server port offset:" GridPane.rowIndex="7" />
                 <Label text="Server Name:" />
                 <Label text="Server base dir:" GridPane.rowIndex="2" />
-                <Label text="Admin server port" GridPane.rowIndex="4" />
-                <Label prefHeight="51.0" prefWidth="345.0" text="Paths files to&#10; be deployed:" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="7" GridPane.rowSpan="2" />
+                <Label text="Admin server port" GridPane.rowIndex="5" />
+                <Label prefHeight="51.0" prefWidth="345.0" text="Paths files to&#10; be deployed:" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="8" GridPane.rowSpan="2" />
                 <TextField fx:id="serverName" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                 <TextField fx:id="srvDir" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                <TextField fx:id="adminPort" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-                <TextField fx:id="debugPort" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
-                <TextField fx:id="portOffset" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-                <TextField fx:id="deploFile1" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7" />
-                <TextField fx:id="deploFile2" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8" />
-                <AnchorPane prefHeight="1.0" prefWidth="156.0" GridPane.columnIndex="2" GridPane.rowIndex="12">
+                <TextField fx:id="adminPort" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                <TextField fx:id="debugPort" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                <TextField fx:id="portOffset" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+                <TextField fx:id="deploFile1" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+                <TextField fx:id="deploFile2" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                <AnchorPane prefHeight="1.0" prefWidth="156.0" GridPane.columnIndex="2" GridPane.rowIndex="13">
                     <children>
                         <Button fx:id="bSave" layoutX="28.0" layoutY="4.0" mnemonicParsing="false" onAction="#save" text="Save" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="5.0" />
-                        <Button fx:id="bCancel" layoutX="93.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                        <Button fx:id="bCancel" cancelButton="true" layoutX="93.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
                     </children>
                 </AnchorPane>
                 <Label text="Standalone file path:" GridPane.rowIndex="3" />
                 <TextField fx:id="standalonePath" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                 <Label text="Server type:" GridPane.rowIndex="1" />
                 <ComboBox fx:id="serverType" onAction="#changedType" prefHeight="26.0" prefWidth="192.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Server arguments:" GridPane.rowIndex="9" />
-            <TextArea fx:id="arguments" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="10" GridPane.rowSpan="2" />
-            <CheckBox fx:id="enableCustomargs" mnemonicParsing="false" text="Enable custom arguments" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+            <Label text="Server arguments:" GridPane.rowIndex="10" />
+            <TextArea fx:id="arguments" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="11" GridPane.rowSpan="2" />
+            <CheckBox fx:id="enableCustomArgs" mnemonicParsing="false" text="Enable custom arguments" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+            <Label text="HTTP port" GridPane.rowIndex="4" />
+            <TextField fx:id="httpPort" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+            <Button fx:id="bSrvDir" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleSetSrvDir" prefHeight="26.0" prefWidth="26.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="bStandalone" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleSetStandalone" prefHeight="26.0" prefWidth="26.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Button fx:id="bPathDeploy" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleSetDeployPath" prefHeight="26.0" prefWidth="26.0" GridPane.columnIndex="3" GridPane.rowIndex="8" />
             </children>
             <opaqueInsets>
                 <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />

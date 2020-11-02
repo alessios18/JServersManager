@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Locale;
 
 /** @author alessio */
-public class OsCheck {
+public class OsUtils {
 	 // cached result of OS detection
 	 protected static OSType detectedOS;
 	 protected static String separator;
@@ -46,6 +46,10 @@ public class OsCheck {
 				userHome = System.getProperty("user.home");
 		  }
 		  return userHome;
+	 }
+
+	 public static File getUserHomeAsFile() {
+		  return new File(getUserHome());
 	 }
 
 	 /** types of Operating Systems */
