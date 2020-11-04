@@ -1,9 +1,6 @@
 package org.alessios18.jserversmanager.baseobjects;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
 
 import java.util.UUID;
@@ -21,6 +18,8 @@ public class Server {
 	 private final StringProperty portOffset;
 	 private final StringProperty httpPort;
 	 private final StringProperty configDir;
+	 private final BooleanProperty customArgs;
+	 private final StringProperty customArgsValue;
 	 private final ObjectProperty<String[]> filePathToDeploy;
 
 	 public Server() {
@@ -34,6 +33,8 @@ public class Server {
 		  portOffset = new SimpleStringProperty("");
 		  configDir = new SimpleStringProperty("");
 		  httpPort = new SimpleStringProperty("");
+		  customArgs = new SimpleBooleanProperty(false);
+		  customArgsValue = new SimpleStringProperty();
 		  filePathToDeploy = new SimpleObjectProperty<String[]>(null);
 	 }
 
@@ -129,6 +130,22 @@ public class Server {
 		  this.configDir.set(configDir);
 	 }
 
+	 public boolean isCustomArgs() {
+		  return customArgs.get();
+	 }
+
+	 public void setCustomArgs(boolean isCustomArgs) {
+		  customArgs.set(isCustomArgs);
+	 }
+
+	 public String getCustomArgsValue() {
+		  return customArgsValue.getValue();
+	 }
+
+	 public void setCustomArgsValue(String customArgs) {
+	 	 this.customArgsValue.setValue(customArgs);
+	 }
+
 	 public Server getCloneObject() {
 		  Server clone = new Server();
 		  clone.serverID.setValue("CLONE-" + this.serverID.getValue());
@@ -142,6 +159,8 @@ public class Server {
 		  clone.httpPort.setValue(this.httpPort.getValue());
 		  clone.filePathToDeploy.setValue(this.filePathToDeploy.getValue());
 		  clone.configDir.setValue(this.configDir.getValue());
+		  clone.customArgs.setValue(this.customArgs.getValue());
+		  clone.customArgsValue.setValue(this.customArgsValue.getValue());
 		  return clone;
 	 }
 
@@ -156,5 +175,7 @@ public class Server {
 		  this.httpPort.setValue(clone.httpPort.getValue());
 		  this.configDir.setValue(clone.configDir.getValue());
 		  this.filePathToDeploy.setValue(clone.filePathToDeploy.getValue());
+		  this.customArgs.setValue(clone.customArgs.getValue());
+		  this.customArgsValue.setValue(clone.customArgsValue.getValue());
 	 }
 }

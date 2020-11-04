@@ -136,11 +136,13 @@ public class ServerViewController extends ControllerBase {
 					 ProcessBuilder pb = new ProcessBuilder("explorer.exe", "/select," + server.getServerPath());
 					 pb.redirectError();
 					 Process proc = pb.start();
+					 break;
 				}
 				case Linux: {
 					 ProcessBuilder pb = new ProcessBuilder("xdg-open", server.getServerPath());
 					 pb.redirectError();
 					 Process proc = pb.start();
+					 break;
 				}
 		  }
 	 }

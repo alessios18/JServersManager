@@ -25,22 +25,22 @@
         </ImageView>
         <ImageView fx:id="playStop" fitHeight="26.0" fitWidth="26.0" layoutX="50.0" layoutY="46.0" onMouseClicked="#startStopServer" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="83.0">
             <image>
-                <Image url="@../../../../../JTasksLogger/src/main/resources/images/play_icon.png" />
+                <Image url="@../images/013-play.png" />
             </image>
         </ImageView>
         <ImageView fx:id="settings" fitHeight="26.0" fitWidth="26.0" layoutX="177.0" layoutY="48.0" onMouseClicked="#handleServerMod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
             <image>
-                <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
+                <Image url="@../images/020-menu.png" />
             </image>
         </ImageView>
         <ImageView fx:id="folder" fitHeight="26.0" fitWidth="26.0" layoutX="154.0" layoutY="47.0" onMouseClicked="#handleOpenServerFolder" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="31.0">
             <image>
-                <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
+                <Image url="@../images/028-folder.png" />
             </image>
         </ImageView>
         <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" layoutX="96.0" layoutY="49.0" onMouseClicked="#handleRestart" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
             <image>
-                <Image url="@../../../../../JTasksLogger/src/main/resources/images/icon_app.png" />
+                <Image url="@../images/015-refresh.png" />
             </image>
         </ImageView>
     </children>

@@ -33,6 +33,7 @@ public class JServersManagerApp {
 	 }
 
 	 public static void main(String[] args)  {
+		  Thread.currentThread().setContextClassLoader(JServersManagerApp.class.getClassLoader());
 	 	 try {
 			  JServersManagerUpdater updater = new JServersManagerUpdater();
 			  if (!updater.doUpgrade(args)) {
@@ -40,10 +41,7 @@ public class JServersManagerApp {
 					if (r != null) {
 						 if (updater.updateVersionConfirmDialog()) {
 							  updater.updateVersion();
-						 } else {
-							  startApplication();
 						 }
-
 					}
 			  }
 			  startApplication();

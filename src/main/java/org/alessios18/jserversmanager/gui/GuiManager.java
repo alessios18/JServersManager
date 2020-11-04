@@ -33,6 +33,7 @@ public class GuiManager extends Application {
 	 private MainWindowController controller;
 	 private HashMap<String, OutputAreaController> outputAreas = new HashMap<>();
 	 private ServerManagersContainer serverManagersContainer = new ServerManagersContainer();
+	 private Scene scene;
 
 	 public void startGUI() {
 		  launch("");
@@ -104,14 +105,14 @@ public class GuiManager extends Application {
 				dialogStage.setTitle("New Server");
 				dialogStage.initModality(Modality.WINDOW_MODAL);
 				dialogStage.initOwner(this.getPrimaryStage());
-				Scene scene = new Scene(page);
-				scene.getStylesheets().add
-						  (GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
+				scene = new Scene(page);
+				chooseDarkSide();
 				dialogStage.setScene(scene);
 
 				// Set the person into the controller.
 				NewServerDialogController controller = loader.getController();
 				controller.setDialogStage(dialogStage);
+				controller.setGuiManager(this);
 				controller.setServer(server);
 				// Show the dialog and wait until the user closes it
 				dialogStage.showAndWait();
@@ -121,6 +122,15 @@ public class GuiManager extends Application {
 				ExceptionDialog.showException(e);
 				return false;
 		  }
+	 }
+
+	 public void chooseDarkSide(){
+		  scene.getStylesheets().add
+					 (GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
+	 }
+
+	 public void chooseWhiteSide(){
+		  this.setUserAgentStylesheet(null);
 	 }
 
 	 public HashMap<String, OutputAreaController> getOutputAreas() {

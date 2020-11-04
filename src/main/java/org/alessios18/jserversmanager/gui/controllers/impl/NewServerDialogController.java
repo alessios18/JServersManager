@@ -1,5 +1,7 @@
 package org.alessios18.jserversmanager.gui.controllers.impl;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -76,7 +78,23 @@ public class NewServerDialogController extends ControllerBase {
 		  bStandalone.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bPathDeploy.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bConfigDir.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
+		  enableCustomArgs.selectedProperty().addListener(new ChangeListener<Boolean>() {
+				public void changed(ObservableValue<? extends Boolean> ov,
+										  Boolean oldValue, Boolean newValue) {
+					clone.setCustomArgs(newValue);
+					isCustomArgsEnable(newValue);
+				}
+		  });
 		  setPageListener();
+	 }
+
+	 private void isCustomArgsEnable(boolean isCustom){
+		  configDir.setDisable(isCustom);
+		  adminPort.setDisable(isCustom);
+		  debugPort.setDisable(isCustom);
+		  portOffset.setDisable(isCustom);
+		  httpPort.setDisable(isCustom);
+		  arguments.setEditable(isCustom);
 	 }
 
 	 private void setPageListener() {
@@ -162,6 +180,11 @@ public class NewServerDialogController extends ControllerBase {
 				files[1] = deploFile2.getText();
 				clone.setFilePathToDeploy(files);
 				clone.setConfigDir(configDir.getText());
+				if(clone.isCustomArgs()){
+					 clone.setCustomArgsValue(arguments.getText());
+				}else{
+					 clone.setCustomArgsValue(null);
+				}
 				okClicked = true;
 				dialogStage.close();
 				server.setFromClone(clone);
@@ -196,9 +219,7 @@ public class NewServerDialogController extends ControllerBase {
 				alert.setTitle("Invalid Data");
 				alert.setHeaderText("Please correct invalid field");
 				alert.setContentText(errorMessage);
-
 				alert.showAndWait();
-
 				return false;
 		  }
 	 }
@@ -222,6 +243,10 @@ public class NewServerDialogController extends ControllerBase {
 		  }
 		  if (clone.getServerType() != null) {
 				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+		  }
+		  enableCustomArgs.setSelected(server.isCustomArgs());
+		  if(server.getCustomArgsValue() != null && !server.getCustomArgsValue().isEmpty()) {
+				arguments.setText(server.getCustomArgsValue());
 		  }
 	 }
 

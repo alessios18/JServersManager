@@ -83,6 +83,19 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 	 }
 
 	 @Override
+	 public String[] getServerCustomArguments(){
+		  ArrayList<String> commandsList = new ArrayList<>();
+		  if (OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Windows)) {
+				commandsList.add(CMD);
+				commandsList.add(CMD_C);
+		  }
+		  commandsList.add(SERVER_EXEC_COMMAND);
+		  for(String c:super.getServerCustomArguments()){
+		  	 commandsList.add(c);
+		  }
+		  return commandsList.toArray(new String[0]);
+	 }
+	 @Override
 	 public String getServerDeployDir() {
 		  return getServer().getServerPath().endsWith(OsUtils.getSeparator()) ? getServer().getServerPath() + SERVER_DEPLOY_DIR : getServer().getServerPath() + OsUtils.getSeparator() + SERVER_DEPLOY_DIR;
 	 }

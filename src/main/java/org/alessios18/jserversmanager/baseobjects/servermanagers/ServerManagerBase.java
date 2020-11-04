@@ -54,7 +54,8 @@ public abstract class ServerManagerBase {
 		  doUnDeploy();
 		  copyStandaloneFile();
 		  doDeploy();
-		  processManager.executeParallelProcess(getServerStartCommand(), this.getServerBinPath(), writer, false);
+		  String commands[] = server.isCustomArgs()?getServerCustomArguments():getServerStartCommand();
+		  processManager.executeParallelProcess(commands, this.getServerBinPath(), writer, false);
 		  isServerRunning = true;
 	 }
 
@@ -67,6 +68,11 @@ public abstract class ServerManagerBase {
 	 abstract public String getServerConfigDir();
 
 	 abstract public void doDeploy() throws IOException;
+
+	 public String[] getServerCustomArguments(){
+	 	 String custom = server.getCustomArgsValue();
+	 	 return custom.trim().split(" +");
+	 }
 
 	 public void doUnDeploy() throws IOException {
 		  File deployDir = new File(getServerDeployDir());

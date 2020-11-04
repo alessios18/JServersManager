@@ -103,4 +103,7 @@ public class Version implements Comparable<Version> {
 	 public boolean isGreaterThen(Version that) {
 		  return this.compareTo(that) > 0;
 	 }
+	 public boolean isMinorThen(Version that) {
+		  return this.compareTo(that) < 0;
+	 }
 }

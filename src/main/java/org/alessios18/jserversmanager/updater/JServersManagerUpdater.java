@@ -76,7 +76,7 @@ public class JServersManagerUpdater {
 						  File newJar = new File(oldJar.getParentFile().getAbsolutePath() + OsUtils.getSeparator() + runningJar.getName());
 						  FileUtils.copyFile(runningJar, newJar);
 						  boolean result = oldJar.delete();
-						  logger.debug("Jar copied to:"+newJar.getAbsolutePath()+" and old jar is delited wit result:"+result);
+						  logger.debug("Jar copied to:"+newJar.getAbsolutePath()+" and old jar is deleted with result:"+result);
 						  logger.debug("Starting the new Version");
 						  startUpdatedJar(oldJar.getParentFile().getAbsolutePath(), newJar.getName());
 					 }else{
@@ -96,7 +96,7 @@ public class JServersManagerUpdater {
 					 continue;
 				} else {
 					 Version v = new Version(r.getTagName(),r.getPrerelease());
-					 if (!maxVersion.isGreaterThen(v)) {
+					 if (maxVersion.isMinorThen(v)) {
 						  available = r;
 						  maxVersion = v;
 					 }
