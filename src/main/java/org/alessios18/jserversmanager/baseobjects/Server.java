@@ -20,6 +20,7 @@ public class Server {
 	 private final StringProperty debugPort;
 	 private final StringProperty portOffset;
 	 private final StringProperty httpPort;
+	 private final StringProperty configDir;
 	 private final ObjectProperty<String[]> filePathToDeploy;
 
 	 public Server() {
@@ -31,6 +32,7 @@ public class Server {
 		  adminPort = new SimpleStringProperty("");
 		  debugPort = new SimpleStringProperty("");
 		  portOffset = new SimpleStringProperty("");
+		  configDir = new SimpleStringProperty("");
 		  httpPort = new SimpleStringProperty("");
 		  filePathToDeploy = new SimpleObjectProperty<String[]>(null);
 	 }
@@ -115,6 +117,18 @@ public class Server {
 		  this.filePathToDeploy.setValue(filePathToDeploy);
 	 }
 
+	 public String getConfigDir() {
+		  return configDir.get();
+	 }
+
+	 public StringProperty configDirProperty() {
+		  return configDir;
+	 }
+
+	 public void setConfigDir(String configDir) {
+		  this.configDir.set(configDir);
+	 }
+
 	 public Server getCloneObject() {
 		  Server clone = new Server();
 		  clone.serverID.setValue("CLONE-" + this.serverID.getValue());
@@ -127,6 +141,7 @@ public class Server {
 		  clone.portOffset.setValue(this.portOffset.getValue());
 		  clone.httpPort.setValue(this.httpPort.getValue());
 		  clone.filePathToDeploy.setValue(this.filePathToDeploy.getValue());
+		  clone.configDir.setValue(this.configDir.getValue());
 		  return clone;
 	 }
 
@@ -139,6 +154,7 @@ public class Server {
 		  this.debugPort.setValue(clone.debugPort.getValue());
 		  this.portOffset.setValue(clone.portOffset.getValue());
 		  this.httpPort.setValue(clone.httpPort.getValue());
+		  this.configDir.setValue(clone.configDir.getValue());
 		  this.filePathToDeploy.setValue(clone.filePathToDeploy.getValue());
 	 }
 }

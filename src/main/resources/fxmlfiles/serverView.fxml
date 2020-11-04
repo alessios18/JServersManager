@@ -38,7 +38,7 @@
                 <Image url="@../../../../../JTasksLogger/src/main/resources/images/pause_icon.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" layoutX="96.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
+        <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" layoutX="96.0" layoutY="49.0" onMouseClicked="#handleRestart" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
             <image>
                 <Image url="@../../../../../JTasksLogger/src/main/resources/images/icon_app.png" />
             </image>

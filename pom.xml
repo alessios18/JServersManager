@@ -178,7 +178,7 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>org.alessios18.jserversmanager.App</mainClass>
+                                <mainClass>org.alessios18.jserversmanager.JServersManagerApp</mainClass>
                             </manifest>
                         </archive>
                         <descriptorRefs>

@@ -5,22 +5,22 @@ package org.alessios18.jserversmanager.baseobjects;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import org.alessios18.jserversmanager.JServersManagerApp;
 import org.alessios18.jserversmanager.datamodel.wrapper.ServersDataWrapper;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 import org.alessios18.jserversmanager.util.OsUtils;
+import org.apache.logging.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /** @author alessio */
 public class DataStorage {
+	 private static final Logger logger = JServersManagerApp.getLogger();
 	 public static final String JSERVERSMANAGER_FOLDER = ".JServersManager";
 	 public static final String LIB_FOLDER = "lib";
 	 private static final String SERVERS = "servers.xml";
@@ -28,7 +28,6 @@ public class DataStorage {
 	 private static File servers;
 
 	 private static DataStorage dataStorage = null;
-	 private static String rootPath = null;
 
 	 private DataStorage() throws UnsupportedOperatingSystemException, IOException {
 		  checkFiles();
@@ -42,7 +41,7 @@ public class DataStorage {
 	 }
 
 	 public void checkFiles() throws UnsupportedOperatingSystemException, IOException {
-		  rootPath = getRootPath();
+		  String rootPath = getRootPath();
 		  if (rootPath != null) {
 				File root = new File(rootPath);
 				if (!root.exists()) {
@@ -116,6 +115,11 @@ public class DataStorage {
 				m.marshal(c, getConfigFile());
 		  } catch (JAXBException e) {
 				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				String exceptionText = sw.toString();
+				logger.error(exceptionText);
 		  }
 	 }
 
@@ -156,6 +160,11 @@ public class DataStorage {
 				alert.setContentText("Could not save data to file:\n" + getServersFile().getPath());
 				alert.showAndWait();
 				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				String exceptionText = sw.toString();
+				logger.error(exceptionText);
 		  }
 	 }
 

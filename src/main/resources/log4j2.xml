@@ -3,7 +3,7 @@
                packages="org.apache.logging.log4j.test">
     <Properties>
         <Property name="file.dir">${sys:user.home}/.JServersManager</Property>
-        <Property name="filename">${file.dir}/test.log</Property>
+        <Property name="filename">${file.dir}/JServersManager.log</Property>
     </Properties>
     <Filter type="ThresholdFilter" level="trace"/>
 
@@ -32,12 +32,9 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="org.alessios18.jserversmanager.App" level="debug" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-
-        <Logger name="org.alessios18.jserversmanager.App" level="trace" additivity="false">
+        <Logger name="org.alessios18.jserversmanager.JServersManagerApp" level="debug" additivity="false">
             <AppenderRef ref="File"/>
+            <AppenderRef ref="STDOUT"/>
         </Logger>
 
         <Root level="trace">

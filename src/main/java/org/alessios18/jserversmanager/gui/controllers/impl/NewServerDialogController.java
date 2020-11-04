@@ -7,7 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
-import org.alessios18.jserversmanager.baseobjects.factory.ServerManagerFactory;
+import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerBase;
+import org.alessios18.jserversmanager.baseobjects.servermanagers.factory.ServerManagerFactory;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
 import org.alessios18.jserversmanager.gui.util.ImagesLoader;
@@ -23,6 +24,8 @@ public class NewServerDialogController extends ControllerBase {
 	 private TextField srvDir;
 	 @FXML
 	 private TextField standalonePath;
+	 @FXML
+	 private TextField configDir;
 	 @FXML
 	 private TextField adminPort;
 	 @FXML
@@ -45,6 +48,8 @@ public class NewServerDialogController extends ControllerBase {
 	 private Button bStandalone;
 	 @FXML
 	 private Button bPathDeploy;
+	 @FXML
+	 private Button bConfigDir;
 
 	 private Server server;
 	 private Server clone;
@@ -70,26 +75,52 @@ public class NewServerDialogController extends ControllerBase {
 		  bSrvDir.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bStandalone.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bPathDeploy.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
-
+		  bConfigDir.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  setPageListener();
 	 }
 
 	 private void setPageListener() {
 		  debugPort.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setDebugPort(newValue);
-				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
+				if(manager != null) {
+					 arguments.setText(manager.getServerParameters());
+				}
 		  });
 		  httpPort.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setHttpPort(newValue);
-				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
+				if(manager != null) {
+					 arguments.setText(manager.getServerParameters());
+				}
 		  });
 		  portOffset.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setPortOffset(newValue);
-				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
+				if(manager != null) {
+					 arguments.setText(manager.getServerParameters());
+				}
 		  });
 		  adminPort.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setAdminPort(newValue);
-				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
+				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
+				if(manager != null) {
+					 arguments.setText(manager.getServerParameters());
+				}
+		  });
+		  srvDir.textProperty().addListener((observable, oldValue, newValue) -> {
+				clone.setServerPath(newValue);
+				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
+				if(manager != null) {
+					 arguments.setText(manager.getServerParameters());
+				}
+		  });
+		  configDir.textProperty().addListener((observable, oldValue, newValue) -> {
+				clone.setConfigDir(newValue);
+				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
+				if(manager != null) {
+					 arguments.setText(manager.getServerParameters());
+				}
 		  });
 	 }
 
@@ -130,6 +161,7 @@ public class NewServerDialogController extends ControllerBase {
 				files[0] = deploFile1.getText();
 				files[1] = deploFile2.getText();
 				clone.setFilePathToDeploy(files);
+				clone.setConfigDir(configDir.getText());
 				okClicked = true;
 				dialogStage.close();
 				server.setFromClone(clone);
@@ -182,6 +214,7 @@ public class NewServerDialogController extends ControllerBase {
 		  debugPort.setText(clone.getDebugPort());
 		  portOffset.setText(clone.getPortOffset());
 		  httpPort.setText(clone.getHttpPort());
+		  configDir.setText(clone.getConfigDir());
 		  // TODO make this dynamic
 		  if (clone.getFilePathToDeploy() != null) {
 				deploFile1.setText(clone.getFilePathToDeploy()[0]);
@@ -211,8 +244,14 @@ public class NewServerDialogController extends ControllerBase {
 	 }
 
 	 @FXML
+	 private void handleSetConfigDir(){
+		  JSMFileChooser dc = new JSMFileChooser(configDir);
+		  dc.show("Choose the server config directory", this.dialogStage, JSMFileChooser.SelectionType.DIRECTORY);
+	 }
+
+	 @FXML
 	 private void handleSetDeployPath() {
-		  JSMFileChooser dc = new JSMFileChooser(standalonePath);
+		  JSMFileChooser dc = new JSMFileChooser(deploFile1);
 		  dc.show("Choose the file or directory to be deployed", this.dialogStage, JSMFileChooser.SelectionType.FILE_AND_DIRECTORY);
 	 }
 

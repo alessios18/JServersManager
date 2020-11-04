@@ -1,6 +1,6 @@
 package org.alessios18.jserversmanager.baseobjects;
 
-import org.alessios18.jserversmanager.App;
+import org.alessios18.jserversmanager.JServersManagerApp;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -11,13 +11,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
 public class ParallelizedProcess implements Callable<Void> {
-	 private static final Logger logger = App.getLogger();
+	 private static final Logger logger = JServersManagerApp.getLogger();
 	 private final ProcessBuilder processBuilder;
 	 private final BufferedWriter writer;
 	 private final ProcessManager processManager;
 	 private final String processId;
 	 private final boolean waitEnd;
-	 private Process process;
 	 private boolean isRunning = false;
 	 private BufferedReader stdInput;
 	 private BufferedReader stdError;
@@ -49,7 +48,7 @@ public class ParallelizedProcess implements Callable<Void> {
 	 @Override
 	 public Void call() throws Exception {
 		  isRunning = true;
-		  process = processBuilder.start();
+		  Process process = processBuilder.start();
 		  logger.debug("[" + processId + "] is started");
 		  processManager.addProcess(this.processId, process);
 		  if (waitEnd) {

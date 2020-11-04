@@ -11,7 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import org.alessios18.jserversmanager.App;
+import org.alessios18.jserversmanager.JServersManagerApp;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
@@ -24,6 +24,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 
+@SuppressWarnings("unchecked")
 public class MainWindowController extends ControllerBase {
 	 protected static final String FXML_FILE_NAME = "MainWindow.fxml";
 
@@ -49,8 +50,10 @@ public class MainWindowController extends ControllerBase {
 				public void changed(ObservableValue<? extends Server> observable, Server oldValue, Server newValue) {
 					 // Your action here
 					 try {
-						  changeOutputPanel(newValue.getServerID());
-					 } catch (IOException e) {
+					 	 if(newValue != null) {
+							  changeOutputPanel(newValue.getServerID());
+						 }
+					 } catch (Exception e) {
 						  ExceptionDialog.showException(e);
 					 }
 				}
@@ -73,6 +76,7 @@ public class MainWindowController extends ControllerBase {
 
 		  Hyperlink gitHubLink = new Hyperlink();
 		  gitHubLink.setText("https://github.com/alessios18");
+		  //noinspection unchecked
 		  gitHubLink.setOnAction(new OpenWebPageListener(guiManager, gitHubLink));
 		  Hyperlink iconsLink = new Hyperlink();
 		  iconsLink.setText("https://www.flaticon.com/authors/freepik");
@@ -85,7 +89,7 @@ public class MainWindowController extends ControllerBase {
 		  iconSiteLink.setOnAction(new OpenWebPageListener(guiManager, iconSiteLink));
 
 		  TextFlow textFlow = new TextFlow(
-					 new Text("JServersManager version:" + App.getCurrentVersion() + "\nAuthor: Alessio Segantin\nProject repository: "),
+					 new Text("JServersManager version:" + JServersManagerApp.getCurrentVersion() + "\nAuthor: Alessio Segantin\nProject repository: "),
 					 repo,
 					 new Text("\nWebsite: "),
 					 gitHubLink,

@@ -1,6 +1,6 @@
 package org.alessios18.jserversmanager.baseobjects;
 
-import org.alessios18.jserversmanager.App;
+import org.alessios18.jserversmanager.JServersManagerApp;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -18,9 +18,8 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class ProcessManager {
-	 private static final Logger logger = App.getLogger();
+	 private static final Logger logger = JServersManagerApp.getLogger();
 
-	 private final Runtime rt;
 	 private final HashMap<String, Process> processesContainer = new HashMap<>();
 	 private final ArrayList<Future<Void>> futureList = new ArrayList<>();
 	 private final ExecutorService executor = Executors.newCachedThreadPool();
@@ -28,14 +27,17 @@ public class ProcessManager {
 	 private BufferedReader stdError;
 
 	 public ProcessManager() {
-		  rt = Runtime.getRuntime();
+		  Runtime rt = Runtime.getRuntime();
 	 }
 
 	 public void forceQuit() throws InterruptedException {
 
-		  for (Process p : getProcesses().values()) {
+		  for (String id : getProcesses().keySet()) {
+		  	 Process p = getProcesses().get(id);
+				logger.debug("["+id+"] force kill:STARTED");
 				ProcessHandle processHandle = p.toHandle();
-				KillProcessAndchildren(processHandle);
+				KillProcessAndChildren(processHandle);
+				logger.debug("["+id+"] force kill:DONE");
 				/*if (p != null) {
 					 p.destroyForcibly();
 					 p.waitFor();
@@ -46,12 +48,12 @@ public class ProcessManager {
 		  }
 	 }
 
-	 private void KillProcessAndchildren(ProcessHandle processHandle) {
+	 private void KillProcessAndChildren(ProcessHandle processHandle) {
 		  Stream<ProcessHandle> children = processHandle.children();
 		  children.forEach(new Consumer<ProcessHandle>() {
 				@Override
 				public void accept(ProcessHandle processHandle) {
-					 KillProcessAndchildren(processHandle);
+					 KillProcessAndChildren(processHandle);
 					 processHandle.destroyForcibly();
 				}
 		  });
@@ -73,7 +75,13 @@ public class ProcessManager {
 					 pb.wait();
 					 System.out.println("waiting...");
 					 if (processesContainer.get(processId).isAlive()) {
-						  processesContainer.get(processId).waitFor();
+					 	 int result = processesContainer.get(processId).waitFor();
+						  if( result == 0){
+								logger.debug("["+processId+"] Stop Server:DONE");
+						  }else{
+								logger.error("["+processId+"] Stop Server:ERROR");
+								this.forceQuit();
+						  }
 					 }
 				}
 		  }

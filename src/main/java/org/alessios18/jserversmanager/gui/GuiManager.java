@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.baseobjects.Server;
-import org.alessios18.jserversmanager.baseobjects.ServerManagersContainer;
+import org.alessios18.jserversmanager.baseobjects.servermanagers.container.ServerManagersContainer;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.controllers.impl.MainWindowController;
 import org.alessios18.jserversmanager.gui.controllers.impl.NewServerDialogController;
@@ -30,7 +30,6 @@ public class GuiManager extends Application {
 	 public static final String FXML_FILE_PATH = "/fxmlfiles/";
 	 private final ObservableList<Server> servers = FXCollections.observableArrayList();
 	 private Stage primaryStage;
-	 private VBox rootLayout;
 	 private MainWindowController controller;
 	 private HashMap<String, OutputAreaController> outputAreas = new HashMap<>();
 	 private ServerManagersContainer serverManagersContainer = new ServerManagersContainer();
@@ -52,7 +51,7 @@ public class GuiManager extends Application {
 				// Load root layout from fxml file.
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(GuiManager.class.getResource(MainWindowController.getFXMLFileFullPath()));
-				rootLayout = loader.load();
+				VBox rootLayout = loader.load();
 
 				// Show the scene containing the root layout.
 				Scene scene = new Scene(rootLayout);

@@ -12,15 +12,17 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Properties;
 
 /**
  * Hello world!
  */
-public class App {
-	 private static final Logger logger = LogManager.getLogger(App.class);
+public class JServersManagerApp {
+	 private static final Logger logger = LogManager.getLogger(JServersManagerApp.class);
 
-	 public App() {
+	 public JServersManagerApp() {
 		  try {
 				DataStorage.getInstance().checkFiles();
 		  } catch (UnsupportedOperatingSystemException e) {
@@ -30,20 +32,29 @@ public class App {
 		  }
 	 }
 
-	 public static void main(String[] args) throws Exception {
-		  JServersManagerUpdater updater = new JServersManagerUpdater();
-		  if (!updater.doUpgrade(args)) {
-				Release r = updater.checkForUpdates();
-				if (r != null) {
-					 if (updater.updateVersionConfirmDialog()) {
-						  updater.updateVersion();
-					 } else {
-						  startApplication();
-					 }
+	 public static void main(String[] args)  {
+	 	 try {
+			  JServersManagerUpdater updater = new JServersManagerUpdater();
+			  if (!updater.doUpgrade(args)) {
+					Release r = updater.checkForUpdates();
+					if (r != null) {
+						 if (updater.updateVersionConfirmDialog()) {
+							  updater.updateVersion();
+						 } else {
+							  startApplication();
+						 }
 
-				}
-		  }
-		  startApplication();
+					}
+			  }
+			  startApplication();
+		 }catch(Exception e){
+			  e.printStackTrace();
+			  StringWriter sw = new StringWriter();
+			  PrintWriter pw = new PrintWriter(sw);
+			  e.printStackTrace(pw);
+			  String exceptionText = sw.toString();
+			  logger.error(exceptionText);
+		 }
 	 }
 
 	 protected static void startApplication() {
@@ -53,7 +64,7 @@ public class App {
 
 	 public static String getCurrentVersion() throws IOException, XmlPullParserException {
 		  Properties prop = new Properties();
-		  prop.load(new InputStreamReader(App.class.getResourceAsStream("/config/config.properties")));
+		  prop.load(new InputStreamReader(JServersManagerApp.class.getResourceAsStream("/config/config.properties")));
 		  return prop.getProperty("project.version");
 	 }
 

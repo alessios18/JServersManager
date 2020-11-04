@@ -9,12 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import org.alessios18.jserversmanager.JServersManagerApp;
+import org.apache.logging.log4j.Logger;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /** @author alessio */
 public class ExceptionDialog {
+	 private static final Logger logger = JServersManagerApp.getLogger();
 
 	 private ExceptionDialog() {
 	 }
@@ -30,7 +33,7 @@ public class ExceptionDialog {
 		  PrintWriter pw = new PrintWriter(sw);
 		  ex.printStackTrace(pw);
 		  String exceptionText = sw.toString();
-
+		  logger.error(exceptionText);
 		  Label label = new Label("The exception stacktrace was:");
 
 		  TextArea textArea = new TextArea(exceptionText);
@@ -64,7 +67,7 @@ public class ExceptionDialog {
 		  PrintWriter pw = new PrintWriter(sw);
 		  ex.printStackTrace(pw);
 		  String exceptionText = sw.toString();
-
+		  logger.error(exceptionText);
 		  Label label = new Label("The exception stacktrace was:");
 
 		  TextArea textArea = new TextArea(exceptionText);

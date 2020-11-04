@@ -1,6 +1,8 @@
-package org.alessios18.jserversmanager.baseobjects;
+package org.alessios18.jserversmanager.baseobjects.servermanagers.container;
 
-import org.alessios18.jserversmanager.baseobjects.factory.ServerManagerFactory;
+import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.servermanagers.factory.ServerManagerFactory;
+import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerBase;
 
 import java.io.IOException;
 import java.util.HashMap;

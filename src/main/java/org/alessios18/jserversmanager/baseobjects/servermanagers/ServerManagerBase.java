@@ -1,4 +1,9 @@
-package org.alessios18.jserversmanager.baseobjects;
+package org.alessios18.jserversmanager.baseobjects.servermanagers;
+
+import org.alessios18.jserversmanager.JServersManagerApp;
+import org.alessios18.jserversmanager.baseobjects.ProcessManager;
+import org.alessios18.jserversmanager.baseobjects.Server;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,6 +13,8 @@ import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
 
 public abstract class ServerManagerBase {
+	 public static final Logger logger = JServersManagerApp.getLogger();
+
 	 private final ProcessManager processManager;
 	 private Server server;
 	 private BufferedWriter writer;
@@ -44,8 +51,8 @@ public abstract class ServerManagerBase {
 	 }
 
 	 public void startServer() throws Exception {
-		  copyStandaloneFile();
 		  doUnDeploy();
+		  copyStandaloneFile();
 		  doDeploy();
 		  processManager.executeParallelProcess(getServerStartCommand(), this.getServerBinPath(), writer, false);
 		  isServerRunning = true;
@@ -68,6 +75,7 @@ public abstract class ServerManagerBase {
 					 Files.delete(Paths.get(f.toURI()));
 				}
 		  }
+		  logger.debug("[" + getServer().getServerName() + "] Undeploy:DONE");
 	 }
 
 	 abstract public String getServerBinPath();
@@ -77,10 +85,18 @@ public abstract class ServerManagerBase {
 		  processManager.executeParallelProcess(getServerStopCommand(), this.getServerBinPath(), null, true);
 	 }
 
+	 public void restartServer() throws Exception {
+	 	 stopServer();
+	 	 startServer();
+	 }
+
 	 abstract void copyStandaloneFile() throws IOException;
 
 	 public String getPortWithOffset(String port) {
-		  return "" + (Integer.parseInt(port) + Integer.parseInt(server.getPortOffset()));
+	 	 if(port != null) {
+			  return "" + (Integer.parseInt(port) + Integer.parseInt((server.getPortOffset() != null && !server.getPortOffset().isEmpty() )? server.getPortOffset() : "0"));
+		 }
+	 	 return "0";
 	 }
 
 	 public void forceShutdown() throws InterruptedException {

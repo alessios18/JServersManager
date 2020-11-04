@@ -1,5 +1,6 @@
-package org.alessios18.jserversmanager.baseobjects;
+package org.alessios18.jserversmanager.baseobjects.servermanagers;
 
+import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.util.OsUtils;
 import org.apache.commons.io.FileUtils;
 
@@ -16,6 +17,7 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 	 protected static final String SERVER_START_DEBUG_PORT = "--debug";
 	 protected static final String SERVER_START_ADMIN_PORT = "-Djboss.management.http.port=";
 	 protected static final String SERVER_START_HTTP_PORT = "-Djboss.http.port=";
+	 protected static final String SERVER_START_CONFIG_DIR = "-Djboss.server.config.dir=";
 	 protected static final String SERVER_EXEC_COMMAND_LINUX = "./standalone.sh";
 	 protected static final String SERVER_EXEC_COMMAND_WIN = "standalone.bat";
 	 protected static final String SERVER_EXEC_COMMAND = OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Linux) ? SERVER_EXEC_COMMAND_LINUX : SERVER_EXEC_COMMAND_WIN;
@@ -60,6 +62,9 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  if (getServer().getHttpPort() != null && !getServer().getHttpPort().isEmpty()) {
 				commandsList.add(SERVER_START_HTTP_PORT + getServer().getHttpPort());
 		  }
+		  if(getServer().getConfigDir() != null && !getServer().getConfigDir().isEmpty()){
+				commandsList.add(SERVER_START_CONFIG_DIR + getServer().getConfigDir());
+		  }
 		  return commandsList.toArray(new String[0]);
 	 }
 
@@ -100,6 +105,7 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 					 }
 				}
 		  }
+		  logger.debug("[" + getServer().getServerName() + "] Deploy:DONE");
 	 }
 
 	 @Override
@@ -118,6 +124,7 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 					 FileUtils.copyFileToDirectory(config, srvConfig, true);
 				}
 		  }
+		  logger.debug("[" + getServer().getServerName() + "] Standalone file copy:DONE");
 	 }
 
 	 @Override

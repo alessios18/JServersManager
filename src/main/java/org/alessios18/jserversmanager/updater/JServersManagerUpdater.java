@@ -2,13 +2,15 @@ package org.alessios18.jserversmanager.updater;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.alessios18.jserversmanager.App;
+import org.alessios18.jserversmanager.JServersManagerApp;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.updater.baseobjects.Asset;
 import org.alessios18.jserversmanager.updater.baseobjects.Release;
+import org.alessios18.jserversmanager.updater.baseobjects.Version;
 import org.alessios18.jserversmanager.util.OsUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import javax.swing.*;
@@ -19,7 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class JServersManagerUpdater {
-
+	 private static final Logger logger = JServersManagerApp.getLogger();
 	 public static final String VERSION_SPECIFIER_ALPHA = "-alpha";
 	 public static final String VERSION_SPECIFIER_BETA = "-beta";
 	 public static final String VERSION_SPECIFIER_SNAPSHOT = "-SNAPSHOT";
@@ -27,7 +29,6 @@ public class JServersManagerUpdater {
 	 public static final String COMMAND_UPDATE = "update";
 	 protected static final String SERVICE_URL = " https://api.github.com/repos/alessios18/JServersManager/releases";
 	 protected static boolean bOnlyStable = false;
-	 private String currentVersion;
 	 private Release available;
 	 private final Gson gson = new Gson();
 
@@ -43,13 +44,17 @@ public class JServersManagerUpdater {
 								"java", "-jar", jarFileName, COMMAND_UPDATE, oldJarFilePAth};
 					 ProcessBuilder pb = new ProcessBuilder(commands);
 					 try {
+						  logger.debug("Calling new version for update: java -jar"+jarFileName+" "+COMMAND_UPDATE+" "+oldJarFilePAth);
 						  pb.directory(new File(DataStorage.getInstance().getLibPath()));
 						  Process p = pb.start();
-						  //p.waitFor();
-					 } catch (UnsupportedOperatingSystemException e) {
+						  logger.debug("Called new version for update: java -jar "+jarFileName+" "+COMMAND_UPDATE+" "+oldJarFilePAth);
+					 } catch (UnsupportedOperatingSystemException | IOException e) {
 						  e.printStackTrace();
-					 } catch (IOException e) {
-						  e.printStackTrace();
+						  StringWriter sw = new StringWriter();
+						  PrintWriter pw = new PrintWriter(sw);
+						  e.printStackTrace(pw);
+						  String exceptionText = sw.toString();
+						  logger.error(exceptionText);
 					 }
 				}
 		  });
@@ -58,18 +63,24 @@ public class JServersManagerUpdater {
 	 }
 
 	 public boolean doUpgrade(String[] args) throws IOException {
-		  File runningJar = new java.io.File(App.class.getProtectionDomain()
+	 	 logger.debug("Started upgrade...");
+		  File runningJar = new java.io.File(JServersManagerApp.class.getProtectionDomain()
 					 .getCodeSource()
 					 .getLocation()
 					 .getPath());
 		  if (args != null && args.length > 0) {
 				if (args[0].equals(COMMAND_UPDATE)) {
 					 File oldJar = new File(args[1]);
+					 logger.debug("Checking old jar");
 					 if (oldJar.exists()) {
-						  FileUtils.copyFile(runningJar, oldJar);
-						  File newName = new File(oldJar.getParentFile().getAbsolutePath() + OsUtils.getSeparator() + runningJar.getName());
-						  oldJar.renameTo(newName);
-						  startUpdatedJar(oldJar.getParentFile().getAbsolutePath(), newName.getName());
+						  File newJar = new File(oldJar.getParentFile().getAbsolutePath() + OsUtils.getSeparator() + runningJar.getName());
+						  FileUtils.copyFile(runningJar, newJar);
+						  boolean result = oldJar.delete();
+						  logger.debug("Jar copied to:"+newJar.getAbsolutePath()+" and old jar is delited wit result:"+result);
+						  logger.debug("Starting the new Version");
+						  startUpdatedJar(oldJar.getParentFile().getAbsolutePath(), newJar.getName());
+					 }else{
+						  logger.debug("Jar "+oldJar.getAbsolutePath()+" not exist");
 					 }
 				}
 		  }
@@ -78,19 +89,20 @@ public class JServersManagerUpdater {
 
 	 public Release checkForUpdates() throws IOException, XmlPullParserException {
 		  ArrayList<Release> releases = getReleases();
-		  currentVersion = App.getCurrentVersion();
-		  boolean currentIsStable = isStable(currentVersion);
-		  String maxVersion = cleanVersionName(currentVersion);
+		  Version currentVersion = new Version(JServersManagerApp.getCurrentVersion());
+		  Version maxVersion = currentVersion;
 		  for (Release r : releases) {
 				if (bOnlyStable && r.getPrerelease() && !isPresentJarInVersion(r)) {
 					 continue;
 				} else {
-					 if (versionIsGreater(maxVersion, r) || areEqualsButOneIsStableVersion(currentIsStable, maxVersion, available, r)) {
+					 Version v = new Version(r.getTagName(),r.getPrerelease());
+					 if (!maxVersion.isGreaterThen(v)) {
 						  available = r;
-						  maxVersion = cleanVersionName(r.getTagName());
+						  maxVersion = v;
 					 }
 				}
 		  }
+		  logger.debug("Found new version "+ maxVersion.getFullName());
 		  return available;
 	 }
 
@@ -114,7 +126,7 @@ public class JServersManagerUpdater {
 
 	 public void updateVersion() throws Exception {
 		  Asset jar = downloadNewVersion();
-		  String jarFilePath = new java.io.File(App.class.getProtectionDomain()
+		  String jarFilePath = new java.io.File(JServersManagerApp.class.getProtectionDomain()
 					 .getCodeSource()
 					 .getLocation()
 					 .getPath())
@@ -136,7 +148,7 @@ public class JServersManagerUpdater {
 				}
 				in.close();
 				fileOutputStream.close();
-				App.getLogger().debug("downloaded jar: " + jar.getName());
+				logger.debug("downloaded jar: " + jar.getName());
 		  }
 		  return jar;
 	 }
@@ -148,7 +160,7 @@ public class JServersManagerUpdater {
 	 }
 
 	 protected boolean versionIsGreater(String maxVersion, Release r) {
-		  return maxVersion.compareTo(cleanVersionName(r.getTagName())) < 0;
+		  return maxVersion.compareTo(cleanVersionName(r.getTagName())) > 0;
 	 }
 
 	 public String cleanVersionName(String version) {
@@ -170,7 +182,7 @@ public class JServersManagerUpdater {
 		  conn.setRequestMethod("GET");
 		  conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
 		  if (conn.getResponseCode() != 200) {
-				App.getLogger().error("Failed : HTTP error code : " + conn.getResponseCode());
+				JServersManagerApp.getLogger().error("Failed : HTTP error code : " + conn.getResponseCode());
 				return null;
 		  }
 		  String json = getServiceResponse(conn);
@@ -204,6 +216,11 @@ public class JServersManagerUpdater {
 						  //p.waitFor();
 					 } catch (IOException e) {
 						  e.printStackTrace();
+						  StringWriter sw = new StringWriter();
+						  PrintWriter pw = new PrintWriter(sw);
+						  e.printStackTrace(pw);
+						  String exceptionText = sw.toString();
+						  logger.error(exceptionText);
 					 }
 				}
 		  });
