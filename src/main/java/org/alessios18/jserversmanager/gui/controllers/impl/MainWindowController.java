@@ -115,7 +115,7 @@ public class MainWindowController extends ControllerBase {
 
 					 DataStorage.getInstance().saveServerToFile(getGuiManager().getServers());
 
-				} catch (UnsupportedOperatingSystemException | IOException e) {
+				} catch (UnsupportedOperatingSystemException e) {
 					 ExceptionDialog.showException(e);
 				}
 		  }

@@ -43,4 +43,9 @@ public class ServerManagerGrunt extends ServerManagerBase{
 	 void copyStandaloneFile() throws IOException {
 
 	 }
+
+	 @Override
+	 void copyConfigFiles() throws IOException {
+
+	 }
 }

@@ -136,11 +136,9 @@ public class JServersManagerUpdater {
 
 	 public Asset downloadNewVersion() throws IOException, UnsupportedOperatingSystemException {
 		  Asset jar = getJarAsset(available);
-		  if (!new File(DataStorage.getInstance().getLibPath()
-					 + OsUtils.getSeparator() + jar.getName()).exists()) {
+		  if (!new File(DataStorage.getInstance().getLibPath()+ jar.getName()).exists()) {
 				BufferedInputStream in = new BufferedInputStream(new URL(jar.getBrowserDownloadUrl()).openStream());
-				FileOutputStream fileOutputStream = new FileOutputStream(DataStorage.getInstance().getLibPath()
-						  + OsUtils.getSeparator() + jar.getName());
+				FileOutputStream fileOutputStream = new FileOutputStream(DataStorage.getInstance().getLibPath() + jar.getName());
 				byte[] dataBuffer = new byte[1024];
 				int bytesRead;
 				while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {

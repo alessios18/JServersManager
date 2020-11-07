@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package org.alessios18.jserversmanager.baseobjects;
 
 import javafx.collections.ObservableList;
@@ -18,94 +16,101 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /** @author alessio */
 public class DataStorage {
 	 private static final Logger logger = JServersManagerApp.getLogger();
 	 public static final String JSERVERSMANAGER_FOLDER = ".JServersManager";
 	 public static final String LIB_FOLDER = "lib";
+	 public static final String CONFIG_FOLDER = "config";
+	 public static final String DATA_FOLDER = "data";
+	 public static final String LOGS_FOLDER = "logs";
 	 private static final String SERVERS = "servers.xml";
 	 private static final String CONFIGURATION = "jsm-config.xml";
-	 private static File servers;
 
 	 private static DataStorage dataStorage = null;
 
-	 private DataStorage() throws UnsupportedOperatingSystemException, IOException {
+	 String pattern = "yyyyMMdd_HHmmss";
+	 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+	 private DataStorage() throws UnsupportedOperatingSystemException{
 		  checkFiles();
 	 }
 
-	 public static DataStorage getInstance() throws UnsupportedOperatingSystemException, IOException {
+	 public static DataStorage getInstance() throws UnsupportedOperatingSystemException {
 		  if (dataStorage == null) {
 				dataStorage = new DataStorage();
 		  }
 		  return dataStorage;
 	 }
 
-	 public void checkFiles() throws UnsupportedOperatingSystemException, IOException {
+	 public void checkFiles() throws UnsupportedOperatingSystemException{
 		  String rootPath = getRootPath();
 		  if (rootPath != null) {
-				File root = new File(rootPath);
-				if (!root.exists()) {
-					 root.mkdirs();
-				}
-				File lib = new File(getLibPath());
-				if (!lib.exists()) {
-					 lib.mkdirs();
-				}
+		  	 	boolean results;
+				results = createMissingPath(rootPath);
+				results = (results && createMissingPath(getLibPath()));
+				results = (results && createMissingPath(getLogPath()));
+				results = (results && createMissingPath(getDataPath()));
+				results = (results && createMissingPath(getConfigPath()));
 				File config = getConfigFile();
 				if (!config.exists()) {
 					 saveConfig();
 				}
-		  } else {
-				throw new UnsupportedOperatingSystemException();
+				if(results) {
+					 return;
+				}
 		  }
+		  throw new UnsupportedOperatingSystemException();
+	 }
+
+	 protected boolean createMissingPath(String path) {
+		  File lib = new File(path);
+		  if (!lib.exists()) {
+				return lib.mkdirs();
+		  }
+		  return true;
 	 }
 
 	 public BufferedWriter getServerLogBufferedWriter(Server server) throws IOException {
-		  File serverLog = new File(getRootPath() + server.getServerName().replaceAll(" ", "_") + ".log");
+		  File serverLog = new File( getLogPath() + server.getServerName().replace(" ", "_")+"-"+simpleDateFormat.format(new Date()) + ".log");
 		  return new BufferedWriter(new FileWriter(serverLog));
 	 }
 
 	 protected String getRootPath() {
-		  String path = null;
-		  if (OsUtils.OSType.Linux.equals(OsUtils.getOperatingSystemType())) {
-				path =
-						  OsUtils.getUserHome()
-									 + OsUtils.getSeparator()
-									 + JSERVERSMANAGER_FOLDER
-									 + OsUtils.getSeparator();
-		  } else if (OsUtils.OSType.Windows.equals(OsUtils.getOperatingSystemType())) {
-				path =
-						  OsUtils.getUserHome()
-									 + OsUtils.getSeparator()
-									 + JSERVERSMANAGER_FOLDER
-									 + OsUtils.getSeparator();
-		  } else if (OsUtils.OSType.MacOS.equals(OsUtils.getOperatingSystemType())
-					 || OsUtils.OSType.Other.equals(OsUtils.getOperatingSystemType())) {
-				path =
-						  OsUtils.getUserHome()
-									 + OsUtils.getSeparator()
-									 + JSERVERSMANAGER_FOLDER
-									 + OsUtils.getSeparator();
-		  }
-		  return path;
+		  return OsUtils.getUserHome()
+					 + OsUtils.getSeparator()
+					 + JSERVERSMANAGER_FOLDER
+					 + OsUtils.getSeparator();
 	 }
 
 	 public String getLibPath() {
-		  return getRootPath() + LIB_FOLDER;
+		  return getRootPath() + LIB_FOLDER+ OsUtils.getSeparator();
+	 }
+	 public String getConfigPath() {
+		  return getRootPath() + CONFIG_FOLDER+ OsUtils.getSeparator();
+	 }
+
+	 public String getLogPath() {
+		  return getRootPath() + LOGS_FOLDER+ OsUtils.getSeparator();
+	 }
+	 public String getDataPath() {
+		  return getRootPath() + DATA_FOLDER+ OsUtils.getSeparator();
 	 }
 
 	 public File getServersFile() {
-		  return new File(getRootPath() + SERVERS);
+		  return new File(getDataPath() + SERVERS);
 	 }
 
 	 public File getConfigFile() {
-		  return new File(getRootPath() + CONFIGURATION);
+		  return new File(getConfigPath() + CONFIGURATION);
 	 }
 
 	 public void saveConfig() {
 		  JSMConfig c = new JSMConfig();
-		  JAXBContext context = null;
+		  JAXBContext context;
 		  try {
 				context = JAXBContext.newInstance(JSMConfig.class);
 
@@ -130,17 +135,11 @@ public class DataStorage {
 
 		  if (getConfigFile().exists()) {
 				// Reading XML from the file and unmarshalling.
-				JSMConfig config = (JSMConfig) um.unmarshal(getConfigFile());
-				return config;
+				return (JSMConfig) um.unmarshal(getConfigFile());
 		  }
 		  return null;
 	 }
 
-	 /**
-	  * Saves the current servers data to the specified file.
-	  *
-	  * @param servers
-	  */
 	 public void saveServerToFile(ObservableList<Server> servers) {
 		  try {
 				JAXBContext context = JAXBContext.newInstance(ServersDataWrapper.class);
@@ -168,12 +167,6 @@ public class DataStorage {
 				logger.error(exceptionText);
 		  }
 	 }
-
-	 /**
-	  * Loads servers data from the specified file. The current person data will be replaced.
-	  *
-	  * @param servers
-	  */
 	 public void loadServersDataFromFile(ObservableList<Server> servers) {
 		  try {
 				ServersDataWrapper wrapper = loadServers();
@@ -194,8 +187,7 @@ public class DataStorage {
 
 		  if (getServersFile().exists()) {
 				// Reading XML from the file and unmarshalling.
-				ServersDataWrapper wrapper = (ServersDataWrapper) um.unmarshal(getServersFile());
-				return wrapper;
+				return (ServersDataWrapper) um.unmarshal(getServersFile());
 		  }
 		  return null;
 	 }

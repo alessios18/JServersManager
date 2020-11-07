@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -23,25 +24,41 @@
                 <Image url="@../images/blink-off.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="playStop" fitHeight="26.0" fitWidth="26.0" layoutX="50.0" layoutY="46.0" onMouseClicked="#startStopServer" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="83.0">
-            <image>
-                <Image url="@../images/013-play.png" />
-            </image>
-        </ImageView>
-        <ImageView fx:id="settings" fitHeight="26.0" fitWidth="26.0" layoutX="177.0" layoutY="48.0" onMouseClicked="#handleServerMod" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
-            <image>
-                <Image url="@../images/020-menu.png" />
-            </image>
-        </ImageView>
-        <ImageView fx:id="folder" fitHeight="26.0" fitWidth="26.0" layoutX="154.0" layoutY="47.0" onMouseClicked="#handleOpenServerFolder" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="31.0">
-            <image>
-                <Image url="@../images/028-folder.png" />
-            </image>
-        </ImageView>
-        <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" layoutX="96.0" layoutY="49.0" onMouseClicked="#handleRestart" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
-            <image>
-                <Image url="@../images/015-refresh.png" />
-            </image>
-        </ImageView>
+      <Button layoutX="142.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleServerMod" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+         <graphic>
+              <ImageView fx:id="settings" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/020-menu.png" />
+                  </image>
+              </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="147.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleOpenServerFolder" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="31.0">
+         <graphic>
+              <ImageView fx:id="folder" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/028-folder.png" />
+                  </image>
+              </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="121.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleRestart" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
+         <graphic>
+              <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/015-refresh.png" />
+                  </image>
+              </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="96.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#startStopServer" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="82.0">
+         <graphic>
+              <ImageView fx:id="playStop" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#startStopServer" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/013-play.png" />
+                  </image>
+              </ImageView>
+         </graphic>
+      </Button>
     </children>
 </AnchorPane>

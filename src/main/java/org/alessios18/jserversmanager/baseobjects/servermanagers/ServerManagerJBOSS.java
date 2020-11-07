@@ -1,6 +1,7 @@
 package org.alessios18.jserversmanager.baseobjects.servermanagers;
 
 import org.alessios18.jserversmanager.baseobjects.serverdata.CustomProperty;
+import org.alessios18.jserversmanager.baseobjects.serverdata.DeployFile;
 import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.util.OsUtils;
 import org.apache.commons.io.FileUtils;
@@ -65,9 +66,9 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  if (getServer().getHttpPort() != null && !getServer().getHttpPort().isEmpty()) {
 				commandsList.add(SERVER_START_HTTP_PORT + getServer().getHttpPort());
 		  }
-		  if(getServer().getConfigDir() != null && !getServer().getConfigDir().isEmpty()){
+		 /*if(getServer().getConfigDir() != null && !getServer().getConfigDir().isEmpty()){
 				commandsList.add(SERVER_START_CONFIG_DIR + getServer().getConfigDir());
-		  }
+		  }*/
 		  if(!getServer().getCustomProperties().isEmpty()){
 		  	 commandsList.addAll(getCustomProperties());
 		  }
@@ -113,14 +114,15 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 
 	 @Override
 	 public void doDeploy() throws IOException {
+		  copyConfigFiles();
 		  File deployDir = new File(getServerDeployDir());
-		  for (String fPath : getServer().getFilePathToDeploy()) {
-				if (fPath != null && !fPath.isEmpty()) {
-					 File toDeploy = new File(fPath);
+		  for (DeployFile fPath : getServer().getFilePathToDeploy()) {
+				if (fPath.getPath() != null && !fPath.getPath().isEmpty()) {
+					 File toDeploy = new File(fPath.getPath());
 					 if (toDeploy.isDirectory()) {
-						  FileUtils.copyDirectory(toDeploy, deployDir, true);
+						  FileUtils.copyDirectory(toDeploy, deployDir, false);
 					 } else {
-						  FileUtils.copyFileToDirectory(toDeploy, deployDir, true);
+						  FileUtils.copyFileToDirectory(toDeploy, deployDir, false);
 					 }
 				}
 		  }
@@ -138,12 +140,23 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  File srvConfig = new File(getServerConfigDir());
 		  if (config.exists() && srvConfig.exists()) {
 				if (config.isDirectory()) {
-					 FileUtils.copyDirectory(config, srvConfig, true);
+					 FileUtils.copyDirectory(config, srvConfig, false);
 				} else {
-					 FileUtils.copyFileToDirectory(config, srvConfig, true);
+					 FileUtils.copyFileToDirectory(config, srvConfig, false);
 				}
 		  }
 		  logger.debug("[" + getServer().getServerName() + "] Standalone file copy:DONE");
+	 }
+
+	 @Override
+	 void copyConfigFiles() throws IOException {
+	 	 File srvConfig = new File(getServerConfigDir());
+		File conf = new File(getServer().getConfigDir());
+		if(srvConfig.exists() && conf.exists() && conf.isDirectory()){
+			 for(File f:conf.listFiles()){
+				  FileUtils.copyFileToDirectory(f, srvConfig, false);
+			 }
+		}
 	 }
 
 	 @Override

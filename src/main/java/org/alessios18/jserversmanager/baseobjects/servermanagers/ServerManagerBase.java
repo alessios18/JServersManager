@@ -3,6 +3,7 @@ package org.alessios18.jserversmanager.baseobjects.servermanagers;
 import org.alessios18.jserversmanager.JServersManagerApp;
 import org.alessios18.jserversmanager.baseobjects.ProcessManager;
 import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
+import org.alessios18.jserversmanager.util.OsUtils;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedWriter;
@@ -88,7 +89,11 @@ public abstract class ServerManagerBase {
 
 	 public void stopServer() throws IOException, InterruptedException, ExecutionException {
 		  isServerRunning = false;
-		  processManager.executeParallelProcess(getServerStopCommand(), this.getServerBinPath(), null, true);
+		  if(OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Windows) ){
+				processManager.forceQuit();
+		  }else{
+				processManager.executeParallelProcess(getServerStopCommand(), this.getServerBinPath(), null, true);
+		  }
 	 }
 
 	 public void restartServer() throws Exception {
@@ -97,6 +102,7 @@ public abstract class ServerManagerBase {
 	 }
 
 	 abstract void copyStandaloneFile() throws IOException;
+	 abstract void copyConfigFiles() throws IOException;
 
 	 public String getPortWithOffset(String port) {
 	 	 if(port != null) {

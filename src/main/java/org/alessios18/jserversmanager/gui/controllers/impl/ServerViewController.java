@@ -155,7 +155,7 @@ public class ServerViewController extends ControllerBase {
 					 DataStorage.getInstance().saveServerToFile(getGuiManager().getServers());
 					 guiManager.updateServerList();
 
-				} catch (UnsupportedOperatingSystemException | IOException e) {
+				} catch (UnsupportedOperatingSystemException e) {
 					 ExceptionDialog.showException(e);
 				}
 		  }

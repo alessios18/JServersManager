@@ -27,8 +27,6 @@ public class JServersManagerApp {
 				DataStorage.getInstance().checkFiles();
 		  } catch (UnsupportedOperatingSystemException e) {
 				ExceptionDialog.showException(e);
-		  } catch (IOException e) {
-				ExceptionDialog.showException(e);
 		  }
 	 }
 

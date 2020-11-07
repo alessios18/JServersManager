@@ -38,10 +38,6 @@ public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private TextField portOffset;
 	 @FXML
-	 private TextField deploFile1;
-	 @FXML
-	 private TextField deploFile2;
-	 @FXML
 	 private TextField httpPort;
 	 @FXML
 	 private TextArea arguments;
@@ -54,11 +50,11 @@ public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private Button bStandalone;
 	 @FXML
-	 private Button bPathDeploy;
-	 @FXML
 	 private Button bConfigDir;
 	 @FXML
 	 private Label customPropertiesCount;
+	 @FXML
+	 private Label deployCount;
 
 	 private Server server;
 	 private Server clone;
@@ -83,7 +79,6 @@ public class NewServerDialogController extends ControllerBase {
 		  serverType.getItems().setAll(ServerType.values());
 		  bSrvDir.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bStandalone.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
-		  bPathDeploy.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bConfigDir.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  enableCustomArgs.selectedProperty().addListener((ov, oldValue, newValue) -> {
 				clone.setCustomArgs(newValue);
@@ -167,11 +162,6 @@ public class NewServerDialogController extends ControllerBase {
 				clone.setDebugPort(debugPort.getText());
 				clone.setPortOffset(portOffset.getText());
 				clone.setHttpPort(httpPort.getText());
-				// TODO make this dynamic
-				String[] files = new String[2];
-				files[0] = deploFile1.getText();
-				files[1] = deploFile2.getText();
-				clone.setFilePathToDeploy(files);
 				clone.setConfigDir(configDir.getText());
 				if (clone.isCustomArgs()) {
 					 clone.setCustomArgsValue(arguments.getText());
@@ -229,11 +219,8 @@ public class NewServerDialogController extends ControllerBase {
 		  portOffset.setText(clone.getPortOffset());
 		  httpPort.setText(clone.getHttpPort());
 		  configDir.setText(clone.getConfigDir());
-		  // TODO make this dynamic
-		  if (clone.getFilePathToDeploy() != null) {
-				deploFile1.setText(clone.getFilePathToDeploy()[0]);
-				deploFile2.setText(clone.getFilePathToDeploy()[1]);
-		  }
+		  deployCount.setText(clone.getFilePathToDeploy().size()+"");
+		  customPropertiesCount.setText(clone.getCustomProperties().size()+"");
 		  if (clone.getServerType() != null) {
 				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
 		  }
@@ -268,9 +255,9 @@ public class NewServerDialogController extends ControllerBase {
 	 }
 
 	 @FXML
-	 private void handleSetDeployPath() {
-		  JSMFileChooser dc = new JSMFileChooser(deploFile1);
-		  dc.show("Choose the file or directory to be deployed", this.dialogStage, JSMFileChooser.SelectionType.FILE_AND_DIRECTORY);
+	 private void handleDeployDialog() {
+		  showAddModifyDeployFiles();
+		  deployCount.setText(clone.getFilePathToDeploy().size()+"");
 	 }
 
 	 @FXML
@@ -278,6 +265,38 @@ public class NewServerDialogController extends ControllerBase {
 		  showAddModifyCustomProperties();
 		  customPropertiesCount.setText(clone.getCustomProperties().size()+"");
 		  updateCustomArgs();
+	 }
+
+	 public boolean showAddModifyDeployFiles() {
+		  try {
+				// Load the fxml file and create a new stage for the popup dialog.
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(
+						  GuiManager.class.getResource(DeploymentListController.getFXMLFileFullPath()));
+				AnchorPane page = loader.load();
+
+				// Create the dialog Stage.
+				Stage dialogStage = new Stage();
+				dialogStage.setTitle("Add Modify Custom Properties");
+				dialogStage.initModality(Modality.WINDOW_MODAL);
+				dialogStage.initOwner(guiManager.getPrimaryStage());
+				Scene scene = new Scene(page);
+				dialogStage.setScene(scene);
+				getGuiManager().chooseDarkSide(scene);
+
+				// Set the person into the controller.
+				DeploymentListController controller = loader.getController();
+				controller.setDialogStage(dialogStage);
+				controller.setGuiManager(guiManager);
+				controller.setDeploymentFileItems(clone.getFilePathToDeploy());
+				// Show the dialog and wait until the user closes it
+				dialogStage.showAndWait();
+
+				return true;
+		  } catch (IOException e) {
+				ExceptionDialog.showException(e);
+				return false;
+		  }
 	 }
 
 	 public boolean showAddModifyCustomProperties() {

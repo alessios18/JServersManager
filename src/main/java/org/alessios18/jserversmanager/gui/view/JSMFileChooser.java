@@ -60,6 +60,7 @@ public class JSMFileChooser {
 		  JFileChooser fileChooser = new JFileChooser();
 		  fileChooser.setDialogTitle(title);
 		  fileChooser.setCurrentDirectory(getInitialDirectory());
+		  fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		  FileFilter xmlFilter = new FileNameExtensionFilter(".docx", "XML Files ( *.xml )");
 		  FileFilter allFilter = new FileNameExtensionFilter("*.*", "All Files ( *.* )");
 		  fileChooser.addChoosableFileFilter(xmlFilter);
@@ -73,8 +74,8 @@ public class JSMFileChooser {
 	 }
 
 	 protected File getInitialDirectory() {
-		  if (!textField.getText().isEmpty()) {
-				File file = new File(textField.getText());
+		  File file = new File(textField.getText());
+		  if (!textField.getText().isEmpty() && file.exists() ) {
 				if (file.isDirectory()) {
 					 return file;
 				} else {

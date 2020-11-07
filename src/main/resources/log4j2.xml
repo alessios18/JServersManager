@@ -2,7 +2,7 @@
 <Configuration status="debug" strict="true" name="XMLConfigTest"
                packages="org.apache.logging.log4j.test">
     <Properties>
-        <Property name="file.dir">${sys:user.home}/.JServersManager</Property>
+        <Property name="file.dir">${sys:user.home}/.JServersManager/logs</Property>
         <Property name="filename">${file.dir}/JServersManager.log</Property>
     </Properties>
     <Filter type="ThresholdFilter" level="trace"/>

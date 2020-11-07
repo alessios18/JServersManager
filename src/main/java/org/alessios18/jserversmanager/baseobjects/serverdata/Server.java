@@ -22,7 +22,7 @@ public class Server {
 	 private final StringProperty configDir;
 	 private final BooleanProperty customArgs;
 	 private final StringProperty customArgsValue;
-	 private final ObjectProperty<String[]> filePathToDeploy;
+	 private List<DeployFile> filePathToDeploy;
 	 private List<CustomProperty> customProperties;
 
 	 public Server() {
@@ -38,7 +38,7 @@ public class Server {
 		  httpPort = new SimpleStringProperty("");
 		  customArgs = new SimpleBooleanProperty(false);
 		  customArgsValue = new SimpleStringProperty();
-		  filePathToDeploy = new SimpleObjectProperty<String[]>(null);
+		  filePathToDeploy = new ArrayList<>();
 		  customProperties = new ArrayList<>();
 	 }
 
@@ -114,12 +114,12 @@ public class Server {
 		  this.httpPort.setValue(httpPort);
 	 }
 
-	 public String[] getFilePathToDeploy() {
-		  return filePathToDeploy.getValue();
+	 public List<DeployFile> getFilePathToDeploy() {
+		  return filePathToDeploy;
 	 }
 
-	 public void setFilePathToDeploy(String[] filePathToDeploy) {
-		  this.filePathToDeploy.setValue(filePathToDeploy);
+	 public void setFilePathToDeploy(List<DeployFile> filePathToDeploy) {
+		  this.filePathToDeploy = filePathToDeploy;
 	 }
 
 	 public String getConfigDir() {
@@ -169,7 +169,7 @@ public class Server {
 		  clone.debugPort.setValue(this.debugPort.getValue());
 		  clone.portOffset.setValue(this.portOffset.getValue());
 		  clone.httpPort.setValue(this.httpPort.getValue());
-		  clone.filePathToDeploy.setValue(this.filePathToDeploy.getValue());
+		  clone.filePathToDeploy.addAll(this.filePathToDeploy);
 		  clone.configDir.setValue(this.configDir.getValue());
 		  clone.customArgs.setValue(this.customArgs.getValue());
 		  clone.customArgsValue.setValue(this.customArgsValue.getValue());
@@ -187,10 +187,11 @@ public class Server {
 		  this.portOffset.setValue(clone.portOffset.getValue());
 		  this.httpPort.setValue(clone.httpPort.getValue());
 		  this.configDir.setValue(clone.configDir.getValue());
-		  this.filePathToDeploy.setValue(clone.filePathToDeploy.getValue());
 		  this.customArgs.setValue(clone.customArgs.getValue());
 		  this.customArgsValue.setValue(clone.customArgsValue.getValue());
 		  this.customProperties.clear();
 		  this.customProperties.addAll(clone.customProperties);
+		  this.filePathToDeploy.clear();
+		  this.filePathToDeploy.addAll(clone.filePathToDeploy);
 	 }
 }

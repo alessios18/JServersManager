@@ -31,32 +31,31 @@ public class ProcessManager {
 	 }
 
 	 public void forceQuit() throws InterruptedException {
-
 		  for (String id : getProcesses().keySet()) {
 		  	 Process p = getProcesses().get(id);
 				logger.debug("["+id+"] force kill:STARTED");
 				ProcessHandle processHandle = p.toHandle();
-				KillProcessAndChildren(processHandle);
+				KillProcessAndChildren(id,processHandle,0);
 				logger.debug("["+id+"] force kill:DONE");
-				/*if (p != null) {
-					 p.destroyForcibly();
-					 p.waitFor();
-				}*/
 		  }
 		  for (Future f : futureList) {
 				f.cancel(true);
 		  }
 	 }
 
-	 private void KillProcessAndChildren(ProcessHandle processHandle) {
+	 private void KillProcessAndChildren(String id,ProcessHandle processHandle,int level) {
 		  Stream<ProcessHandle> children = processHandle.children();
+		  long childrenCount = children.count();
+		  logger.debug("["+id+"] have "+ childrenCount+" children of level "+level);
+		  children = processHandle.children();
 		  children.forEach(new Consumer<ProcessHandle>() {
 				@Override
 				public void accept(ProcessHandle processHandle) {
-					 KillProcessAndChildren(processHandle);
+					 KillProcessAndChildren(id,processHandle,level+1);
 					 processHandle.destroyForcibly();
 				}
 		  });
+		  logger.debug("["+id+"] all "+childrenCount +" of level "+level+" has been killed");
 		  processHandle.destroyForcibly();
 	 }
 
