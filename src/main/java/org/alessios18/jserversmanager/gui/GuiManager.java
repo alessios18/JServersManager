@@ -24,14 +24,14 @@ import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
+import java.util.Map;
 
 public class GuiManager extends Application {
 	 public static final String FXML_FILE_PATH = "/fxmlfiles/";
 	 private final ObservableList<Server> servers = FXCollections.observableArrayList();
 	 private Stage primaryStage;
 	 private MainWindowController controller;
-	 private HashMap<String, OutputAreaController> outputAreas = new HashMap<>();
+	 private Map<String, OutputAreaController> outputAreas = new HashMap<>();
 	 private ServerManagersContainer serverManagersContainer = new ServerManagersContainer();
 
 	 public void startGUI() {
@@ -65,12 +65,11 @@ public class GuiManager extends Application {
 
 				primaryStage.show();
 
-				// loadTaskDataFromFile(DataStorage.getinstance().getTaskFile());
 				primaryStage.setOnCloseRequest(
 						  (WindowEvent event1) -> {
 								try {
 									 doThingsOnExit();
-								} catch (InterruptedException | IOException | ExecutionException e) {
+								} catch (InterruptedException e) {
 									 ExceptionDialog.showException(e);
 								}
 						  });
@@ -108,15 +107,14 @@ public class GuiManager extends Application {
 				chooseDarkSide(scene);
 				dialogStage.setScene(scene);
 
-				// Set the person into the controller.
-				NewServerDialogController controller = loader.getController();
-				controller.setDialogStage(dialogStage);
-				controller.setGuiManager(this);
-				controller.setServer(server);
+				NewServerDialogController newServerDialogController = loader.getController();
+				newServerDialogController.setDialogStage(dialogStage);
+				newServerDialogController.setGuiManager(this);
+				newServerDialogController.setServer(server);
 				// Show the dialog and wait until the user closes it
 				dialogStage.showAndWait();
 
-				return controller.isOkClicked();
+				return newServerDialogController.isOkClicked();
 		  } catch (IOException e) {
 				ExceptionDialog.showException(e);
 				return false;
@@ -132,11 +130,11 @@ public class GuiManager extends Application {
 		  setUserAgentStylesheet(null);
 	 }
 
-	 public HashMap<String, OutputAreaController> getOutputAreas() {
+	 public Map<String, OutputAreaController> getOutputAreas() {
 		  return outputAreas;
 	 }
 
-	 public void setOutputAreas(HashMap<String, OutputAreaController> outputAreas) {
+	 public void setOutputAreas(Map<String, OutputAreaController> outputAreas) {
 		  this.outputAreas = outputAreas;
 	 }
 
@@ -145,8 +143,7 @@ public class GuiManager extends Application {
 		  loader.setLocation(
 					 getClass().getResource(OutputAreaController.getFXMLFileFullPath()));
 		  TextArea ta = loader.load();
-		  OutputAreaController controller = loader.getController();
-		  outputAreas.put(serverID, controller);
+		  outputAreas.put(serverID, loader.getController());
 		  this.controller.changeOutputPanel(ta);
 
 	 }
@@ -163,8 +160,7 @@ public class GuiManager extends Application {
 		  controller.updateServerList();
 	 }
 
-	 public void doThingsOnExit() throws InterruptedException, IOException, ExecutionException {
-		  //serverManagersContainer.stopAllServers();
+	 public void doThingsOnExit() throws InterruptedException {
 		  serverManagersContainer.forceQuit();
 		  Platform.exit();
 		  System.exit(0);

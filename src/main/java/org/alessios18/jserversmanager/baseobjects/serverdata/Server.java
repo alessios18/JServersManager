@@ -28,7 +28,7 @@ public class Server {
 	 public Server() {
 		  serverID = new SimpleStringProperty(UUID.randomUUID().toString());
 		  serverName = new SimpleStringProperty("");
-		  serverType = new SimpleObjectProperty<ServerType>(null);
+		  serverType = new SimpleObjectProperty<>(null);
 		  standalonePath = new SimpleStringProperty("");
 		  serverPath = new SimpleStringProperty("");
 		  adminPort = new SimpleStringProperty("");

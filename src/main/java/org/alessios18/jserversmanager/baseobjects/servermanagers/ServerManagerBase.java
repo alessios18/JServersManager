@@ -26,6 +26,22 @@ public abstract class ServerManagerBase {
 		  processManager = new ProcessManager();
 	 }
 
+	 public abstract String[] getServerStartCommand();
+
+	 public abstract String[] getServerStopCommand();
+
+	 public abstract String getServerDeployDir();
+
+	 public abstract String getServerConfigDir();
+
+	 public abstract void doDeploy() throws IOException;
+
+	 public abstract String getServerBinPath();
+
+	 abstract void copyStandaloneFile() throws IOException;
+
+	 abstract void copyConfigFiles() throws IOException;
+
 	 public Server getServer() {
 		  return server;
 	 }
@@ -46,12 +62,12 @@ public abstract class ServerManagerBase {
 		  return isServerRunning;
 	 }
 
-	 public void startServer(BufferedWriter writer) throws Exception {
+	 public void startServer(BufferedWriter writer) throws IOException, ExecutionException, InterruptedException {
 		  setWriter(writer);
 		  startServer();
 	 }
 
-	 public void startServer() throws Exception {
+	 public void startServer() throws IOException, ExecutionException, InterruptedException {
 		  doUnDeploy();
 		  copyStandaloneFile();
 		  doDeploy();
@@ -59,16 +75,6 @@ public abstract class ServerManagerBase {
 		  processManager.executeParallelProcess(commands, this.getServerBinPath(), writer, false);
 		  isServerRunning = true;
 	 }
-
-	 abstract public String[] getServerStartCommand();
-
-	 abstract public String[] getServerStopCommand();
-
-	 abstract public String getServerDeployDir();
-
-	 abstract public String getServerConfigDir();
-
-	 abstract public void doDeploy() throws IOException;
 
 	 public String[] getServerCustomArguments() {
 		  String custom = server.getCustomArgsValue();
@@ -85,7 +91,6 @@ public abstract class ServerManagerBase {
 		  logger.debug("[" + getServer().getServerName() + "] Undeploy:DONE");
 	 }
 
-	 abstract public String getServerBinPath();
 
 	 public void stopServer() throws IOException, InterruptedException, ExecutionException {
 		  isServerRunning = false;
@@ -96,14 +101,10 @@ public abstract class ServerManagerBase {
 		  }
 	 }
 
-	 public void restartServer() throws Exception {
+	 public void restartServer() throws IOException, ExecutionException, InterruptedException {
 		  stopServer();
 		  startServer();
 	 }
-
-	 abstract void copyStandaloneFile() throws IOException;
-
-	 abstract void copyConfigFiles() throws IOException;
 
 	 public String getPortWithOffset(String port) {
 		  if (port != null) {

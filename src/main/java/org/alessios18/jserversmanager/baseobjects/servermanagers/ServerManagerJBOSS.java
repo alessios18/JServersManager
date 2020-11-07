@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ServerManagerJBOSS extends ServerManagerBase {
@@ -65,9 +66,6 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  if (getServer().getHttpPort() != null && !getServer().getHttpPort().isEmpty()) {
 				commandsList.add(SERVER_START_HTTP_PORT + getServer().getHttpPort());
 		  }
-		 /*if(getServer().getConfigDir() != null && !getServer().getConfigDir().isEmpty()){
-				commandsList.add(SERVER_START_CONFIG_DIR + getServer().getConfigDir());
-		  }*/
 		  if (!getServer().getCustomProperties().isEmpty()) {
 				commandsList.addAll(getCustomProperties());
 		  }
@@ -96,9 +94,7 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 				commandsList.add(CMD_C);
 		  }
 		  commandsList.add(SERVER_EXEC_COMMAND);
-		  for (String c : super.getServerCustomArguments()) {
-				commandsList.add(c);
-		  }
+		  commandsList.addAll(Arrays.asList(super.getServerCustomArguments()));
 		  return commandsList.toArray(new String[0]);
 	 }
 

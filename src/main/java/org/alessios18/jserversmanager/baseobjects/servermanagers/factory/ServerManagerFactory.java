@@ -1,5 +1,6 @@
 package org.alessios18.jserversmanager.baseobjects.servermanagers.factory;
 
+import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
 import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerBase;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerGrunt;
@@ -7,15 +8,15 @@ import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerJB
 
 public class ServerManagerFactory {
 
+	 private ServerManagerFactory() {
+	 }
+
 	 public static ServerManagerBase getServerManager(Server server) {
 		  ServerManagerBase result = null;
-		  switch (server.getServerType()) {
-				case JBOSS:
-					 result = new ServerManagerJBOSS(server);
-					 break;
-				case GRUNT:
-					 result = new ServerManagerGrunt(server);
-					 break;
+		  if (server.getServerType().equals(ServerType.JBOSS)) {
+				result = new ServerManagerJBOSS(server);
+		  } else if (server.getServerType().equals(ServerType.GRUNT)) {
+				result = new ServerManagerGrunt(server);
 		  }
 		  return result;
 	 }

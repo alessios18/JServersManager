@@ -9,9 +9,6 @@ public class EditingCell extends TableCell<CustomProperty, String> {
 
 	 private TextField textField;
 
-	 public EditingCell() {
-	 }
-
 	 @Override
 	 public void startEdit() {
 		  if (!isEmpty()) {
@@ -42,7 +39,6 @@ public class EditingCell extends TableCell<CustomProperty, String> {
 				if (isEditing()) {
 					 if (textField != null) {
 						  textField.setText(getString());
-//                        setGraphic(null);
 					 }
 					 setText(null);
 					 setGraphic(textField);
@@ -56,7 +52,7 @@ public class EditingCell extends TableCell<CustomProperty, String> {
 	 private void createTextField() {
 		  textField = new TextField(getString());
 		  textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
-		  textField.setOnAction((e) -> commitEdit(textField.getText()));
+		  textField.setOnAction(e -> commitEdit(textField.getText()));
 		  textField.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
 				if (!newValue) {
 					 commitEdit(textField.getText());

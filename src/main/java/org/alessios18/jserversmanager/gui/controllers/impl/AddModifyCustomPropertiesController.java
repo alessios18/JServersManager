@@ -17,17 +17,14 @@ import org.alessios18.jserversmanager.gui.view.EditingCell;
 import java.util.List;
 
 public class AddModifyCustomPropertiesController extends ControllerBase {
+	 private final ObservableList<CustomProperty> properties = FXCollections.observableArrayList();
 	 @FXML
 	 private TableView<CustomProperty> propertiesTable;
 	 @FXML
 	 private TableColumn<CustomProperty, String> columnName;
 	 @FXML
 	 private TableColumn<CustomProperty, String> columnValue;
-
 	 private Stage dialogStage;
-
-	 private final ObservableList<CustomProperty> properties = FXCollections.observableArrayList();
-
 	 private List<CustomProperty> serverProperties = FXCollections.observableArrayList();
 	 private boolean okClicked = false;
 
@@ -47,21 +44,15 @@ public class AddModifyCustomPropertiesController extends ControllerBase {
 		  columnName.setCellValueFactory(cellData -> cellData.getValue().propertyNameProperty());
 		  columnName.setCellFactory(cellFactory);
 		  columnName.setOnEditCommit(
-					 (TableColumn.CellEditEvent<CustomProperty, String> t) -> {
-						  t.getTableView().getItems()
-									 .get(t.getTablePosition().getRow())
-									 .setPropertyName(t.getNewValue());
-
-					 });
+					 (TableColumn.CellEditEvent<CustomProperty, String> t) -> t.getTableView().getItems()
+								.get(t.getTablePosition().getRow())
+								.setPropertyName(t.getNewValue()));
 		  columnValue.setCellValueFactory(cellData -> cellData.getValue().propertyValueProperty());
 		  columnValue.setCellFactory(cellFactory);
 		  columnValue.setOnEditCommit(
-					 (TableColumn.CellEditEvent<CustomProperty, String> t) -> {
-						  t.getTableView().getItems()
-									 .get(t.getTablePosition().getRow())
-									 .setPropertyValue(t.getNewValue());
-
-					 });
+					 (TableColumn.CellEditEvent<CustomProperty, String> t) -> t.getTableView().getItems()
+								.get(t.getTablePosition().getRow())
+								.setPropertyValue(t.getNewValue()));
 		  propertiesTable.setItems(properties);
 	 }
 

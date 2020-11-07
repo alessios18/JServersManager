@@ -1,45 +1,52 @@
 package org.alessios18.jserversmanager.updater.baseobjects;
 
+import java.util.Objects;
+
 public class Version implements Comparable<Version> {
 	 public static final String VERSION_SPECIFIER_ALPHA = "-alpha";
 	 public static final String VERSION_SPECIFIER_BETA = "-beta";
 	 public static final String VERSION_SPECIFIER_SNAPSHOT = "-SNAPSHOT";
 
 	 private String fullName;
-	 private String version;
+	 private String versionCode;
 	 private boolean isPreRelease;
 
-	 public Version(String version) {
-		  if (version == null)
+	 public Version(String versionCode) {
+		  if (versionCode == null) {
 				throw new IllegalArgumentException("Version can not be null");
-
-		  this.version = cleanVersionName(version);
-		  if (!this.version.matches("[0-9]+(\\.[0-9]+)*"))
+		  }
+		  this.versionCode = cleanVersionName(versionCode);
+		  if (!this.versionCode.matches("[0-9]+(\\.[0-9]+)*")) {
 				throw new IllegalArgumentException("Invalid version format");
-		  this.fullName = version;
+		  }
+		  this.fullName = versionCode;
 		  setIsPreRelease(this.fullName);
 	 }
 
-	 public Version(String version, boolean isPreRelease) {
-		  if (version == null)
+	 public Version(String versionCode, boolean isPreRelease) {
+		  if (versionCode == null) {
 				throw new IllegalArgumentException("Version can not be null");
-		  this.version = cleanVersionName(version);
-		  if (!this.version.matches("[0-9]+(\\.[0-9]+)*"))
+		  }
+		  this.versionCode = cleanVersionName(versionCode);
+		  if (!this.versionCode.matches("[0-9]+(\\.[0-9]+)*")) {
 				throw new IllegalArgumentException("Invalid version format");
+		  }
 		  this.isPreRelease = isPreRelease;
-		  this.fullName = version;
+		  this.fullName = versionCode;
 	 }
 
 	 public final String get() {
-		  return this.version;
+		  return this.versionCode;
 	 }
 
-	 public boolean setIsPreRelease(String version) {
-		  return this.isPreRelease = (version.contains(VERSION_SPECIFIER_ALPHA) || version.contains(VERSION_SPECIFIER_BETA) || version.contains(VERSION_SPECIFIER_SNAPSHOT));
+	 public void setIsPreRelease(String version) {
+		  this.isPreRelease = (version.contains(VERSION_SPECIFIER_ALPHA)
+					 || version.contains(VERSION_SPECIFIER_BETA)
+					 || version.contains(VERSION_SPECIFIER_SNAPSHOT));
 	 }
 
-	 public boolean setIsPreRelease(boolean isPreRelease) {
-		  return this.isPreRelease = isPreRelease;
+	 public void setIsPreRelease(boolean isPreRelease) {
+		  this.isPreRelease = isPreRelease;
 	 }
 
 	 public String getFullName() {
@@ -50,12 +57,12 @@ public class Version implements Comparable<Version> {
 		  this.fullName = fullName;
 	 }
 
-	 public String getVersion() {
-		  return version;
+	 public String getVersionCode() {
+		  return versionCode;
 	 }
 
-	 public void setVersion(String version) {
-		  this.version = version;
+	 public void setVersionCode(String versionCode) {
+		  this.versionCode = versionCode;
 	 }
 
 	 public boolean isPreRelease() {
@@ -72,10 +79,11 @@ public class Version implements Comparable<Version> {
 
 	 @Override
 	 public int compareTo(Version that) {
-		  if (that == null)
+		  if (that == null) {
 				return 1;
-		  String[] thisParts = this.getVersion().split("\\.");
-		  String[] thatParts = that.getVersion().split("\\.");
+		  }
+		  String[] thisParts = this.getVersionCode().split("\\.");
+		  String[] thatParts = that.getVersionCode().split("\\.");
 		  int length = Math.max(thisParts.length, thatParts.length);
 		  for (int i = 0; i < length; i++) {
 				int thisPart = i < thisParts.length ?
@@ -87,21 +95,31 @@ public class Version implements Comparable<Version> {
 				if (thisPart > thatPart)
 					 return 1;
 		  }
-		  if (this.isPreRelease && !that.isPreRelease())
+		  if (this.isPreRelease && !that.isPreRelease()) {
 				return -1;
-		  if (!this.isPreRelease && that.isPreRelease())
+		  }
+		  if (!this.isPreRelease && that.isPreRelease()) {
 				return 1;
+		  }
 		  return 0;
 	 }
 
 	 @Override
+	 public int hashCode() {
+		  return Objects.hash(fullName, versionCode, isPreRelease);
+	 }
+
+	 @Override
 	 public boolean equals(Object that) {
-		  if (this == that)
+		  if (this == that) {
 				return true;
-		  if (that == null)
+		  }
+		  if (that == null) {
 				return false;
-		  if (this.getClass() != that.getClass())
+		  }
+		  if (this.getClass() != that.getClass()) {
 				return false;
+		  }
 		  return this.compareTo((Version) that) == 0;
 	 }
 

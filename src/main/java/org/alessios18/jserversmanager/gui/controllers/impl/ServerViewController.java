@@ -131,19 +131,14 @@ public class ServerViewController extends ControllerBase {
 
 	 @FXML
 	 private void handleOpenServerFolder() throws IOException {
-		  switch (OsUtils.getOperatingSystemType()) {
-				case Windows: {
-					 ProcessBuilder pb = new ProcessBuilder("explorer.exe", "/select," + server.getServerPath());
-					 pb.redirectError();
-					 Process proc = pb.start();
-					 break;
-				}
-				case Linux: {
-					 ProcessBuilder pb = new ProcessBuilder("xdg-open", server.getServerPath());
-					 pb.redirectError();
-					 Process proc = pb.start();
-					 break;
-				}
+		  if (OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Windows)) {
+				ProcessBuilder pb = new ProcessBuilder("explorer.exe", "/select," + server.getServerPath());
+				pb.redirectError();
+				pb.start();
+		  } else if (OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Linux)) {
+				ProcessBuilder pb = new ProcessBuilder("xdg-open", server.getServerPath());
+				pb.redirectError();
+				pb.start();
 		  }
 	 }
 

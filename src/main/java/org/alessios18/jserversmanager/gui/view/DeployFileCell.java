@@ -16,8 +16,8 @@ import java.io.StringWriter;
 public class DeployFileCell extends ListCell<DeployFile> {
 	 private static final Logger logger = JServersManagerApp.getLogger();
 	 private final GuiManager guiManager;
-	 private DeployFileController deployFileController = null;
 	 private final Stage dialogStage;
+	 private DeployFileController deployFileController = null;
 
 	 public DeployFileCell(GuiManager guiManager, Stage dialogStage) {
 		  this.guiManager = guiManager;

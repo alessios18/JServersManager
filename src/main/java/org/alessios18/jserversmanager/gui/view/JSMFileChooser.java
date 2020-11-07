@@ -20,19 +20,12 @@ public class JSMFileChooser {
 
 	 public void show(String title, Stage primaryStage, SelectionType sel) {
 		  File choosed = null;
-		  switch (sel) {
-				case DIRECTORY: {
-					 choosed = showDirectortyChooser(title, primaryStage);
-					 break;
-				}
-				case FILE: {
-					 choosed = showFileChooser(title, primaryStage);
-					 break;
-				}
-				case FILE_AND_DIRECTORY: {
-					 choosed = showFileDirectoryChooser(title, primaryStage);
-					 break;
-				}
+		  if (sel.equals(SelectionType.DIRECTORY)) {
+				choosed = showDirectortyChooser(title, primaryStage);
+		  } else if (sel.equals(SelectionType.FILE)) {
+				choosed = showFileChooser(title, primaryStage);
+		  } else if (sel.equals(SelectionType.FILE_AND_DIRECTORY)) {
+				choosed = showFileDirectoryChooser(title);
 		  }
 		  if (choosed != null) {
 				textField.setText(choosed.getAbsolutePath());
@@ -56,7 +49,7 @@ public class JSMFileChooser {
 		  return fileChooser.showOpenDialog(primaryStage);
 	 }
 
-	 protected File showFileDirectoryChooser(String title, Stage primaryStage) {
+	 protected File showFileDirectoryChooser(String title) {
 		  JFileChooser fileChooser = new JFileChooser();
 		  fileChooser.setDialogTitle(title);
 		  fileChooser.setCurrentDirectory(getInitialDirectory());

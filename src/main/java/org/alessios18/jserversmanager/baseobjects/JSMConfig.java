@@ -7,7 +7,6 @@ public class JSMConfig {
 	 private boolean onlyStable = true;
 
 	 public JSMConfig() {
-
 	 }
 
 	 public boolean isOnlyStable() {

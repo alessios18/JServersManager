@@ -14,11 +14,13 @@ import org.apache.logging.log4j.Logger;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import javax.swing.*;
+import javax.xml.bind.JAXBException;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class JServersManagerUpdater {
 	 public static final String VERSION_SPECIFIER_ALPHA = "-alpha";
@@ -27,34 +29,26 @@ public class JServersManagerUpdater {
 	 public static final String COMMAND_UPDATE = "update";
 	 protected static final String SERVICE_URL = " https://api.github.com/repos/alessios18/JServersManager/releases";
 	 private static final Logger logger = JServersManagerApp.getLogger();
-	 protected static boolean bOnlyStable = false;
 	 private final Gson gson = new Gson();
 	 private Release available;
 
-	 public JServersManagerUpdater() throws Exception {
-		  bOnlyStable = DataStorage.getInstance().getConfig().isOnlyStable();
-	 }
-
 	 public static void startJar(String jarFileName, String oldJarFilePAth) {
-		  Thread th = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					 String[] commands = new String[]{
-								"java", "-jar", jarFileName, COMMAND_UPDATE, oldJarFilePAth};
-					 ProcessBuilder pb = new ProcessBuilder(commands);
-					 try {
-						  logger.debug("Calling new version for update: java -jar" + jarFileName + " " + COMMAND_UPDATE + " " + oldJarFilePAth);
-						  pb.directory(new File(DataStorage.getInstance().getLibPath()));
-						  Process p = pb.start();
-						  logger.debug("Called new version for update: java -jar " + jarFileName + " " + COMMAND_UPDATE + " " + oldJarFilePAth);
-					 } catch (UnsupportedOperatingSystemException | IOException e) {
-						  e.printStackTrace();
-						  StringWriter sw = new StringWriter();
-						  PrintWriter pw = new PrintWriter(sw);
-						  e.printStackTrace(pw);
-						  String exceptionText = sw.toString();
-						  logger.error(exceptionText);
-					 }
+		  Thread th = new Thread(() -> {
+				String[] commands = new String[]{
+						  "java", "-jar", jarFileName, COMMAND_UPDATE, oldJarFilePAth};
+				ProcessBuilder pb = new ProcessBuilder(commands);
+				try {
+					 logger.debug("Calling new version for update: java -jar" + jarFileName + " " + COMMAND_UPDATE + " " + oldJarFilePAth);
+					 pb.directory(new File(DataStorage.getInstance().getLibPath()));
+					 pb.start();
+					 logger.debug("Called new version for update: java -jar " + jarFileName + " " + COMMAND_UPDATE + " " + oldJarFilePAth);
+				} catch (UnsupportedOperatingSystemException | IOException e) {
+					 e.printStackTrace();
+					 StringWriter sw = new StringWriter();
+					 PrintWriter pw = new PrintWriter(sw);
+					 e.printStackTrace(pw);
+					 String exceptionText = sw.toString();
+					 logger.error(exceptionText);
 				}
 		  });
 		  th.start();
@@ -86,16 +80,15 @@ public class JServersManagerUpdater {
 		  return false;
 	 }
 
-	 public Release checkForUpdates() throws IOException, XmlPullParserException {
-		  ArrayList<Release> releases = getReleases();
+	 public Release checkForUpdates() throws IOException, XmlPullParserException, UnsupportedOperatingSystemException, JAXBException {
+		  boolean bOnlyStable = DataStorage.getInstance().getConfig().isOnlyStable();
+		  List<Release> releases = getReleases();
 		  Version currentVersion = new Version(JServersManagerApp.getCurrentVersion());
 		  Version maxVersion = currentVersion;
 		  for (Release r : releases) {
-				if (bOnlyStable && r.getPrerelease() && !isPresentJarInVersion(r)) {
-					 continue;
-				} else {
+				if (isPresentJarInVersion(r)) {
 					 Version v = new Version(r.getTagName(), r.getPrerelease());
-					 if (maxVersion.isMinorThen(v)) {
+					 if (maxVersion.isMinorThen(v) && (!(bOnlyStable && r.getPrerelease()) || !r.getPrerelease())) {
 						  available = r;
 						  maxVersion = v;
 					 }
@@ -123,7 +116,7 @@ public class JServersManagerUpdater {
 		  return null;
 	 }
 
-	 public void updateVersion() throws Exception {
+	 public void updateVersion() throws IOException, UnsupportedOperatingSystemException {
 		  Asset jar = downloadNewVersion();
 		  String jarFilePath = new java.io.File(JServersManagerApp.class.getProtectionDomain()
 					 .getCodeSource()
@@ -136,15 +129,15 @@ public class JServersManagerUpdater {
 	 public Asset downloadNewVersion() throws IOException, UnsupportedOperatingSystemException {
 		  Asset jar = getJarAsset(available);
 		  if (!new File(DataStorage.getInstance().getLibPath() + jar.getName()).exists()) {
-				BufferedInputStream in = new BufferedInputStream(new URL(jar.getBrowserDownloadUrl()).openStream());
-				FileOutputStream fileOutputStream = new FileOutputStream(DataStorage.getInstance().getLibPath() + jar.getName());
-				byte[] dataBuffer = new byte[1024];
-				int bytesRead;
-				while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-					 fileOutputStream.write(dataBuffer, 0, bytesRead);
+				try (BufferedInputStream in = new BufferedInputStream(new URL(jar.getBrowserDownloadUrl()).openStream())) {
+					 try (FileOutputStream fileOutputStream = new FileOutputStream(DataStorage.getInstance().getLibPath() + jar.getName())) {
+						  byte[] dataBuffer = new byte[1024];
+						  int bytesRead;
+						  while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+								fileOutputStream.write(dataBuffer, 0, bytesRead);
+						  }
+					 }
 				}
-				in.close();
-				fileOutputStream.close();
 				logger.debug("downloaded jar: " + jar.getName());
 		  }
 		  return jar;
@@ -173,14 +166,14 @@ public class JServersManagerUpdater {
 		  return res == 0;
 	 }
 
-	 public ArrayList<Release> getReleases() throws IOException {
+	 public List<Release> getReleases() throws IOException {
 		  URL url = new URL(SERVICE_URL);
 		  HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		  conn.setRequestMethod("GET");
 		  conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
 		  if (conn.getResponseCode() != 200) {
 				JServersManagerApp.getLogger().error("Failed : HTTP error code : " + conn.getResponseCode());
-				return null;
+				return new ArrayList<>();
 		  }
 		  String json = getServiceResponse(conn);
 		  Type listType = new TypeToken<ArrayList<Release>>() {
@@ -201,24 +194,20 @@ public class JServersManagerUpdater {
 	 }
 
 	 public void startUpdatedJar(String jarDir, String jarName) {
-		  Thread th = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					 String[] commands = new String[]{
-								"java", "-jar", jarName};
-					 ProcessBuilder pb = new ProcessBuilder(commands);
-					 try {
-						  pb.directory(new File(jarDir));
-						  Process p = pb.start();
-						  //p.waitFor();
-					 } catch (IOException e) {
-						  e.printStackTrace();
-						  StringWriter sw = new StringWriter();
-						  PrintWriter pw = new PrintWriter(sw);
-						  e.printStackTrace(pw);
-						  String exceptionText = sw.toString();
-						  logger.error(exceptionText);
-					 }
+		  Thread th = new Thread(() -> {
+				String[] commands = new String[]{
+						  "java", "-jar", jarName};
+				ProcessBuilder pb = new ProcessBuilder(commands);
+				try {
+					 pb.directory(new File(jarDir));
+					 pb.start();
+				} catch (IOException e) {
+					 e.printStackTrace();
+					 StringWriter sw = new StringWriter();
+					 PrintWriter pw = new PrintWriter(sw);
+					 e.printStackTrace(pw);
+					 String exceptionText = sw.toString();
+					 logger.error(exceptionText);
 				}
 		  });
 		  th.start();

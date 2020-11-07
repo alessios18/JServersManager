@@ -6,16 +6,17 @@ import org.alessios18.jserversmanager.baseobjects.servermanagers.factory.ServerM
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class ServerManagersContainer {
-	 private HashMap<String, ServerManagerBase> managersContainer = new HashMap<>();
+	 private Map<String, ServerManagerBase> managersContainer = new HashMap<>();
 
-	 public HashMap<String, ServerManagerBase> getManagersContainer() {
+	 public Map<String, ServerManagerBase> getManagersContainer() {
 		  return managersContainer;
 	 }
 
-	 public void setManagersContainer(HashMap<String, ServerManagerBase> managersContainer) {
+	 public void setManagersContainer(Map<String, ServerManagerBase> managersContainer) {
 		  this.managersContainer = managersContainer;
 	 }
 
@@ -26,7 +27,7 @@ public class ServerManagersContainer {
 		  return managersContainer.get(server.getServerID());
 	 }
 
-	 public void stopAllServers() throws Exception {
+	 public void stopAllServers() throws IOException, InterruptedException, ExecutionException {
 		  for (ServerManagerBase manager :
 					 managersContainer.values()) {
 				if (manager.isServerRunning()) {
@@ -35,10 +36,9 @@ public class ServerManagersContainer {
 		  }
 	 }
 
-	 public void forceQuit() throws InterruptedException, IOException, ExecutionException {
+	 public void forceQuit() throws InterruptedException {
 		  for (ServerManagerBase manager :
 					 managersContainer.values()) {
-				// manager.stopServer();
 				manager.forceShutdown();
 		  }
 	 }

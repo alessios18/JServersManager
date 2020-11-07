@@ -267,7 +267,7 @@ public class NewServerDialogController extends ControllerBase {
 		  updateCustomArgs();
 	 }
 
-	 public boolean showAddModifyDeployFiles() {
+	 public void showAddModifyDeployFiles() {
 		  try {
 				// Load the fxml file and create a new stage for the popup dialog.
 				FXMLLoader loader = new FXMLLoader();
@@ -276,26 +276,24 @@ public class NewServerDialogController extends ControllerBase {
 				AnchorPane page = loader.load();
 
 				// Create the dialog Stage.
-				Stage dialogStage = new Stage();
-				dialogStage.setTitle("Add Modify Custom Properties");
-				dialogStage.initModality(Modality.WINDOW_MODAL);
-				dialogStage.initOwner(guiManager.getPrimaryStage());
+				Stage deplotFileDialogStage = new Stage();
+				deplotFileDialogStage.setTitle("Add Modify Custom Properties");
+				deplotFileDialogStage.initModality(Modality.WINDOW_MODAL);
+				deplotFileDialogStage.initOwner(guiManager.getPrimaryStage());
 				Scene scene = new Scene(page);
-				dialogStage.setScene(scene);
+				deplotFileDialogStage.setScene(scene);
 				getGuiManager().chooseDarkSide(scene);
 
 				// Set the person into the controller.
 				DeploymentListController controller = loader.getController();
-				controller.setDialogStage(dialogStage);
+				controller.setDialogStage(deplotFileDialogStage);
 				controller.setGuiManager(guiManager);
 				controller.setDeploymentFileItems(clone.getFilePathToDeploy());
 				// Show the dialog and wait until the user closes it
-				dialogStage.showAndWait();
+				deplotFileDialogStage.showAndWait();
 
-				return true;
 		  } catch (IOException e) {
 				ExceptionDialog.showException(e);
-				return false;
 		  }
 	 }
 
@@ -308,21 +306,21 @@ public class NewServerDialogController extends ControllerBase {
 				AnchorPane page = loader.load();
 
 				// Create the dialog Stage.
-				Stage dialogStage = new Stage();
-				dialogStage.setTitle("Add Modify Custom Properties");
-				dialogStage.initModality(Modality.WINDOW_MODAL);
-				dialogStage.initOwner(guiManager.getPrimaryStage());
+				Stage propertyDialogStage = new Stage();
+				propertyDialogStage.setTitle("Add Modify Custom Properties");
+				propertyDialogStage.initModality(Modality.WINDOW_MODAL);
+				propertyDialogStage.initOwner(guiManager.getPrimaryStage());
 				Scene scene = new Scene(page);
-				dialogStage.setScene(scene);
+				propertyDialogStage.setScene(scene);
 				getGuiManager().chooseDarkSide(scene);
 
 				// Set the person into the controller.
 				AddModifyCustomPropertiesController controller = loader.getController();
-				controller.setDialogStage(dialogStage);
+				controller.setDialogStage(propertyDialogStage);
 				controller.setGuiManager(guiManager);
 				controller.setServerProperties(clone.getCustomProperties());
 				// Show the dialog and wait until the user closes it
-				dialogStage.showAndWait();
+				propertyDialogStage.showAndWait();
 
 				return controller.isOkClicked();
 		  } catch (IOException e) {

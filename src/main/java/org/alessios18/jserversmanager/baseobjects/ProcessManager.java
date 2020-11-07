@@ -3,65 +3,53 @@ package org.alessios18.jserversmanager.baseobjects;
 import org.alessios18.jserversmanager.JServersManagerApp;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class ProcessManager {
 	 private static final Logger logger = JServersManagerApp.getLogger();
 
-	 private final HashMap<String, Process> processesContainer = new HashMap<>();
+	 private final Map<String, Process> processesContainer = new HashMap<>();
 	 private final ArrayList<Future<Void>> futureList = new ArrayList<>();
 	 private final ExecutorService executor = Executors.newCachedThreadPool();
-	 private BufferedReader stdInput;
-	 private BufferedReader stdError;
 
 	 public ProcessManager() {
-		  Runtime rt = Runtime.getRuntime();
 	 }
 
-	 public void forceQuit() throws InterruptedException {
+	 public void forceQuit() {
 		  for (String id : getProcesses().keySet()) {
 				Process p = getProcesses().get(id);
 				logger.debug("[" + id + "] force kill:STARTED");
 				ProcessHandle processHandle = p.toHandle();
-				KillProcessAndChildren(id, processHandle, 0);
+				killProcessAndChildren(id, processHandle, 0);
 				logger.debug("[" + id + "] force kill:DONE");
 		  }
-		  for (Future f : futureList) {
-				f.cancel(true);
-		  }
+		  futureList.forEach(f -> f.cancel(true));
 	 }
 
-	 private void KillProcessAndChildren(String id, ProcessHandle processHandle, int level) {
+	 private void killProcessAndChildren(String id, ProcessHandle processHandle, int level) {
 		  Stream<ProcessHandle> children = processHandle.children();
 		  long childrenCount = children.count();
 		  logger.debug("[" + id + "] have " + childrenCount + " children of level " + level);
 		  children = processHandle.children();
-		  children.forEach(new Consumer<ProcessHandle>() {
-				@Override
-				public void accept(ProcessHandle processHandle) {
-					 KillProcessAndChildren(id, processHandle, level + 1);
-					 processHandle.destroyForcibly();
-				}
+		  children.forEach(processHandle1 -> {
+				killProcessAndChildren(id, processHandle1, level + 1);
+				processHandle1.destroyForcibly();
 		  });
 		  logger.debug("[" + id + "] all " + childrenCount + " of level " + level + " has been killed");
 		  processHandle.destroyForcibly();
 	 }
 
-	 public void executeParallelProcess(String[] commands, String dir, BufferedWriter writer, boolean waitEnd) throws IOException, InterruptedException, ExecutionException {
+	 public void executeParallelProcess(String[] commands, String dir, BufferedWriter writer, boolean waitEnd) throws InterruptedException {
 		  String processId = UUID.randomUUID().toString();
-		  Process currentProc;
 		  ProcessBuilder pb = new ProcessBuilder(commands);
 		  pb.directory(new File(dir));
 		  logger.debug("[" + processId + "] " + getSingleRowCommand(commands));
@@ -71,8 +59,11 @@ public class ProcessManager {
 
 		  if (waitEnd) {
 				synchronized (pb) {
-					 pb.wait();
-					 System.out.println("waiting...");
+					 boolean keepWait = true;
+					 while (keepWait) {
+						  pb.wait(3000);
+						  keepWait = false;
+					 }
 					 if (processesContainer.get(processId).isAlive()) {
 						  int result = processesContainer.get(processId).waitFor();
 						  if (result == 0) {
@@ -84,10 +75,9 @@ public class ProcessManager {
 					 }
 				}
 		  }
-		  //future.get();
 	 }
 
-	 public synchronized HashMap<String, Process> getProcesses() {
+	 public synchronized Map<String, Process> getProcesses() {
 		  return processesContainer;
 	 }
 
