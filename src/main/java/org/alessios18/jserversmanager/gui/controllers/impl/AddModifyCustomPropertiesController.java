@@ -20,15 +20,16 @@ public class AddModifyCustomPropertiesController extends ControllerBase {
 	 @FXML
 	 private TableView<CustomProperty> propertiesTable;
 	 @FXML
-	 private TableColumn<CustomProperty,String> columnName;
+	 private TableColumn<CustomProperty, String> columnName;
 	 @FXML
-	 private TableColumn<CustomProperty,String> columnValue;
+	 private TableColumn<CustomProperty, String> columnValue;
 
 	 private Stage dialogStage;
 
-	 private ObservableList<CustomProperty> properties = FXCollections.observableArrayList();
+	 private final ObservableList<CustomProperty> properties = FXCollections.observableArrayList();
 
 	 private List<CustomProperty> serverProperties = FXCollections.observableArrayList();
+	 private boolean okClicked = false;
 
 	 public static String getFXMLFileName() {
 		  return "addModifyCustomProperties.fxml";
@@ -37,9 +38,6 @@ public class AddModifyCustomPropertiesController extends ControllerBase {
 	 public static String getFXMLFileFullPath() {
 		  return GuiManager.FXML_FILE_PATH + getFXMLFileName();
 	 }
-
-	 private boolean okClicked = false;
-
 
 	 @FXML
 	 private void initialize() {
@@ -50,8 +48,8 @@ public class AddModifyCustomPropertiesController extends ControllerBase {
 		  columnName.setCellFactory(cellFactory);
 		  columnName.setOnEditCommit(
 					 (TableColumn.CellEditEvent<CustomProperty, String> t) -> {
-						  ((CustomProperty) t.getTableView().getItems()
-									 .get(t.getTablePosition().getRow()))
+						  t.getTableView().getItems()
+									 .get(t.getTablePosition().getRow())
 									 .setPropertyName(t.getNewValue());
 
 					 });
@@ -59,8 +57,8 @@ public class AddModifyCustomPropertiesController extends ControllerBase {
 		  columnValue.setCellFactory(cellFactory);
 		  columnValue.setOnEditCommit(
 					 (TableColumn.CellEditEvent<CustomProperty, String> t) -> {
-						  ((CustomProperty) t.getTableView().getItems()
-									 .get(t.getTablePosition().getRow()))
+						  t.getTableView().getItems()
+									 .get(t.getTablePosition().getRow())
 									 .setPropertyValue(t.getNewValue());
 
 					 });
@@ -76,33 +74,36 @@ public class AddModifyCustomPropertiesController extends ControllerBase {
 		  this.dialogStage = dialogStage;
 	 }
 
-	 public void setServerProperties(List<CustomProperty> serverProperties){
-	 	 properties.clear();
-	 	 properties.addAll(serverProperties);
-	 	 this.serverProperties = serverProperties;
+	 public void setServerProperties(List<CustomProperty> serverProperties) {
+		  properties.clear();
+		  properties.addAll(serverProperties);
+		  this.serverProperties = serverProperties;
 	 }
 
 	 @FXML
-	 private void handleSave(){
+	 private void handleSave() {
 		  removeBlankProp();
 		  this.serverProperties.clear();
 		  this.serverProperties.addAll(this.properties);
 		  okClicked = true;
 		  dialogStage.close();
 	 }
+
 	 @FXML
-	 private void handleCancel(){
+	 private void handleCancel() {
 		  dialogStage.close();
 	 }
+
 	 @FXML
-	 private void handleAdd(){
+	 private void handleAdd() {
 		  properties.add(new CustomProperty());
-		  propertiesTable.getSelectionModel().clearAndSelect(propertiesTable.getItems().size()-1);
-		  propertiesTable.getFocusModel().focus(propertiesTable.getItems().size()-1, columnName);
+		  propertiesTable.getSelectionModel().clearAndSelect(propertiesTable.getItems().size() - 1);
+		  propertiesTable.getFocusModel().focus(propertiesTable.getItems().size() - 1, columnName);
 		  propertiesTable.requestFocus();
 	 }
+
 	 @FXML
-	 private void handleRemove(){
+	 private void handleRemove() {
 		  int selectedIndex = propertiesTable.getSelectionModel().getSelectedIndex();
 		  if (selectedIndex >= 0) {
 				propertiesTable.getItems().remove(selectedIndex);
@@ -117,13 +118,14 @@ public class AddModifyCustomPropertiesController extends ControllerBase {
 		  }
 	 }
 
-	 protected void removeBlankProp(){
-	 	 for(CustomProperty p:properties){
-	 	 	 if(p.getPropertyName().isEmpty() && p.getPropertyValue().isEmpty()){
-	 	 	 	 properties.remove(p);
-			 }
-		 }
+	 protected void removeBlankProp() {
+		  for (CustomProperty p : properties) {
+				if (p.getPropertyName().isEmpty() && p.getPropertyValue().isEmpty()) {
+					 properties.remove(p);
+				}
+		  }
 	 }
+
 	 /**
 	  * Returns true if the user clicked OK, false otherwise.
 	  *

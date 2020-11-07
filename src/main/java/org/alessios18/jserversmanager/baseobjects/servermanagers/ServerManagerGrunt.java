@@ -4,7 +4,7 @@ import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 
 import java.io.IOException;
 
-public class ServerManagerGrunt extends ServerManagerBase{
+public class ServerManagerGrunt extends ServerManagerBase {
 	 public ServerManagerGrunt(Server server) {
 		  super(server);
 	 }

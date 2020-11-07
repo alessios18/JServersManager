@@ -30,27 +30,27 @@ public class JServersManagerApp {
 		  }
 	 }
 
-	 public static void main(String[] args)  {
+	 public static void main(String[] args) {
 		  Thread.currentThread().setContextClassLoader(JServersManagerApp.class.getClassLoader());
-	 	 try {
-			  JServersManagerUpdater updater = new JServersManagerUpdater();
-			  if (!updater.doUpgrade(args)) {
-					Release r = updater.checkForUpdates();
-					if (r != null) {
-						 if (updater.updateVersionConfirmDialog()) {
-							  updater.updateVersion();
-						 }
-					}
-			  }
-			  startApplication();
-		 }catch(Exception e){
-			  e.printStackTrace();
-			  StringWriter sw = new StringWriter();
-			  PrintWriter pw = new PrintWriter(sw);
-			  e.printStackTrace(pw);
-			  String exceptionText = sw.toString();
-			  logger.error(exceptionText);
-		 }
+		  try {
+				JServersManagerUpdater updater = new JServersManagerUpdater();
+				if (!updater.doUpgrade(args)) {
+					 Release r = updater.checkForUpdates();
+					 if (r != null) {
+						  if (updater.updateVersionConfirmDialog()) {
+								updater.updateVersion();
+						  }
+					 }
+				}
+				startApplication();
+		  } catch (Exception e) {
+				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				String exceptionText = sw.toString();
+				logger.error(exceptionText);
+		  }
 	 }
 
 	 protected static void startApplication() {

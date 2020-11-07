@@ -55,7 +55,7 @@ public abstract class ServerManagerBase {
 		  doUnDeploy();
 		  copyStandaloneFile();
 		  doDeploy();
-		  String commands[] = server.isCustomArgs()?getServerCustomArguments():getServerStartCommand();
+		  String[] commands = server.isCustomArgs() ? getServerCustomArguments() : getServerStartCommand();
 		  processManager.executeParallelProcess(commands, this.getServerBinPath(), writer, false);
 		  isServerRunning = true;
 	 }
@@ -70,9 +70,9 @@ public abstract class ServerManagerBase {
 
 	 abstract public void doDeploy() throws IOException;
 
-	 public String[] getServerCustomArguments(){
-	 	 String custom = server.getCustomArgsValue();
-	 	 return custom.trim().split(" +");
+	 public String[] getServerCustomArguments() {
+		  String custom = server.getCustomArgsValue();
+		  return custom.trim().split(" +");
 	 }
 
 	 public void doUnDeploy() throws IOException {
@@ -89,26 +89,27 @@ public abstract class ServerManagerBase {
 
 	 public void stopServer() throws IOException, InterruptedException, ExecutionException {
 		  isServerRunning = false;
-		  if(OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Windows) ){
+		  if (OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Windows)) {
 				processManager.forceQuit();
-		  }else{
+		  } else {
 				processManager.executeParallelProcess(getServerStopCommand(), this.getServerBinPath(), null, true);
 		  }
 	 }
 
 	 public void restartServer() throws Exception {
-	 	 stopServer();
-	 	 startServer();
+		  stopServer();
+		  startServer();
 	 }
 
 	 abstract void copyStandaloneFile() throws IOException;
+
 	 abstract void copyConfigFiles() throws IOException;
 
 	 public String getPortWithOffset(String port) {
-	 	 if(port != null) {
-			  return "" + (Integer.parseInt(port) + Integer.parseInt((server.getPortOffset() != null && !server.getPortOffset().isEmpty() )? server.getPortOffset() : "0"));
-		 }
-	 	 return "0";
+		  if (port != null) {
+				return "" + (Integer.parseInt(port) + Integer.parseInt((server.getPortOffset() != null && !server.getPortOffset().isEmpty()) ? server.getPortOffset() : "0"));
+		  }
+		  return "0";
 	 }
 
 	 public void forceShutdown() throws InterruptedException {

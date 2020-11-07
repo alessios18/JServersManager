@@ -126,12 +126,12 @@ public class Server {
 		  return configDir.get();
 	 }
 
-	 public StringProperty configDirProperty() {
-		  return configDir;
-	 }
-
 	 public void setConfigDir(String configDir) {
 		  this.configDir.set(configDir);
+	 }
+
+	 public StringProperty configDirProperty() {
+		  return configDir;
 	 }
 
 	 public boolean isCustomArgs() {
@@ -147,7 +147,7 @@ public class Server {
 	 }
 
 	 public void setCustomArgsValue(String customArgs) {
-	 	 this.customArgsValue.setValue(customArgs);
+		  this.customArgsValue.setValue(customArgs);
 	 }
 
 	 public List<CustomProperty> getCustomProperties() {

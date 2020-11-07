@@ -123,13 +123,13 @@ public class GuiManager extends Application {
 		  }
 	 }
 
-	 public void chooseDarkSide(Scene scene){
+	 public void chooseDarkSide(Scene scene) {
 		  scene.getStylesheets().add
 					 (GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
 	 }
 
-	 public void chooseWhiteSide(){
-		  this.setUserAgentStylesheet(null);
+	 public void chooseWhiteSide() {
+		  setUserAgentStylesheet(null);
 	 }
 
 	 public HashMap<String, OutputAreaController> getOutputAreas() {

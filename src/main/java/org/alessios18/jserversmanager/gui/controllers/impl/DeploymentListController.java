@@ -34,7 +34,7 @@ public class DeploymentListController extends ControllerBase {
 
 	 public void setDeploymentFileItems(List<DeployFile> deployFiles) {
 		  deployPaths.addAll(deployFiles);
-		  origin=deployFiles;
+		  origin = deployFiles;
 	 }
 
 	 public void setDialogStage(Stage dialogStage) {
@@ -43,15 +43,17 @@ public class DeploymentListController extends ControllerBase {
 
 	 @FXML
 	 private void initialize() {
-		  fileList.setCellFactory(param -> new DeployFileCell(guiManager,dialogStage));
+		  fileList.setCellFactory(param -> new DeployFileCell(guiManager, dialogStage));
 		  fileList.setItems(deployPaths);
 	 }
+
 	 @FXML
 	 private void handleSave() {
 		  origin.clear();
 		  origin.addAll(deployPaths);
 		  dialogStage.close();
 	 }
+
 	 @FXML
 	 private void handleCancel() {
 		  dialogStage.close();

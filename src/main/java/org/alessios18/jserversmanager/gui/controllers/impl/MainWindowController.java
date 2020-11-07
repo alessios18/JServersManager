@@ -50,9 +50,9 @@ public class MainWindowController extends ControllerBase {
 				public void changed(ObservableValue<? extends Server> observable, Server oldValue, Server newValue) {
 					 // Your action here
 					 try {
-					 	 if(newValue != null) {
-							  changeOutputPanel(newValue.getServerID());
-						 }
+						  if (newValue != null) {
+								changeOutputPanel(newValue.getServerID());
+						  }
 					 } catch (Exception e) {
 						  ExceptionDialog.showException(e);
 					 }

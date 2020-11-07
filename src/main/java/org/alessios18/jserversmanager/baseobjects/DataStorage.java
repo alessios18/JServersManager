@@ -1,4 +1,3 @@
-
 package org.alessios18.jserversmanager.baseobjects;
 
 import javafx.collections.ObservableList;
@@ -19,14 +18,16 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/** @author alessio */
+/**
+ * @author alessio
+ */
 public class DataStorage {
-	 private static final Logger logger = JServersManagerApp.getLogger();
 	 public static final String JSERVERSMANAGER_FOLDER = ".JServersManager";
 	 public static final String LIB_FOLDER = "lib";
 	 public static final String CONFIG_FOLDER = "config";
 	 public static final String DATA_FOLDER = "data";
 	 public static final String LOGS_FOLDER = "logs";
+	 private static final Logger logger = JServersManagerApp.getLogger();
 	 private static final String SERVERS = "servers.xml";
 	 private static final String CONFIGURATION = "jsm-config.xml";
 
@@ -35,7 +36,7 @@ public class DataStorage {
 	 String pattern = "yyyyMMdd_HHmmss";
 	 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-	 private DataStorage() throws UnsupportedOperatingSystemException{
+	 private DataStorage() throws UnsupportedOperatingSystemException {
 		  checkFiles();
 	 }
 
@@ -46,10 +47,10 @@ public class DataStorage {
 		  return dataStorage;
 	 }
 
-	 public void checkFiles() throws UnsupportedOperatingSystemException{
+	 public void checkFiles() throws UnsupportedOperatingSystemException {
 		  String rootPath = getRootPath();
 		  if (rootPath != null) {
-		  	 	boolean results;
+				boolean results;
 				results = createMissingPath(rootPath);
 				results = (results && createMissingPath(getLibPath()));
 				results = (results && createMissingPath(getLogPath()));
@@ -59,7 +60,7 @@ public class DataStorage {
 				if (!config.exists()) {
 					 saveConfig();
 				}
-				if(results) {
+				if (results) {
 					 return;
 				}
 		  }
@@ -75,7 +76,7 @@ public class DataStorage {
 	 }
 
 	 public BufferedWriter getServerLogBufferedWriter(Server server) throws IOException {
-		  File serverLog = new File( getLogPath() + server.getServerName().replace(" ", "_")+"-"+simpleDateFormat.format(new Date()) + ".log");
+		  File serverLog = new File(getLogPath() + server.getServerName().replace(" ", "_") + "-" + simpleDateFormat.format(new Date()) + ".log");
 		  return new BufferedWriter(new FileWriter(serverLog));
 	 }
 
@@ -87,17 +88,19 @@ public class DataStorage {
 	 }
 
 	 public String getLibPath() {
-		  return getRootPath() + LIB_FOLDER+ OsUtils.getSeparator();
+		  return getRootPath() + LIB_FOLDER + OsUtils.getSeparator();
 	 }
+
 	 public String getConfigPath() {
-		  return getRootPath() + CONFIG_FOLDER+ OsUtils.getSeparator();
+		  return getRootPath() + CONFIG_FOLDER + OsUtils.getSeparator();
 	 }
 
 	 public String getLogPath() {
-		  return getRootPath() + LOGS_FOLDER+ OsUtils.getSeparator();
+		  return getRootPath() + LOGS_FOLDER + OsUtils.getSeparator();
 	 }
+
 	 public String getDataPath() {
-		  return getRootPath() + DATA_FOLDER+ OsUtils.getSeparator();
+		  return getRootPath() + DATA_FOLDER + OsUtils.getSeparator();
 	 }
 
 	 public File getServersFile() {
@@ -167,6 +170,7 @@ public class DataStorage {
 				logger.error(exceptionText);
 		  }
 	 }
+
 	 public void loadServersDataFromFile(ObservableList<Server> servers) {
 		  try {
 				ServersDataWrapper wrapper = loadServers();

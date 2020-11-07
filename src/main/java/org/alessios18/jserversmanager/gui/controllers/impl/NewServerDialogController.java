@@ -219,8 +219,8 @@ public class NewServerDialogController extends ControllerBase {
 		  portOffset.setText(clone.getPortOffset());
 		  httpPort.setText(clone.getHttpPort());
 		  configDir.setText(clone.getConfigDir());
-		  deployCount.setText(clone.getFilePathToDeploy().size()+"");
-		  customPropertiesCount.setText(clone.getCustomProperties().size()+"");
+		  deployCount.setText(clone.getFilePathToDeploy().size() + "");
+		  customPropertiesCount.setText(clone.getCustomProperties().size() + "");
 		  if (clone.getServerType() != null) {
 				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
 		  }
@@ -257,13 +257,13 @@ public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private void handleDeployDialog() {
 		  showAddModifyDeployFiles();
-		  deployCount.setText(clone.getFilePathToDeploy().size()+"");
+		  deployCount.setText(clone.getFilePathToDeploy().size() + "");
 	 }
 
 	 @FXML
 	 private void handleModCustomProp() {
 		  showAddModifyCustomProperties();
-		  customPropertiesCount.setText(clone.getCustomProperties().size()+"");
+		  customPropertiesCount.setText(clone.getCustomProperties().size() + "");
 		  updateCustomArgs();
 	 }
 

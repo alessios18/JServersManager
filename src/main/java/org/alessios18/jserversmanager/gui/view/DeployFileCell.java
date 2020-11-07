@@ -17,11 +17,11 @@ public class DeployFileCell extends ListCell<DeployFile> {
 	 private static final Logger logger = JServersManagerApp.getLogger();
 	 private final GuiManager guiManager;
 	 private DeployFileController deployFileController = null;
-	 private Stage dialogStage;
+	 private final Stage dialogStage;
 
 	 public DeployFileCell(GuiManager guiManager, Stage dialogStage) {
 		  this.guiManager = guiManager;
-		  this.dialogStage=dialogStage;
+		  this.dialogStage = dialogStage;
 		  FXMLLoader mLLoader = new FXMLLoader(GuiManager.class.getResource(DeployFileController.getFXMLFileFullPath()));
 		  try {
 				mLLoader.load();

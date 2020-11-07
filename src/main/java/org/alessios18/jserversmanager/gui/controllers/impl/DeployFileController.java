@@ -53,7 +53,7 @@ public class DeployFileController extends ControllerBase {
 	 }
 
 	 @FXML
-	 private void handleChoosePath(){
+	 private void handleChoosePath() {
 		  JSMFileChooser dc = new JSMFileChooser(path);
 		  dc.show("Choose the server config directory", this.dialogStage, JSMFileChooser.SelectionType.FILE_AND_DIRECTORY);
 	 }

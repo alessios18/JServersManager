@@ -75,7 +75,7 @@ public class JSMFileChooser {
 
 	 protected File getInitialDirectory() {
 		  File file = new File(textField.getText());
-		  if (!textField.getText().isEmpty() && file.exists() ) {
+		  if (!textField.getText().isEmpty() && file.exists()) {
 				if (file.isDirectory()) {
 					 return file;
 				} else {

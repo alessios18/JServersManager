@@ -6,7 +6,6 @@ import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.util.OsUtils;
 import org.apache.commons.io.FileUtils;
 
-import javax.swing.event.ListDataEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,8 +68,8 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		 /*if(getServer().getConfigDir() != null && !getServer().getConfigDir().isEmpty()){
 				commandsList.add(SERVER_START_CONFIG_DIR + getServer().getConfigDir());
 		  }*/
-		  if(!getServer().getCustomProperties().isEmpty()){
-		  	 commandsList.addAll(getCustomProperties());
+		  if (!getServer().getCustomProperties().isEmpty()) {
+				commandsList.addAll(getCustomProperties());
 		  }
 		  return commandsList.toArray(new String[0]);
 	 }
@@ -90,18 +89,19 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 	 }
 
 	 @Override
-	 public String[] getServerCustomArguments(){
+	 public String[] getServerCustomArguments() {
 		  ArrayList<String> commandsList = new ArrayList<>();
 		  if (OsUtils.getOperatingSystemType().equals(OsUtils.OSType.Windows)) {
 				commandsList.add(CMD);
 				commandsList.add(CMD_C);
 		  }
 		  commandsList.add(SERVER_EXEC_COMMAND);
-		  for(String c:super.getServerCustomArguments()){
-		  	 commandsList.add(c);
+		  for (String c : super.getServerCustomArguments()) {
+				commandsList.add(c);
 		  }
 		  return commandsList.toArray(new String[0]);
 	 }
+
 	 @Override
 	 public String getServerDeployDir() {
 		  return getServer().getServerPath().endsWith(OsUtils.getSeparator()) ? getServer().getServerPath() + SERVER_DEPLOY_DIR : getServer().getServerPath() + OsUtils.getSeparator() + SERVER_DEPLOY_DIR;
@@ -150,13 +150,13 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 
 	 @Override
 	 void copyConfigFiles() throws IOException {
-	 	 File srvConfig = new File(getServerConfigDir());
-		File conf = new File(getServer().getConfigDir());
-		if(srvConfig.exists() && conf.exists() && conf.isDirectory()){
-			 for(File f:conf.listFiles()){
-				  FileUtils.copyFileToDirectory(f, srvConfig, false);
-			 }
-		}
+		  File srvConfig = new File(getServerConfigDir());
+		  File conf = new File(getServer().getConfigDir());
+		  if (srvConfig.exists() && conf.exists() && conf.isDirectory()) {
+				for (File f : conf.listFiles()) {
+					 FileUtils.copyFileToDirectory(f, srvConfig, false);
+				}
+		  }
 	 }
 
 	 @Override
@@ -170,15 +170,15 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  return sb.toString().trim();
 	 }
 
-	 protected List<String> getCustomProperties(){
+	 protected List<String> getCustomProperties() {
 		  List<String> out = new ArrayList<>();
-	 	 for(CustomProperty p:getServer().getCustomProperties()){
-	 	 	 if(p.getPropertyName().startsWith("-D")){
-	 	 	 	 out.add(p.getPropertyName()+"="+p.getPropertyValue());
-			 }else{
-				  out.add("-D"+p.getPropertyName()+"="+p.getPropertyValue());
-			 }
-		 }
-	 	 return out;
+		  for (CustomProperty p : getServer().getCustomProperties()) {
+				if (p.getPropertyName().startsWith("-D")) {
+					 out.add(p.getPropertyName() + "=" + p.getPropertyValue());
+				} else {
+					 out.add("-D" + p.getPropertyName() + "=" + p.getPropertyValue());
+				}
+		  }
+		  return out;
 	 }
 }

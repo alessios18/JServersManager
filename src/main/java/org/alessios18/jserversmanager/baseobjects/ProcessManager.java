@@ -32,30 +32,30 @@ public class ProcessManager {
 
 	 public void forceQuit() throws InterruptedException {
 		  for (String id : getProcesses().keySet()) {
-		  	 Process p = getProcesses().get(id);
-				logger.debug("["+id+"] force kill:STARTED");
+				Process p = getProcesses().get(id);
+				logger.debug("[" + id + "] force kill:STARTED");
 				ProcessHandle processHandle = p.toHandle();
-				KillProcessAndChildren(id,processHandle,0);
-				logger.debug("["+id+"] force kill:DONE");
+				KillProcessAndChildren(id, processHandle, 0);
+				logger.debug("[" + id + "] force kill:DONE");
 		  }
 		  for (Future f : futureList) {
 				f.cancel(true);
 		  }
 	 }
 
-	 private void KillProcessAndChildren(String id,ProcessHandle processHandle,int level) {
+	 private void KillProcessAndChildren(String id, ProcessHandle processHandle, int level) {
 		  Stream<ProcessHandle> children = processHandle.children();
 		  long childrenCount = children.count();
-		  logger.debug("["+id+"] have "+ childrenCount+" children of level "+level);
+		  logger.debug("[" + id + "] have " + childrenCount + " children of level " + level);
 		  children = processHandle.children();
 		  children.forEach(new Consumer<ProcessHandle>() {
 				@Override
 				public void accept(ProcessHandle processHandle) {
-					 KillProcessAndChildren(id,processHandle,level+1);
+					 KillProcessAndChildren(id, processHandle, level + 1);
 					 processHandle.destroyForcibly();
 				}
 		  });
-		  logger.debug("["+id+"] all "+childrenCount +" of level "+level+" has been killed");
+		  logger.debug("[" + id + "] all " + childrenCount + " of level " + level + " has been killed");
 		  processHandle.destroyForcibly();
 	 }
 
@@ -74,11 +74,11 @@ public class ProcessManager {
 					 pb.wait();
 					 System.out.println("waiting...");
 					 if (processesContainer.get(processId).isAlive()) {
-					 	 int result = processesContainer.get(processId).waitFor();
-						  if( result == 0){
-								logger.debug("["+processId+"] Stop Server:DONE");
-						  }else{
-								logger.error("["+processId+"] Stop Server:ERROR");
+						  int result = processesContainer.get(processId).waitFor();
+						  if (result == 0) {
+								logger.debug("[" + processId + "] Stop Server:DONE");
+						  } else {
+								logger.error("[" + processId + "] Stop Server:ERROR");
 								this.forceQuit();
 						  }
 					 }

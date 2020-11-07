@@ -21,16 +21,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class JServersManagerUpdater {
-	 private static final Logger logger = JServersManagerApp.getLogger();
 	 public static final String VERSION_SPECIFIER_ALPHA = "-alpha";
 	 public static final String VERSION_SPECIFIER_BETA = "-beta";
 	 public static final String VERSION_SPECIFIER_SNAPSHOT = "-SNAPSHOT";
-
 	 public static final String COMMAND_UPDATE = "update";
 	 protected static final String SERVICE_URL = " https://api.github.com/repos/alessios18/JServersManager/releases";
+	 private static final Logger logger = JServersManagerApp.getLogger();
 	 protected static boolean bOnlyStable = false;
-	 private Release available;
 	 private final Gson gson = new Gson();
+	 private Release available;
 
 	 public JServersManagerUpdater() throws Exception {
 		  bOnlyStable = DataStorage.getInstance().getConfig().isOnlyStable();
@@ -44,10 +43,10 @@ public class JServersManagerUpdater {
 								"java", "-jar", jarFileName, COMMAND_UPDATE, oldJarFilePAth};
 					 ProcessBuilder pb = new ProcessBuilder(commands);
 					 try {
-						  logger.debug("Calling new version for update: java -jar"+jarFileName+" "+COMMAND_UPDATE+" "+oldJarFilePAth);
+						  logger.debug("Calling new version for update: java -jar" + jarFileName + " " + COMMAND_UPDATE + " " + oldJarFilePAth);
 						  pb.directory(new File(DataStorage.getInstance().getLibPath()));
 						  Process p = pb.start();
-						  logger.debug("Called new version for update: java -jar "+jarFileName+" "+COMMAND_UPDATE+" "+oldJarFilePAth);
+						  logger.debug("Called new version for update: java -jar " + jarFileName + " " + COMMAND_UPDATE + " " + oldJarFilePAth);
 					 } catch (UnsupportedOperatingSystemException | IOException e) {
 						  e.printStackTrace();
 						  StringWriter sw = new StringWriter();
@@ -63,7 +62,7 @@ public class JServersManagerUpdater {
 	 }
 
 	 public boolean doUpgrade(String[] args) throws IOException {
-	 	 logger.debug("Started upgrade...");
+		  logger.debug("Started upgrade...");
 		  File runningJar = new java.io.File(JServersManagerApp.class.getProtectionDomain()
 					 .getCodeSource()
 					 .getLocation()
@@ -76,11 +75,11 @@ public class JServersManagerUpdater {
 						  File newJar = new File(oldJar.getParentFile().getAbsolutePath() + OsUtils.getSeparator() + runningJar.getName());
 						  FileUtils.copyFile(runningJar, newJar);
 						  boolean result = oldJar.delete();
-						  logger.debug("Jar copied to:"+newJar.getAbsolutePath()+" and old jar is deleted with result:"+result);
+						  logger.debug("Jar copied to:" + newJar.getAbsolutePath() + " and old jar is deleted with result:" + result);
 						  logger.debug("Starting the new Version");
 						  startUpdatedJar(oldJar.getParentFile().getAbsolutePath(), newJar.getName());
-					 }else{
-						  logger.debug("Jar "+oldJar.getAbsolutePath()+" not exist");
+					 } else {
+						  logger.debug("Jar " + oldJar.getAbsolutePath() + " not exist");
 					 }
 				}
 		  }
@@ -95,14 +94,14 @@ public class JServersManagerUpdater {
 				if (bOnlyStable && r.getPrerelease() && !isPresentJarInVersion(r)) {
 					 continue;
 				} else {
-					 Version v = new Version(r.getTagName(),r.getPrerelease());
+					 Version v = new Version(r.getTagName(), r.getPrerelease());
 					 if (maxVersion.isMinorThen(v)) {
 						  available = r;
 						  maxVersion = v;
 					 }
 				}
 		  }
-		  logger.debug("Found new version "+ maxVersion.getFullName());
+		  logger.debug("Found new version " + maxVersion.getFullName());
 		  return available;
 	 }
 
@@ -136,7 +135,7 @@ public class JServersManagerUpdater {
 
 	 public Asset downloadNewVersion() throws IOException, UnsupportedOperatingSystemException {
 		  Asset jar = getJarAsset(available);
-		  if (!new File(DataStorage.getInstance().getLibPath()+ jar.getName()).exists()) {
+		  if (!new File(DataStorage.getInstance().getLibPath() + jar.getName()).exists()) {
 				BufferedInputStream in = new BufferedInputStream(new URL(jar.getBrowserDownloadUrl()).openStream());
 				FileOutputStream fileOutputStream = new FileOutputStream(DataStorage.getInstance().getLibPath() + jar.getName());
 				byte[] dataBuffer = new byte[1024];
