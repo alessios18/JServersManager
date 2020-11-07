@@ -1,6 +1,7 @@
 package org.alessios18.jserversmanager.baseobjects;
 
 import javafx.application.Platform;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.gui.GuiManager;
 
 import java.io.BufferedWriter;

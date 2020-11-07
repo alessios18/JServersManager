@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.AddModifyCustomPropertiesController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="26.0" prefWidth="26.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <graphic>
+            <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TableView fx:id="propertiesTable" layoutX="5.0" layoutY="31.0" prefHeight="280.0" prefWidth="590.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="31.0">
+        <columns>
+          <TableColumn fx:id="columnName" maxWidth="1.7976931348623157E308" prefWidth="166.0" text="Property name" />
+          <TableColumn fx:id="columnValue" maxWidth="1.7976931348623157E308" prefWidth="500.0" text="Property value" />
+        </columns>
+      </TableView>
+      <Button layoutX="524.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="15.0" />
+      <Button layoutX="465.0" layoutY="364.0" mnemonicParsing="false" onAction="#handleSave" text="Save" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="85.0" />
+      <Button layoutX="36.0" layoutY="1.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="26.0" prefWidth="26.0" AnchorPane.leftAnchor="36.0" AnchorPane.topAnchor="5.0">
+         <graphic>
+            <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

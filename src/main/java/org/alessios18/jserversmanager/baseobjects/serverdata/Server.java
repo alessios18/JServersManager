@@ -1,8 +1,10 @@
-package org.alessios18.jserversmanager.baseobjects;
+package org.alessios18.jserversmanager.baseobjects.serverdata;
 
 import javafx.beans.property.*;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -21,6 +23,7 @@ public class Server {
 	 private final BooleanProperty customArgs;
 	 private final StringProperty customArgsValue;
 	 private final ObjectProperty<String[]> filePathToDeploy;
+	 private List<CustomProperty> customProperties;
 
 	 public Server() {
 		  serverID = new SimpleStringProperty(UUID.randomUUID().toString());
@@ -36,6 +39,7 @@ public class Server {
 		  customArgs = new SimpleBooleanProperty(false);
 		  customArgsValue = new SimpleStringProperty();
 		  filePathToDeploy = new SimpleObjectProperty<String[]>(null);
+		  customProperties = new ArrayList<>();
 	 }
 
 	 public String getServerID() {
@@ -146,6 +150,14 @@ public class Server {
 	 	 this.customArgsValue.setValue(customArgs);
 	 }
 
+	 public List<CustomProperty> getCustomProperties() {
+		  return customProperties;
+	 }
+
+	 public void setCustomProperties(List<CustomProperty> customProperties) {
+		  this.customProperties = customProperties;
+	 }
+
 	 public Server getCloneObject() {
 		  Server clone = new Server();
 		  clone.serverID.setValue("CLONE-" + this.serverID.getValue());
@@ -161,6 +173,7 @@ public class Server {
 		  clone.configDir.setValue(this.configDir.getValue());
 		  clone.customArgs.setValue(this.customArgs.getValue());
 		  clone.customArgsValue.setValue(this.customArgsValue.getValue());
+		  clone.customProperties.addAll(this.customProperties);
 		  return clone;
 	 }
 
@@ -177,5 +190,7 @@ public class Server {
 		  this.filePathToDeploy.setValue(clone.filePathToDeploy.getValue());
 		  this.customArgs.setValue(clone.customArgs.getValue());
 		  this.customArgsValue.setValue(clone.customArgsValue.getValue());
+		  this.customProperties.clear();
+		  this.customProperties.addAll(clone.customProperties);
 	 }
 }

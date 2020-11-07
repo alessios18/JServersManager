@@ -1,6 +1,6 @@
 package org.alessios18.jserversmanager.baseobjects.servermanagers.factory;
 
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerBase;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerGrunt;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerJBOSS;

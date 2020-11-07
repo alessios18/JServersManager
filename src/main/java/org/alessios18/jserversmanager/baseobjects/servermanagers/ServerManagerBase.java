@@ -2,7 +2,7 @@ package org.alessios18.jserversmanager.baseobjects.servermanagers;
 
 import org.alessios18.jserversmanager.JServersManagerApp;
 import org.alessios18.jserversmanager.baseobjects.ProcessManager;
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedWriter;

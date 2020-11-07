@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.alessios18.jserversmanager.JServersManagerApp;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;

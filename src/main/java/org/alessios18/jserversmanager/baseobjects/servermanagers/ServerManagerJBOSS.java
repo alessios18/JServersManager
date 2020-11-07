@@ -1,12 +1,15 @@
 package org.alessios18.jserversmanager.baseobjects.servermanagers;
 
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.CustomProperty;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.util.OsUtils;
 import org.apache.commons.io.FileUtils;
 
+import javax.swing.event.ListDataEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServerManagerJBOSS extends ServerManagerBase {
 
@@ -64,6 +67,9 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  }
 		  if(getServer().getConfigDir() != null && !getServer().getConfigDir().isEmpty()){
 				commandsList.add(SERVER_START_CONFIG_DIR + getServer().getConfigDir());
+		  }
+		  if(!getServer().getCustomProperties().isEmpty()){
+		  	 commandsList.addAll(getCustomProperties());
 		  }
 		  return commandsList.toArray(new String[0]);
 	 }
@@ -151,4 +157,15 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  return sb.toString().trim();
 	 }
 
+	 protected List<String> getCustomProperties(){
+		  List<String> out = new ArrayList<>();
+	 	 for(CustomProperty p:getServer().getCustomProperties()){
+	 	 	 if(p.getPropertyName().startsWith("-D")){
+	 	 	 	 out.add(p.getPropertyName()+"="+p.getPropertyValue());
+			 }else{
+				  out.add("-D"+p.getPropertyName()+"="+p.getPropertyValue());
+			 }
+		 }
+	 	 return out;
+	 }
 }

@@ -1,6 +1,6 @@
 package org.alessios18.jserversmanager.baseobjects.servermanagers;
 
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 
 import java.io.IOException;
 

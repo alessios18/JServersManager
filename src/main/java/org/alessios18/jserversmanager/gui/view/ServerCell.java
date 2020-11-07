@@ -3,7 +3,7 @@ package org.alessios18.jserversmanager.gui.view;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import org.alessios18.jserversmanager.JServersManagerApp;
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController;
 import org.apache.logging.log4j.Logger;

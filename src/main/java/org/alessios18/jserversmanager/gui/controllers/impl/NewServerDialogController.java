@@ -1,27 +1,30 @@
 package org.alessios18.jserversmanager.gui.controllers.impl;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.alessios18.jserversmanager.baseobjects.Server;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerBase;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.factory.ServerManagerFactory;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
 import org.alessios18.jserversmanager.gui.util.ImagesLoader;
+import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
 import org.alessios18.jserversmanager.gui.view.JSMFileChooser;
+
+import java.io.IOException;
 
 
 public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private TextField serverName;
-	 @FXML
-	 private ComboBox<ServerType> serverType;
 	 @FXML
 	 private TextField srvDir;
 	 @FXML
@@ -39,11 +42,13 @@ public class NewServerDialogController extends ControllerBase {
 	 @FXML
 	 private TextField deploFile2;
 	 @FXML
+	 private TextField httpPort;
+	 @FXML
 	 private TextArea arguments;
 	 @FXML
 	 private CheckBox enableCustomArgs;
 	 @FXML
-	 private TextField httpPort;
+	 private ComboBox<ServerType> serverType;
 	 @FXML
 	 private Button bSrvDir;
 	 @FXML
@@ -52,6 +57,8 @@ public class NewServerDialogController extends ControllerBase {
 	 private Button bPathDeploy;
 	 @FXML
 	 private Button bConfigDir;
+	 @FXML
+	 private Label customPropertiesCount;
 
 	 private Server server;
 	 private Server clone;
@@ -78,17 +85,14 @@ public class NewServerDialogController extends ControllerBase {
 		  bStandalone.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bPathDeploy.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
 		  bConfigDir.setGraphic(getImageView(ImagesLoader.getFolderIcon()));
-		  enableCustomArgs.selectedProperty().addListener(new ChangeListener<Boolean>() {
-				public void changed(ObservableValue<? extends Boolean> ov,
-										  Boolean oldValue, Boolean newValue) {
-					clone.setCustomArgs(newValue);
-					isCustomArgsEnable(newValue);
-				}
+		  enableCustomArgs.selectedProperty().addListener((ov, oldValue, newValue) -> {
+				clone.setCustomArgs(newValue);
+				isCustomArgsEnable(newValue);
 		  });
 		  setPageListener();
 	 }
 
-	 private void isCustomArgsEnable(boolean isCustom){
+	 private void isCustomArgsEnable(boolean isCustom) {
 		  configDir.setDisable(isCustom);
 		  adminPort.setDisable(isCustom);
 		  debugPort.setDisable(isCustom);
@@ -100,46 +104,35 @@ public class NewServerDialogController extends ControllerBase {
 	 private void setPageListener() {
 		  debugPort.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setDebugPort(newValue);
-				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
-				if(manager != null) {
-					 arguments.setText(manager.getServerParameters());
-				}
+				updateCustomArgs();
 		  });
 		  httpPort.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setHttpPort(newValue);
-				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
-				if(manager != null) {
-					 arguments.setText(manager.getServerParameters());
-				}
+				updateCustomArgs();
 		  });
 		  portOffset.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setPortOffset(newValue);
-				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
-				if(manager != null) {
-					 arguments.setText(manager.getServerParameters());
-				}
+				updateCustomArgs();
 		  });
 		  adminPort.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setAdminPort(newValue);
-				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
-				if(manager != null) {
-					 arguments.setText(manager.getServerParameters());
-				}
+				updateCustomArgs();
 		  });
 		  srvDir.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setServerPath(newValue);
-				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
-				if(manager != null) {
-					 arguments.setText(manager.getServerParameters());
-				}
+				updateCustomArgs();
 		  });
 		  configDir.textProperty().addListener((observable, oldValue, newValue) -> {
 				clone.setConfigDir(newValue);
-				ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
-				if(manager != null) {
-					 arguments.setText(manager.getServerParameters());
-				}
+				updateCustomArgs();
 		  });
+	 }
+
+	 private void updateCustomArgs() {
+		  ServerManagerBase manager = ServerManagerFactory.getServerManager(clone);
+		  if (manager != null) {
+				arguments.setText(manager.getServerParameters());
+		  }
 	 }
 
 	 /**
@@ -180,9 +173,9 @@ public class NewServerDialogController extends ControllerBase {
 				files[1] = deploFile2.getText();
 				clone.setFilePathToDeploy(files);
 				clone.setConfigDir(configDir.getText());
-				if(clone.isCustomArgs()){
+				if (clone.isCustomArgs()) {
 					 clone.setCustomArgsValue(arguments.getText());
-				}else{
+				} else {
 					 clone.setCustomArgsValue(null);
 				}
 				okClicked = true;
@@ -245,7 +238,7 @@ public class NewServerDialogController extends ControllerBase {
 				arguments.setText(ServerManagerFactory.getServerManager(clone).getServerParameters());
 		  }
 		  enableCustomArgs.setSelected(server.isCustomArgs());
-		  if(server.getCustomArgsValue() != null && !server.getCustomArgsValue().isEmpty()) {
+		  if (server.getCustomArgsValue() != null && !server.getCustomArgsValue().isEmpty()) {
 				arguments.setText(server.getCustomArgsValue());
 		  }
 	 }
@@ -269,7 +262,7 @@ public class NewServerDialogController extends ControllerBase {
 	 }
 
 	 @FXML
-	 private void handleSetConfigDir(){
+	 private void handleSetConfigDir() {
 		  JSMFileChooser dc = new JSMFileChooser(configDir);
 		  dc.show("Choose the server config directory", this.dialogStage, JSMFileChooser.SelectionType.DIRECTORY);
 	 }
@@ -278,6 +271,45 @@ public class NewServerDialogController extends ControllerBase {
 	 private void handleSetDeployPath() {
 		  JSMFileChooser dc = new JSMFileChooser(deploFile1);
 		  dc.show("Choose the file or directory to be deployed", this.dialogStage, JSMFileChooser.SelectionType.FILE_AND_DIRECTORY);
+	 }
+
+	 @FXML
+	 private void handleModCustomProp() {
+		  showAddModifyCustomProperties();
+		  customPropertiesCount.setText(clone.getCustomProperties().size()+"");
+		  updateCustomArgs();
+	 }
+
+	 public boolean showAddModifyCustomProperties() {
+		  try {
+				// Load the fxml file and create a new stage for the popup dialog.
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(
+						  GuiManager.class.getResource(AddModifyCustomPropertiesController.getFXMLFileFullPath()));
+				AnchorPane page = loader.load();
+
+				// Create the dialog Stage.
+				Stage dialogStage = new Stage();
+				dialogStage.setTitle("Add Modify Custom Properties");
+				dialogStage.initModality(Modality.WINDOW_MODAL);
+				dialogStage.initOwner(guiManager.getPrimaryStage());
+				Scene scene = new Scene(page);
+				dialogStage.setScene(scene);
+				getGuiManager().chooseDarkSide(scene);
+
+				// Set the person into the controller.
+				AddModifyCustomPropertiesController controller = loader.getController();
+				controller.setDialogStage(dialogStage);
+				controller.setGuiManager(guiManager);
+				controller.setServerProperties(clone.getCustomProperties());
+				// Show the dialog and wait until the user closes it
+				dialogStage.showAndWait();
+
+				return controller.isOkClicked();
+		  } catch (IOException e) {
+				ExceptionDialog.showException(e);
+				return false;
+		  }
 	 }
 
 	 public ImageView getImageView(Image image) {

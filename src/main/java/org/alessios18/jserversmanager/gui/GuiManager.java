@@ -14,7 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.alessios18.jserversmanager.baseobjects.DataStorage;
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.baseobjects.servermanagers.container.ServerManagersContainer;
 import org.alessios18.jserversmanager.exceptions.UnsupportedOperatingSystemException;
 import org.alessios18.jserversmanager.gui.controllers.impl.MainWindowController;
@@ -33,7 +33,6 @@ public class GuiManager extends Application {
 	 private MainWindowController controller;
 	 private HashMap<String, OutputAreaController> outputAreas = new HashMap<>();
 	 private ServerManagersContainer serverManagersContainer = new ServerManagersContainer();
-	 private Scene scene;
 
 	 public void startGUI() {
 		  launch("");
@@ -105,8 +104,8 @@ public class GuiManager extends Application {
 				dialogStage.setTitle("New Server");
 				dialogStage.initModality(Modality.WINDOW_MODAL);
 				dialogStage.initOwner(this.getPrimaryStage());
-				scene = new Scene(page);
-				chooseDarkSide();
+				Scene scene = new Scene(page);
+				chooseDarkSide(scene);
 				dialogStage.setScene(scene);
 
 				// Set the person into the controller.
@@ -124,7 +123,7 @@ public class GuiManager extends Application {
 		  }
 	 }
 
-	 public void chooseDarkSide(){
+	 public void chooseDarkSide(Scene scene){
 		  scene.getStylesheets().add
 					 (GuiManager.class.getResource("/css/darkTheme.css").toExternalForm());
 	 }

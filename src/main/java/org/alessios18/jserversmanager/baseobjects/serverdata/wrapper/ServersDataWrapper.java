@@ -1,9 +1,9 @@
 /**
  *
  */
-package org.alessios18.jserversmanager.datamodel.wrapper;
+package org.alessios18.jserversmanager.baseobjects.serverdata.wrapper;
 
-import org.alessios18.jserversmanager.baseobjects.Server;
+import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
