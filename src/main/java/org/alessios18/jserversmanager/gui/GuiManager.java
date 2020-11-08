@@ -138,12 +138,14 @@ public class GuiManager extends Application {
 		  this.outputAreas = outputAreas;
 	 }
 
-	 public void startNewOutput(String serverID) throws IOException {
+	 public void startNewOutput(Server server) throws IOException {
 		  FXMLLoader loader = new FXMLLoader();
 		  loader.setLocation(
 					 getClass().getResource(OutputAreaController.getFXMLFileFullPath()));
-		  TextArea ta = loader.load();
-		  outputAreas.put(serverID, loader.getController());
+		  AnchorPane ta = loader.load();
+		  OutputAreaController outputAreaController = loader.getController();
+		  outputAreaController.setServerName(server.getServerName());
+		  outputAreas.put(server.getServerID(), outputAreaController);
 		  this.controller.changeOutputPanel(ta);
 
 	 }

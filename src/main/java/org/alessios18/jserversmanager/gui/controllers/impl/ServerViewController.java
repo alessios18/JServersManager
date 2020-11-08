@@ -79,7 +79,7 @@ public class ServerViewController extends ControllerBase {
 	 private void startStopServer() throws Exception {
 		  if (!guiManager.getServerManagersContainer().getServerManager(server).isServerRunning()) {
 				try {
-					 guiManager.startNewOutput(server.getServerID());
+					 guiManager.startNewOutput(server);
 					 playStop.setImage(ImagesLoader.getStopIcon());
 					 guiManager.getServerManagersContainer().getServerManager(server);
 					 if (guiManager.getServerManagersContainer().getServerManager(server).getWriter() == null) {
@@ -106,7 +106,7 @@ public class ServerViewController extends ControllerBase {
 		  try {
 				if (guiManager.getServerManagersContainer().getServerManager(server).isServerRunning()) {
 
-					 guiManager.startNewOutput(server.getServerID());
+					 guiManager.startNewOutput(server);
 					 playStop.setImage(ImagesLoader.getStopIcon());
 					 guiManager.getServerManagersContainer().getServerManager(server);
 					 if (guiManager.getServerManagersContainer().getServerManager(server).getWriter() == null) {
@@ -115,7 +115,7 @@ public class ServerViewController extends ControllerBase {
 					 }
 					 guiManager.getServerManagersContainer().getServerManager(server).restartServer();
 				} else {
-					 guiManager.startNewOutput(server.getServerID());
+					 guiManager.startNewOutput(server);
 					 playStop.setImage(ImagesLoader.getStopIcon());
 					 guiManager.getServerManagersContainer().getServerManager(server);
 					 if (guiManager.getServerManagersContainer().getServerManager(server).getWriter() == null) {

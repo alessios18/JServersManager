@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
@@ -51,7 +52,7 @@ public class MainWindowController extends ControllerBase {
 					 // Your action here
 					 try {
 						  if (newValue != null) {
-								changeOutputPanel(newValue.getServerID());
+								changeOutputPanel(newValue);
 						  }
 					 } catch (Exception e) {
 						  ExceptionDialog.showException(e);
@@ -140,7 +141,7 @@ public class MainWindowController extends ControllerBase {
 
 	 public void appendOnTextArea(Server server, String text) {
 		  OutputAreaController contr = guiManager.getOutputAreas().get(server.getServerID());
-		  ((TextArea) contr.getView()).appendText(text);
+		  ((TextArea) contr.getOutputArea()).appendText(text);
 		  for (int i = 0; i < serverList.getItems().size(); i++) {
 				if (serverList.getItems().get(i).equals(server)) {
 					 ServerCell sc = getListCell(serverList, i);
@@ -155,16 +156,16 @@ public class MainWindowController extends ControllerBase {
 		  return (ServerCell) cells[index];
 	 }
 
-	 public void changeOutputPanel(TextArea ta) throws IOException {
+	 public void changeOutputPanel(Node node) throws IOException {
 		  this.outputPane.getChildren().clear();
-		  this.outputPane.getChildren().add(ta);
+		  this.outputPane.getChildren().add(node);
 	 }
 
-	 public void changeOutputPanel(String serverID) throws IOException {
-		  if (guiManager.getOutputAreas().containsKey(serverID)) {
-				changeOutputPanel((TextArea) guiManager.getOutputAreas().get(serverID).getView());
+	 public void changeOutputPanel(Server server) throws IOException {
+		  if (guiManager.getOutputAreas().containsKey(server.getServerID())) {
+				changeOutputPanel(guiManager.getOutputAreas().get(server.getServerID()).getView());
 		  } else {
-				guiManager.startNewOutput(serverID);
+				guiManager.startNewOutput(server);
 		  }
 	 }
 
