@@ -49,7 +49,6 @@ public class MainWindowController extends ControllerBase {
 
 				@Override
 				public void changed(ObservableValue<? extends Server> observable, Server oldValue, Server newValue) {
-					 // Your action here
 					 try {
 						  if (newValue != null) {
 								changeOutputPanel(newValue);
