@@ -5,6 +5,7 @@ import org.alessios18.jserversmanager.baseobjects.serverdata.DeployFile;
 import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
 import org.alessios18.jserversmanager.util.OsUtils;
 import org.apache.commons.io.FileUtils;
+import org.codehaus.plexus.util.DirectoryScanner;
 
 import java.io.File;
 import java.io.IOException;
@@ -115,14 +116,26 @@ public class ServerManagerJBOSS extends ServerManagerBase {
 		  for (DeployFile fPath : getServer().getFilePathToDeploy()) {
 				if (fPath.getPath() != null && !fPath.getPath().isEmpty()) {
 					 File toDeploy = new File(fPath.getPath());
-					 if (toDeploy.isDirectory()) {
-						  FileUtils.copyDirectory(toDeploy, deployDir, false);
-					 } else {
-						  FileUtils.copyFileToDirectory(toDeploy, deployDir, false);
+					 for(String fName:getFileWithWildcard(toDeploy)) {
+						  File f = new File(toDeploy.getParent()+OsUtils.getSeparator()+fName);
+						  if (f.isDirectory()) {
+								FileUtils.copyDirectory(f, deployDir, false);
+						  } else {
+								FileUtils.copyFileToDirectory(f, deployDir, false);
+						  }
 					 }
 				}
 		  }
 		  logger.debug("[" + getServer().getServerName() + "] Deploy:DONE");
+	 }
+
+	 protected String[] getFileWithWildcard(File toDeploy) {
+		  DirectoryScanner scanner = new DirectoryScanner();
+		  scanner.setIncludes(new String[]{toDeploy.getName()});
+		  scanner.setBasedir(toDeploy.getParentFile());
+		  scanner.setCaseSensitive(false);
+		  scanner.scan();
+		  return scanner.getIncludedFiles();
 	 }
 
 	 @Override
