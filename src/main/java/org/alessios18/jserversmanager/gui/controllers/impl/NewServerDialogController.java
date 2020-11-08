@@ -137,6 +137,7 @@ public class NewServerDialogController extends ControllerBase {
 
 	 protected void changeFormPanel() throws IOException {
 		  controllerForm = ServerFormLoader.getFormController(clone);
+		  controllerForm.setGuiManager(this.getGuiManager());
 		  Node root = controllerForm.getView();
 		  formPaneContainer.getChildren().clear();
 		  formPaneContainer.getChildren().add(root);

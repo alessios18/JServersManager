@@ -211,7 +211,7 @@ public class JBOSSFormController extends ControllerForm {
 				Stage deplotFileDialogStage = new Stage();
 				deplotFileDialogStage.setTitle("Add Modify Custom Properties");
 				deplotFileDialogStage.initModality(Modality.WINDOW_MODAL);
-				deplotFileDialogStage.initOwner(guiManager.getPrimaryStage());
+				deplotFileDialogStage.initOwner(dialogStage);
 				Scene scene = new Scene(page);
 				deplotFileDialogStage.setScene(scene);
 				getGuiManager().chooseDarkSide(scene);
@@ -241,7 +241,7 @@ public class JBOSSFormController extends ControllerForm {
 				Stage propertyDialogStage = new Stage();
 				propertyDialogStage.setTitle("Add Modify Custom Properties");
 				propertyDialogStage.initModality(Modality.WINDOW_MODAL);
-				propertyDialogStage.initOwner(guiManager.getPrimaryStage());
+				propertyDialogStage.initOwner(dialogStage);
 				Scene scene = new Scene(page);
 				propertyDialogStage.setScene(scene);
 				getGuiManager().chooseDarkSide(scene);
