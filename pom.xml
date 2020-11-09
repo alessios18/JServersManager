@@ -6,7 +6,7 @@
 
     <groupId>org.alessios18.jserversmanager</groupId>
     <artifactId>JServersManager</artifactId>
-    <version>0.8.2-alpha</version>
+    <version>0.8.3-alpha</version>
     <packaging>jar</packaging>
     <name>JServersManager</name>
 
