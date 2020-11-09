@@ -1,26 +1,20 @@
 package org.alessios18.jserversmanager.gui.controllers.impl;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.alessios18.jserversmanager.baseobjects.enums.ServerType;
 import org.alessios18.jserversmanager.baseobjects.serverdata.Server;
-import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerBase;
-import org.alessios18.jserversmanager.baseobjects.servermanagers.factory.ServerManagerFactory;
 import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerBase;
 import org.alessios18.jserversmanager.gui.controllers.ControllerForm;
-import org.alessios18.jserversmanager.gui.util.ImagesLoader;
 import org.alessios18.jserversmanager.gui.util.ServerFormLoader;
-import org.alessios18.jserversmanager.gui.view.ExceptionDialog;
-import org.alessios18.jserversmanager.gui.view.JSMFileChooser;
 
 import java.io.IOException;
 
@@ -85,7 +79,9 @@ public class NewServerDialogController extends ControllerBase {
 		  if (isInputValid()) {
 				clone.setServerName(serverName.getText());
 				clone.setServerType(serverType.getValue());
-
+				if (controllerForm != null) {
+					 controllerForm.getServerData();
+				}
 				okClicked = true;
 				dialogStage.close();
 				server.setFromClone(clone);
@@ -130,7 +126,7 @@ public class NewServerDialogController extends ControllerBase {
 		  this.clone = server.getCloneObject();
 		  serverName.setText(clone.getServerName());
 		  serverType.setValue(clone.getServerType());
-		  if(clone.getServerType() != null) {
+		  if (clone.getServerType() != null) {
 				changeFormPanel();
 		  }
 	 }
@@ -138,16 +134,17 @@ public class NewServerDialogController extends ControllerBase {
 	 protected void changeFormPanel() throws IOException {
 		  controllerForm = ServerFormLoader.getFormController(clone);
 		  controllerForm.setGuiManager(this.getGuiManager());
+		  controllerForm.setDialogStage(this.dialogStage);
 		  Node root = controllerForm.getView();
 		  formPaneContainer.getChildren().clear();
 		  formPaneContainer.getChildren().add(root);
-			dialogStage.sizeToScene();
+		  dialogStage.sizeToScene();
 	 }
 
 	 @FXML
 	 private void changedType() throws IOException {
 		  clone.setServerType(serverType.getValue());
-		  if(clone.getServerType() != null) {
+		  if (clone.getServerType() != null) {
 				changeFormPanel();
 		  }
 	 }
