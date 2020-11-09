@@ -55,7 +55,6 @@ public class JBOSSFormController extends ControllerForm {
 	 private Label deployCount;
 
 	 private Server clone;
-	 private Stage dialogStage;
 
 	 public static String getFXMLFileName() {
 		  return "jbossFormView.fxml";
@@ -63,9 +62,6 @@ public class JBOSSFormController extends ControllerForm {
 
 	 public static String getFXMLFileFullPath() {
 		  return GuiManager.FXML_FILE_PATH + getFXMLFileName();
-	 }
-	 public void setDialogStage(Stage dialogStage) {
-		  this.dialogStage = dialogStage;
 	 }
 	 @FXML
 	 private void initialize() {
@@ -151,7 +147,6 @@ public class JBOSSFormController extends ControllerForm {
 	 }
 	 public void setServer(Server server) {
 		  this.clone = server;
-		  this.clone = server.getCloneObject();
 		  srvDir.setText(clone.getServerPath());
 		  standalonePath.setText(clone.getStandalonePath());
 		  adminPort.setText(clone.getAdminPort());
@@ -172,19 +167,19 @@ public class JBOSSFormController extends ControllerForm {
 	 @FXML
 	 private void handleSetSrvDir() {
 		  JSMFileChooser dc = new JSMFileChooser(srvDir);
-		  dc.show("Choose the server Directory", this.dialogStage, JSMFileChooser.SelectionType.DIRECTORY);
+		  dc.show("Choose the server Directory", this.getDialogStage(), JSMFileChooser.SelectionType.DIRECTORY);
 	 }
 
 	 @FXML
 	 private void handleSetStandalone() {
 		  JSMFileChooser dc = new JSMFileChooser(standalonePath);
-		  dc.show("Choose the standalone.xml file", this.dialogStage, JSMFileChooser.SelectionType.FILE);
+		  dc.show("Choose the standalone.xml file", this.getDialogStage(), JSMFileChooser.SelectionType.FILE);
 	 }
 
 	 @FXML
 	 private void handleSetConfigDir() {
 		  JSMFileChooser dc = new JSMFileChooser(configDir);
-		  dc.show("Choose the server config directory", this.dialogStage, JSMFileChooser.SelectionType.DIRECTORY);
+		  dc.show("Choose the server config directory", this.getDialogStage(), JSMFileChooser.SelectionType.DIRECTORY);
 	 }
 
 	 @FXML
@@ -211,7 +206,7 @@ public class JBOSSFormController extends ControllerForm {
 				Stage deplotFileDialogStage = new Stage();
 				deplotFileDialogStage.setTitle("Add Modify Custom Properties");
 				deplotFileDialogStage.initModality(Modality.WINDOW_MODAL);
-				deplotFileDialogStage.initOwner(dialogStage);
+				deplotFileDialogStage.initOwner(this.getDialogStage());
 				Scene scene = new Scene(page);
 				deplotFileDialogStage.setScene(scene);
 				getGuiManager().chooseDarkSide(scene);
@@ -241,7 +236,7 @@ public class JBOSSFormController extends ControllerForm {
 				Stage propertyDialogStage = new Stage();
 				propertyDialogStage.setTitle("Add Modify Custom Properties");
 				propertyDialogStage.initModality(Modality.WINDOW_MODAL);
-				propertyDialogStage.initOwner(dialogStage);
+				propertyDialogStage.initOwner(this.getDialogStage());
 				Scene scene = new Scene(page);
 				propertyDialogStage.setScene(scene);
 				getGuiManager().chooseDarkSide(scene);
