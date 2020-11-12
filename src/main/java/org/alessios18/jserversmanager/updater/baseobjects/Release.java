@@ -7,203 +7,219 @@ import java.util.List;
 
 public class Release {
 
-	 @SerializedName("url")
-	 @Expose
-	 private String url;
-	 @SerializedName("assets_url")
-	 @Expose
-	 private String assetsUrl;
-	 @SerializedName("upload_url")
-	 @Expose
-	 private String uploadUrl;
-	 @SerializedName("html_url")
-	 @Expose
-	 private String htmlUrl;
-	 @SerializedName("id")
-	 @Expose
-	 private Integer id;
-	 @SerializedName("node_id")
-	 @Expose
-	 private String nodeId;
-	 @SerializedName("tag_name")
-	 @Expose
-	 private String tagName;
-	 @SerializedName("target_commitish")
-	 @Expose
-	 private String targetCommitish;
-	 @SerializedName("name")
-	 @Expose
-	 private String name;
-	 @SerializedName("draft")
-	 @Expose
-	 private Boolean draft;
-	 @SerializedName("author")
-	 @Expose
-	 private Author author;
-	 @SerializedName("prerelease")
-	 @Expose
-	 private Boolean prerelease;
-	 @SerializedName("created_at")
-	 @Expose
-	 private String createdAt;
-	 @SerializedName("published_at")
-	 @Expose
-	 private String publishedAt;
-	 @SerializedName("assets")
-	 @Expose
-	 private List<Asset> assets = null;
-	 @SerializedName("tarball_url")
-	 @Expose
-	 private String tarballUrl;
-	 @SerializedName("zipball_url")
-	 @Expose
-	 private String zipballUrl;
-	 @SerializedName("body")
-	 @Expose
-	 private String body;
+  @SerializedName("url")
+  @Expose
+  private String url;
 
-	 public String getUrl() {
-		  return url;
-	 }
+  @SerializedName("assets_url")
+  @Expose
+  private String assetsUrl;
 
-	 public void setUrl(String url) {
-		  this.url = url;
-	 }
+  @SerializedName("upload_url")
+  @Expose
+  private String uploadUrl;
 
-	 public String getAssetsUrl() {
-		  return assetsUrl;
-	 }
+  @SerializedName("html_url")
+  @Expose
+  private String htmlUrl;
 
-	 public void setAssetsUrl(String assetsUrl) {
-		  this.assetsUrl = assetsUrl;
-	 }
+  @SerializedName("id")
+  @Expose
+  private Integer id;
 
-	 public String getUploadUrl() {
-		  return uploadUrl;
-	 }
+  @SerializedName("node_id")
+  @Expose
+  private String nodeId;
 
-	 public void setUploadUrl(String uploadUrl) {
-		  this.uploadUrl = uploadUrl;
-	 }
+  @SerializedName("tag_name")
+  @Expose
+  private String tagName;
 
-	 public String getHtmlUrl() {
-		  return htmlUrl;
-	 }
+  @SerializedName("target_commitish")
+  @Expose
+  private String targetCommitish;
 
-	 public void setHtmlUrl(String htmlUrl) {
-		  this.htmlUrl = htmlUrl;
-	 }
+  @SerializedName("name")
+  @Expose
+  private String name;
 
-	 public Integer getId() {
-		  return id;
-	 }
+  @SerializedName("draft")
+  @Expose
+  private Boolean draft;
 
-	 public void setId(Integer id) {
-		  this.id = id;
-	 }
+  @SerializedName("author")
+  @Expose
+  private Author author;
 
-	 public String getNodeId() {
-		  return nodeId;
-	 }
+  @SerializedName("prerelease")
+  @Expose
+  private Boolean prerelease;
 
-	 public void setNodeId(String nodeId) {
-		  this.nodeId = nodeId;
-	 }
+  @SerializedName("created_at")
+  @Expose
+  private String createdAt;
 
-	 public String getTagName() {
-		  return tagName;
-	 }
+  @SerializedName("published_at")
+  @Expose
+  private String publishedAt;
 
-	 public void setTagName(String tagName) {
-		  this.tagName = tagName;
-	 }
+  @SerializedName("assets")
+  @Expose
+  private List<Asset> assets = null;
 
-	 public String getTargetCommitish() {
-		  return targetCommitish;
-	 }
+  @SerializedName("tarball_url")
+  @Expose
+  private String tarballUrl;
 
-	 public void setTargetCommitish(String targetCommitish) {
-		  this.targetCommitish = targetCommitish;
-	 }
+  @SerializedName("zipball_url")
+  @Expose
+  private String zipballUrl;
 
-	 public String getName() {
-		  return name;
-	 }
+  @SerializedName("body")
+  @Expose
+  private String body;
 
-	 public void setName(String name) {
-		  this.name = name;
-	 }
+  public String getUrl() {
+    return url;
+  }
 
-	 public Boolean getDraft() {
-		  return draft;
-	 }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-	 public void setDraft(Boolean draft) {
-		  this.draft = draft;
-	 }
+  public String getAssetsUrl() {
+    return assetsUrl;
+  }
 
-	 public Author getAuthor() {
-		  return author;
-	 }
+  public void setAssetsUrl(String assetsUrl) {
+    this.assetsUrl = assetsUrl;
+  }
 
-	 public void setAuthor(Author author) {
-		  this.author = author;
-	 }
+  public String getUploadUrl() {
+    return uploadUrl;
+  }
 
-	 public Boolean getPrerelease() {
-		  return prerelease;
-	 }
+  public void setUploadUrl(String uploadUrl) {
+    this.uploadUrl = uploadUrl;
+  }
 
-	 public void setPrerelease(Boolean prerelease) {
-		  this.prerelease = prerelease;
-	 }
+  public String getHtmlUrl() {
+    return htmlUrl;
+  }
 
-	 public String getCreatedAt() {
-		  return createdAt;
-	 }
+  public void setHtmlUrl(String htmlUrl) {
+    this.htmlUrl = htmlUrl;
+  }
 
-	 public void setCreatedAt(String createdAt) {
-		  this.createdAt = createdAt;
-	 }
+  public Integer getId() {
+    return id;
+  }
 
-	 public String getPublishedAt() {
-		  return publishedAt;
-	 }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	 public void setPublishedAt(String publishedAt) {
-		  this.publishedAt = publishedAt;
-	 }
+  public String getNodeId() {
+    return nodeId;
+  }
 
-	 public List<Asset> getAssets() {
-		  return assets;
-	 }
+  public void setNodeId(String nodeId) {
+    this.nodeId = nodeId;
+  }
 
-	 public void setAssets(List<Asset> assets) {
-		  this.assets = assets;
-	 }
+  public String getTagName() {
+    return tagName;
+  }
 
-	 public String getTarballUrl() {
-		  return tarballUrl;
-	 }
+  public void setTagName(String tagName) {
+    this.tagName = tagName;
+  }
 
-	 public void setTarballUrl(String tarballUrl) {
-		  this.tarballUrl = tarballUrl;
-	 }
+  public String getTargetCommitish() {
+    return targetCommitish;
+  }
 
-	 public String getZipballUrl() {
-		  return zipballUrl;
-	 }
+  public void setTargetCommitish(String targetCommitish) {
+    this.targetCommitish = targetCommitish;
+  }
 
-	 public void setZipballUrl(String zipballUrl) {
-		  this.zipballUrl = zipballUrl;
-	 }
+  public String getName() {
+    return name;
+  }
 
-	 public String getBody() {
-		  return body;
-	 }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	 public void setBody(String body) {
-		  this.body = body;
-	 }
+  public Boolean getDraft() {
+    return draft;
+  }
 
+  public void setDraft(Boolean draft) {
+    this.draft = draft;
+  }
+
+  public Author getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(Author author) {
+    this.author = author;
+  }
+
+  public Boolean getPrerelease() {
+    return prerelease;
+  }
+
+  public void setPrerelease(Boolean prerelease) {
+    this.prerelease = prerelease;
+  }
+
+  public String getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(String createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public String getPublishedAt() {
+    return publishedAt;
+  }
+
+  public void setPublishedAt(String publishedAt) {
+    this.publishedAt = publishedAt;
+  }
+
+  public List<Asset> getAssets() {
+    return assets;
+  }
+
+  public void setAssets(List<Asset> assets) {
+    this.assets = assets;
+  }
+
+  public String getTarballUrl() {
+    return tarballUrl;
+  }
+
+  public void setTarballUrl(String tarballUrl) {
+    this.tarballUrl = tarballUrl;
+  }
+
+  public String getZipballUrl() {
+    return zipballUrl;
+  }
+
+  public void setZipballUrl(String zipballUrl) {
+    this.zipballUrl = zipballUrl;
+  }
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
 }

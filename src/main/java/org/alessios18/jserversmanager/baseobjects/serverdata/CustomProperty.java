@@ -4,35 +4,35 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class CustomProperty {
-	 private final StringProperty propertyName;
-	 private final StringProperty propertyValue;
+  private final StringProperty propertyName;
+  private final StringProperty propertyValue;
 
-	 public CustomProperty() {
-		  propertyName = new SimpleStringProperty("");
-		  propertyValue = new SimpleStringProperty("");
-	 }
+  public CustomProperty() {
+    propertyName = new SimpleStringProperty("");
+    propertyValue = new SimpleStringProperty("");
+  }
 
-	 public String getPropertyName() {
-		  return propertyName.get();
-	 }
+  public String getPropertyName() {
+    return propertyName.get();
+  }
 
-	 public void setPropertyName(String propertyName) {
-		  this.propertyName.set(propertyName);
-	 }
+  public void setPropertyName(String propertyName) {
+    this.propertyName.set(propertyName);
+  }
 
-	 public StringProperty propertyNameProperty() {
-		  return propertyName;
-	 }
+  public StringProperty propertyNameProperty() {
+    return propertyName;
+  }
 
-	 public String getPropertyValue() {
-		  return propertyValue.get();
-	 }
+  public String getPropertyValue() {
+    return propertyValue.get();
+  }
 
-	 public void setPropertyValue(String propertyValue) {
-		  this.propertyValue.set(propertyValue);
-	 }
+  public void setPropertyValue(String propertyValue) {
+    this.propertyValue.set(propertyValue);
+  }
 
-	 public StringProperty propertyValueProperty() {
-		  return propertyValue;
-	 }
+  public StringProperty propertyValueProperty() {
+    return propertyValue;
+  }
 }

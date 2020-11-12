@@ -5,203 +5,219 @@ import com.google.gson.annotations.SerializedName;
 
 public class Author {
 
-	 @SerializedName("login")
-	 @Expose
-	 private String login;
-	 @SerializedName("id")
-	 @Expose
-	 private Integer id;
-	 @SerializedName("node_id")
-	 @Expose
-	 private String nodeId;
-	 @SerializedName("avatar_url")
-	 @Expose
-	 private String avatarUrl;
-	 @SerializedName("gravatar_id")
-	 @Expose
-	 private String gravatarId;
-	 @SerializedName("url")
-	 @Expose
-	 private String url;
-	 @SerializedName("html_url")
-	 @Expose
-	 private String htmlUrl;
-	 @SerializedName("followers_url")
-	 @Expose
-	 private String followersUrl;
-	 @SerializedName("following_url")
-	 @Expose
-	 private String followingUrl;
-	 @SerializedName("gists_url")
-	 @Expose
-	 private String gistsUrl;
-	 @SerializedName("starred_url")
-	 @Expose
-	 private String starredUrl;
-	 @SerializedName("subscriptions_url")
-	 @Expose
-	 private String subscriptionsUrl;
-	 @SerializedName("organizations_url")
-	 @Expose
-	 private String organizationsUrl;
-	 @SerializedName("repos_url")
-	 @Expose
-	 private String reposUrl;
-	 @SerializedName("events_url")
-	 @Expose
-	 private String eventsUrl;
-	 @SerializedName("received_events_url")
-	 @Expose
-	 private String receivedEventsUrl;
-	 @SerializedName("type")
-	 @Expose
-	 private String type;
-	 @SerializedName("site_admin")
-	 @Expose
-	 private Boolean siteAdmin;
+  @SerializedName("login")
+  @Expose
+  private String login;
 
-	 public String getLogin() {
-		  return login;
-	 }
+  @SerializedName("id")
+  @Expose
+  private Integer id;
 
-	 public void setLogin(String login) {
-		  this.login = login;
-	 }
+  @SerializedName("node_id")
+  @Expose
+  private String nodeId;
 
-	 public Integer getId() {
-		  return id;
-	 }
+  @SerializedName("avatar_url")
+  @Expose
+  private String avatarUrl;
 
-	 public void setId(Integer id) {
-		  this.id = id;
-	 }
+  @SerializedName("gravatar_id")
+  @Expose
+  private String gravatarId;
 
-	 public String getNodeId() {
-		  return nodeId;
-	 }
+  @SerializedName("url")
+  @Expose
+  private String url;
 
-	 public void setNodeId(String nodeId) {
-		  this.nodeId = nodeId;
-	 }
+  @SerializedName("html_url")
+  @Expose
+  private String htmlUrl;
 
-	 public String getAvatarUrl() {
-		  return avatarUrl;
-	 }
+  @SerializedName("followers_url")
+  @Expose
+  private String followersUrl;
 
-	 public void setAvatarUrl(String avatarUrl) {
-		  this.avatarUrl = avatarUrl;
-	 }
+  @SerializedName("following_url")
+  @Expose
+  private String followingUrl;
 
-	 public String getGravatarId() {
-		  return gravatarId;
-	 }
+  @SerializedName("gists_url")
+  @Expose
+  private String gistsUrl;
 
-	 public void setGravatarId(String gravatarId) {
-		  this.gravatarId = gravatarId;
-	 }
+  @SerializedName("starred_url")
+  @Expose
+  private String starredUrl;
 
-	 public String getUrl() {
-		  return url;
-	 }
+  @SerializedName("subscriptions_url")
+  @Expose
+  private String subscriptionsUrl;
 
-	 public void setUrl(String url) {
-		  this.url = url;
-	 }
+  @SerializedName("organizations_url")
+  @Expose
+  private String organizationsUrl;
 
-	 public String getHtmlUrl() {
-		  return htmlUrl;
-	 }
+  @SerializedName("repos_url")
+  @Expose
+  private String reposUrl;
 
-	 public void setHtmlUrl(String htmlUrl) {
-		  this.htmlUrl = htmlUrl;
-	 }
+  @SerializedName("events_url")
+  @Expose
+  private String eventsUrl;
 
-	 public String getFollowersUrl() {
-		  return followersUrl;
-	 }
+  @SerializedName("received_events_url")
+  @Expose
+  private String receivedEventsUrl;
 
-	 public void setFollowersUrl(String followersUrl) {
-		  this.followersUrl = followersUrl;
-	 }
+  @SerializedName("type")
+  @Expose
+  private String type;
 
-	 public String getFollowingUrl() {
-		  return followingUrl;
-	 }
+  @SerializedName("site_admin")
+  @Expose
+  private Boolean siteAdmin;
 
-	 public void setFollowingUrl(String followingUrl) {
-		  this.followingUrl = followingUrl;
-	 }
+  public String getLogin() {
+    return login;
+  }
 
-	 public String getGistsUrl() {
-		  return gistsUrl;
-	 }
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-	 public void setGistsUrl(String gistsUrl) {
-		  this.gistsUrl = gistsUrl;
-	 }
+  public Integer getId() {
+    return id;
+  }
 
-	 public String getStarredUrl() {
-		  return starredUrl;
-	 }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	 public void setStarredUrl(String starredUrl) {
-		  this.starredUrl = starredUrl;
-	 }
+  public String getNodeId() {
+    return nodeId;
+  }
 
-	 public String getSubscriptionsUrl() {
-		  return subscriptionsUrl;
-	 }
+  public void setNodeId(String nodeId) {
+    this.nodeId = nodeId;
+  }
 
-	 public void setSubscriptionsUrl(String subscriptionsUrl) {
-		  this.subscriptionsUrl = subscriptionsUrl;
-	 }
+  public String getAvatarUrl() {
+    return avatarUrl;
+  }
 
-	 public String getOrganizationsUrl() {
-		  return organizationsUrl;
-	 }
+  public void setAvatarUrl(String avatarUrl) {
+    this.avatarUrl = avatarUrl;
+  }
 
-	 public void setOrganizationsUrl(String organizationsUrl) {
-		  this.organizationsUrl = organizationsUrl;
-	 }
+  public String getGravatarId() {
+    return gravatarId;
+  }
 
-	 public String getReposUrl() {
-		  return reposUrl;
-	 }
+  public void setGravatarId(String gravatarId) {
+    this.gravatarId = gravatarId;
+  }
 
-	 public void setReposUrl(String reposUrl) {
-		  this.reposUrl = reposUrl;
-	 }
+  public String getUrl() {
+    return url;
+  }
 
-	 public String getEventsUrl() {
-		  return eventsUrl;
-	 }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-	 public void setEventsUrl(String eventsUrl) {
-		  this.eventsUrl = eventsUrl;
-	 }
+  public String getHtmlUrl() {
+    return htmlUrl;
+  }
 
-	 public String getReceivedEventsUrl() {
-		  return receivedEventsUrl;
-	 }
+  public void setHtmlUrl(String htmlUrl) {
+    this.htmlUrl = htmlUrl;
+  }
 
-	 public void setReceivedEventsUrl(String receivedEventsUrl) {
-		  this.receivedEventsUrl = receivedEventsUrl;
-	 }
+  public String getFollowersUrl() {
+    return followersUrl;
+  }
 
-	 public String getType() {
-		  return type;
-	 }
+  public void setFollowersUrl(String followersUrl) {
+    this.followersUrl = followersUrl;
+  }
 
-	 public void setType(String type) {
-		  this.type = type;
-	 }
+  public String getFollowingUrl() {
+    return followingUrl;
+  }
 
-	 public Boolean getSiteAdmin() {
-		  return siteAdmin;
-	 }
+  public void setFollowingUrl(String followingUrl) {
+    this.followingUrl = followingUrl;
+  }
 
-	 public void setSiteAdmin(Boolean siteAdmin) {
-		  this.siteAdmin = siteAdmin;
-	 }
+  public String getGistsUrl() {
+    return gistsUrl;
+  }
 
+  public void setGistsUrl(String gistsUrl) {
+    this.gistsUrl = gistsUrl;
+  }
+
+  public String getStarredUrl() {
+    return starredUrl;
+  }
+
+  public void setStarredUrl(String starredUrl) {
+    this.starredUrl = starredUrl;
+  }
+
+  public String getSubscriptionsUrl() {
+    return subscriptionsUrl;
+  }
+
+  public void setSubscriptionsUrl(String subscriptionsUrl) {
+    this.subscriptionsUrl = subscriptionsUrl;
+  }
+
+  public String getOrganizationsUrl() {
+    return organizationsUrl;
+  }
+
+  public void setOrganizationsUrl(String organizationsUrl) {
+    this.organizationsUrl = organizationsUrl;
+  }
+
+  public String getReposUrl() {
+    return reposUrl;
+  }
+
+  public void setReposUrl(String reposUrl) {
+    this.reposUrl = reposUrl;
+  }
+
+  public String getEventsUrl() {
+    return eventsUrl;
+  }
+
+  public void setEventsUrl(String eventsUrl) {
+    this.eventsUrl = eventsUrl;
+  }
+
+  public String getReceivedEventsUrl() {
+    return receivedEventsUrl;
+  }
+
+  public void setReceivedEventsUrl(String receivedEventsUrl) {
+    this.receivedEventsUrl = receivedEventsUrl;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public Boolean getSiteAdmin() {
+    return siteAdmin;
+  }
+
+  public void setSiteAdmin(Boolean siteAdmin) {
+    this.siteAdmin = siteAdmin;
+  }
 }

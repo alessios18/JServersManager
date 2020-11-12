@@ -8,16 +8,15 @@ import org.alessios18.jserversmanager.baseobjects.servermanagers.ServerManagerJB
 
 public class ServerManagerFactory {
 
-	 private ServerManagerFactory() {
-	 }
+  private ServerManagerFactory() {}
 
-	 public static ServerManagerBase getServerManager(Server server) {
-		  ServerManagerBase result = null;
-		  if (server.getServerType().equals(ServerType.JBOSS)) {
-				result = new ServerManagerJBOSS(server);
-		  } else if (server.getServerType().equals(ServerType.GRUNT)) {
-				result = new ServerManagerGrunt(server);
-		  }
-		  return result;
-	 }
+  public static ServerManagerBase getServerManager(Server server, String serverConfigId) {
+    ServerManagerBase result = null;
+    if (server.getServerType().equals(ServerType.JBOSS)) {
+      result = new ServerManagerJBOSS(server, serverConfigId);
+    } else if (server.getServerType().equals(ServerType.GRUNT)) {
+      result = new ServerManagerGrunt(server, serverConfigId);
+    }
+    return result;
+  }
 }

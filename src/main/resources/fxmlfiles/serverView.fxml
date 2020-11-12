@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="204.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="106.0" prefWidth="212.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.ServerViewController">
     <children>
-        <Label fx:id="serverName" layoutX="14.0" layoutY="9.0" text="Server Name" textAlignment="CENTER">
+        <Label fx:id="serverName" layoutX="14.0" layoutY="9.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Server Name" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="5.0">
             <font>
                 <Font name="System Bold" size="13.0" />
             </font>
         </Label>
-        <Label fx:id="serverType" layoutX="14.0" layoutY="30.0" text="type">
+        <Label fx:id="serverType" layoutX="3.0" layoutY="24.0" text="type" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="24.0">
             <font>
                 <Font size="10.0" />
             </font>
         </Label>
-        <ImageView fx:id="output" fitHeight="26.0" fitWidth="26.0" layoutX="176.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <ImageView fx:id="output" fitHeight="26.0" fitWidth="26.0" layoutX="176.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
             <image>
                 <Image url="@../images/blink-off.png" />
             </image>
         </ImageView>
-      <Button layoutX="142.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleServerMod" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+      <Button layoutX="93.0" layoutY="75.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleServerMod" prefHeight="26.0" prefWidth="26.0" styleClass="roundButton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="89.0">
          <graphic>
               <ImageView fx:id="settings" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -33,7 +34,7 @@
               </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="147.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleOpenServerFolder" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="31.0">
+      <Button layoutX="62.0" layoutY="75.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleOpenServerFolder" prefHeight="26.0" prefWidth="26.0" styleClass="roundButton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="61.0">
          <graphic>
               <ImageView fx:id="folder" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -42,7 +43,7 @@
               </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="121.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleRestart" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="57.0">
+      <Button layoutX="31.0" layoutY="75.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleRestart" prefHeight="26.0" prefWidth="26.0" styleClass="roundButton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="33.0">
          <graphic>
               <ImageView fx:id="restart" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -51,7 +52,7 @@
               </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="96.0" layoutY="35.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#startStopServer" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="82.0">
+      <Button layoutX="4.0" layoutY="75.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#startStopServer" prefHeight="26.0" prefWidth="26.0" styleClass="roundButton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
          <graphic>
               <ImageView fx:id="playStop" fitHeight="26.0" fitWidth="26.0" onMouseClicked="#startStopServer" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -60,5 +61,6 @@
               </ImageView>
          </graphic>
       </Button>
+      <ComboBox fx:id="serverConfig" layoutY="45.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0" />
     </children>
 </AnchorPane>

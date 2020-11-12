@@ -11,7 +11,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alessios18.jserversmanager.gui.controllers.impl.DeploymentListController">
    <children>
       <ListView fx:id="fileList" layoutX="200.0" layoutY="31.0" prefHeight="179.0" prefWidth="474.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="32.0" />
-      <Button layoutX="5.0" layoutY="1.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="26.0" prefWidth="26.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <Button layoutX="5.0" layoutY="1.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="26.0" prefWidth="26.0" styleClass="roundButton" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
          <graphic>
             <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -20,7 +20,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="31.0" layoutY="5.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="26.0" prefWidth="26.0" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="5.0">
+      <Button layoutX="31.0" layoutY="5.0" maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="26.0" prefWidth="26.0" styleClass="roundButton" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="5.0">
          <graphic>
             <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                <image>

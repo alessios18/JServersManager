@@ -5,148 +5,159 @@ import com.google.gson.annotations.SerializedName;
 
 public class Asset {
 
-	 @SerializedName("url")
-	 @Expose
-	 private String url;
-	 @SerializedName("id")
-	 @Expose
-	 private Integer id;
-	 @SerializedName("node_id")
-	 @Expose
-	 private String nodeId;
-	 @SerializedName("name")
-	 @Expose
-	 private String name;
-	 @SerializedName("label")
-	 @Expose
-	 private Object label;
-	 @SerializedName("uploader")
-	 @Expose
-	 private Uploader uploader;
-	 @SerializedName("content_type")
-	 @Expose
-	 private String contentType;
-	 @SerializedName("state")
-	 @Expose
-	 private String state;
-	 @SerializedName("size")
-	 @Expose
-	 private Integer size;
-	 @SerializedName("download_count")
-	 @Expose
-	 private Integer downloadCount;
-	 @SerializedName("created_at")
-	 @Expose
-	 private String createdAt;
-	 @SerializedName("updated_at")
-	 @Expose
-	 private String updatedAt;
-	 @SerializedName("browser_download_url")
-	 @Expose
-	 private String browserDownloadUrl;
+  @SerializedName("url")
+  @Expose
+  private String url;
 
-	 public String getUrl() {
-		  return url;
-	 }
+  @SerializedName("id")
+  @Expose
+  private Integer id;
 
-	 public void setUrl(String url) {
-		  this.url = url;
-	 }
+  @SerializedName("node_id")
+  @Expose
+  private String nodeId;
 
-	 public Integer getId() {
-		  return id;
-	 }
+  @SerializedName("name")
+  @Expose
+  private String name;
 
-	 public void setId(Integer id) {
-		  this.id = id;
-	 }
+  @SerializedName("label")
+  @Expose
+  private Object label;
 
-	 public String getNodeId() {
-		  return nodeId;
-	 }
+  @SerializedName("uploader")
+  @Expose
+  private Uploader uploader;
 
-	 public void setNodeId(String nodeId) {
-		  this.nodeId = nodeId;
-	 }
+  @SerializedName("content_type")
+  @Expose
+  private String contentType;
 
-	 public String getName() {
-		  return name;
-	 }
+  @SerializedName("state")
+  @Expose
+  private String state;
 
-	 public void setName(String name) {
-		  this.name = name;
-	 }
+  @SerializedName("size")
+  @Expose
+  private Integer size;
 
-	 public Object getLabel() {
-		  return label;
-	 }
+  @SerializedName("download_count")
+  @Expose
+  private Integer downloadCount;
 
-	 public void setLabel(Object label) {
-		  this.label = label;
-	 }
+  @SerializedName("created_at")
+  @Expose
+  private String createdAt;
 
-	 public Uploader getUploader() {
-		  return uploader;
-	 }
+  @SerializedName("updated_at")
+  @Expose
+  private String updatedAt;
 
-	 public void setUploader(Uploader uploader) {
-		  this.uploader = uploader;
-	 }
+  @SerializedName("browser_download_url")
+  @Expose
+  private String browserDownloadUrl;
 
-	 public String getContentType() {
-		  return contentType;
-	 }
+  public String getUrl() {
+    return url;
+  }
 
-	 public void setContentType(String contentType) {
-		  this.contentType = contentType;
-	 }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-	 public String getState() {
-		  return state;
-	 }
+  public Integer getId() {
+    return id;
+  }
 
-	 public void setState(String state) {
-		  this.state = state;
-	 }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	 public Integer getSize() {
-		  return size;
-	 }
+  public String getNodeId() {
+    return nodeId;
+  }
 
-	 public void setSize(Integer size) {
-		  this.size = size;
-	 }
+  public void setNodeId(String nodeId) {
+    this.nodeId = nodeId;
+  }
 
-	 public Integer getDownloadCount() {
-		  return downloadCount;
-	 }
+  public String getName() {
+    return name;
+  }
 
-	 public void setDownloadCount(Integer downloadCount) {
-		  this.downloadCount = downloadCount;
-	 }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	 public String getCreatedAt() {
-		  return createdAt;
-	 }
+  public Object getLabel() {
+    return label;
+  }
 
-	 public void setCreatedAt(String createdAt) {
-		  this.createdAt = createdAt;
-	 }
+  public void setLabel(Object label) {
+    this.label = label;
+  }
 
-	 public String getUpdatedAt() {
-		  return updatedAt;
-	 }
+  public Uploader getUploader() {
+    return uploader;
+  }
 
-	 public void setUpdatedAt(String updatedAt) {
-		  this.updatedAt = updatedAt;
-	 }
+  public void setUploader(Uploader uploader) {
+    this.uploader = uploader;
+  }
 
-	 public String getBrowserDownloadUrl() {
-		  return browserDownloadUrl;
-	 }
+  public String getContentType() {
+    return contentType;
+  }
 
-	 public void setBrowserDownloadUrl(String browserDownloadUrl) {
-		  this.browserDownloadUrl = browserDownloadUrl;
-	 }
+  public void setContentType(String contentType) {
+    this.contentType = contentType;
+  }
 
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public Integer getSize() {
+    return size;
+  }
+
+  public void setSize(Integer size) {
+    this.size = size;
+  }
+
+  public Integer getDownloadCount() {
+    return downloadCount;
+  }
+
+  public void setDownloadCount(Integer downloadCount) {
+    this.downloadCount = downloadCount;
+  }
+
+  public String getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(String createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public String getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(String updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public String getBrowserDownloadUrl() {
+    return browserDownloadUrl;
+  }
+
+  public void setBrowserDownloadUrl(String browserDownloadUrl) {
+    this.browserDownloadUrl = browserDownloadUrl;
+  }
 }

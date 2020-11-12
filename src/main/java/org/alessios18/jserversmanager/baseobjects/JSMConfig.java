@@ -4,16 +4,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class JSMConfig {
-	 private boolean onlyStable = true;
+  private boolean onlyStable = true;
 
-	 public JSMConfig() {
-	 }
+  public JSMConfig() {}
 
-	 public boolean isOnlyStable() {
-		  return onlyStable;
-	 }
+  public boolean isOnlyStable() {
+    return onlyStable;
+  }
 
-	 public void setOnlyStable(boolean onlyStable) {
-		  this.onlyStable = onlyStable;
-	 }
+  public void setOnlyStable(boolean onlyStable) {
+    this.onlyStable = onlyStable;
+  }
 }

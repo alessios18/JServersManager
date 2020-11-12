@@ -55,3 +55,14 @@
 .scroll-bar > .decrement-button:pressed > .decrement-arrow {
     -fx-background-color: -fx-mark-highlight-color, rgb(255, 255, 255);
 }
+.hyperlink{
+    -fx-text-fill:rgb(143, 186, 255)
+}
+.text-id {
+ -fx-font-smoothing-type: lcd;
+ -fx-fill: white;
+}
+
+.roundButton {
+    -fx-background-radius:  13;
+}

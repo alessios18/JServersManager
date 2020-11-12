@@ -11,16 +11,20 @@ import java.io.IOException;
 
 public class ServerFormLoader {
 
-	 public static ControllerForm getFormController(Server server) throws IOException {
-		  FXMLLoader loader = new FXMLLoader();
-		  if(server.getServerType().equals(ServerType.JBOSS)) {
-				loader.setLocation(ServerFormLoader.class.getResource(JBOSSFormController.getFXMLFileFullPath()));
-		  }else if(server.getServerType().equals(ServerType.GRUNT)){
-				loader.setLocation(ServerFormLoader.class.getResource(GruntFormController.getFXMLFileFullPath()));
-		  }
-		  loader.load();
-		  ControllerForm controller = loader.getController();
-			controller.setServer(server);
-		  return controller;
-	 }
+  public static ControllerForm getFormController(Server server, String configId)
+      throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    if (server.getServerType().equals(ServerType.JBOSS)) {
+      loader.setLocation(
+          ServerFormLoader.class.getResource(JBOSSFormController.getFXMLFileFullPath()));
+    } else if (server.getServerType().equals(ServerType.GRUNT)) {
+      loader.setLocation(
+          ServerFormLoader.class.getResource(GruntFormController.getFXMLFileFullPath()));
+    }
+    loader.load();
+    ControllerForm controller = loader.getController();
+    controller.setConfigId(configId);
+    controller.setServer(server);
+    return controller;
+  }
 }

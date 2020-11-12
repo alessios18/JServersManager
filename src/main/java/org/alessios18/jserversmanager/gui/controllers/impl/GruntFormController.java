@@ -8,27 +8,24 @@ import org.alessios18.jserversmanager.gui.GuiManager;
 import org.alessios18.jserversmanager.gui.controllers.ControllerForm;
 
 public class GruntFormController extends ControllerForm {
-	 @FXML
-	 private AnchorPane root;
-	 public static String getFXMLFileName() {
-		  return "gruntFormView.fxml";
-	 }
+  @FXML private AnchorPane root;
 
-	 public static String getFXMLFileFullPath() {
-		  return GuiManager.FXML_FILE_PATH + getFXMLFileName();
-	 }
-	 @Override
-	 public Node getView() {
-		  return root;
-	 }
+  public static String getFXMLFileName() {
+    return "gruntFormView.fxml";
+  }
 
-	 @Override
-	 public void getServerData() {
+  public static String getFXMLFileFullPath() {
+    return GuiManager.FXML_FILE_PATH + getFXMLFileName();
+  }
 
-	 }
+  @Override
+  public Node getView() {
+    return root;
+  }
 
-	 @Override
-	 public void setServer(Server server) {
+  @Override
+  public void updateServerDataFromInputs() {}
 
-	 }
+  @Override
+  public void setServer(Server server) {}
 }
