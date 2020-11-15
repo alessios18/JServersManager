@@ -22,11 +22,11 @@ public class ServerManagersContainer {
   }
 
   public ServerManagerBase getServerManager(Server server, String serverConfigId) {
-    if (!managersContainer.containsKey(server.getServerID())) {
+    if (!managersContainer.containsKey(server.getServerID()+"&"+serverConfigId)) {
       managersContainer.put(
-          server.getServerID(), ServerManagerFactory.getServerManager(server, serverConfigId));
+          server.getServerID()+"&"+serverConfigId, ServerManagerFactory.getServerManager(server, serverConfigId));
     }
-    return managersContainer.get(server.getServerID());
+    return managersContainer.get(server.getServerID()+"&"+serverConfigId);
   }
 
   public ServerManagerBase getServerManager(Server server, ServerConfigBase serverConfig) {

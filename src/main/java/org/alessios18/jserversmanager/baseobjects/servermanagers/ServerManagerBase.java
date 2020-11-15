@@ -76,6 +76,7 @@ public abstract class ServerManagerBase {
   }
 
   public void startServer() throws IOException, ExecutionException, InterruptedException {
+    JServersManagerApp.getLogger().debug("Starting server with configuration: "+getServerConfig(ServerConfigBase.class).getConfigName());
     doUnDeploy();
     copyStandaloneFile();
     doDeploy();

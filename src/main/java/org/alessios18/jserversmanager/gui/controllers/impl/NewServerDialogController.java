@@ -201,6 +201,12 @@ public class NewServerDialogController extends ControllerBase {
 		  if (areYouSureDeleteConfig(conf.getConfigName())) {
 				comboConfigList.remove(conf);
 				clone.getServerConfigs().remove(conf);
+				if(clone.getServerConfigs().isEmpty()){
+					 ServerConfigBase newConf = FactoryServerConfig.getNewServerConfig("", server.getServerType());
+					 clone.getServerConfigs().add(newConf);
+					 comboConfigList.addAll(clone.getServerConfigs());
+					 comboConfig.getSelectionModel().selectFirst();
+				}
 		  }
 	 }
 

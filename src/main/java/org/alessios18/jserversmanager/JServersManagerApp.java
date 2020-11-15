@@ -41,7 +41,7 @@ public class JServersManagerApp {
       }
       startApplication();
     } catch (Exception e) {
-      ExceptionDialog.showException(e);
+      e.printStackTrace();
     }
   }
 
