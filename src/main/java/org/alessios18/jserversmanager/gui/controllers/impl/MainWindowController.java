@@ -77,7 +77,7 @@ public class MainWindowController extends ControllerBase {
   }
 
   public ServerCell getListCell(ListView list, int index) {
-    Object[] cells = list.lookupAll(".cell").toArray();
+    Object[] cells = list.lookupAll(".serverListItem").toArray();
     return (ServerCell) cells[index];
   }
 

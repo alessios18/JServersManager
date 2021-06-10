@@ -22,6 +22,7 @@ public class ServerCell extends ListCell<Server> {
     try {
       mLLoader.load();
       serverViewController = mLLoader.getController();
+      this.getStyleClass().add("serverListItem");
     } catch (IOException e) {
       ExceptionDialog.showException(e);
     }
